@@ -7,7 +7,7 @@ function App() {
   // 라우터 생성
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: '/recommend',
       element: <RootElement />,
       children: [],
     },
