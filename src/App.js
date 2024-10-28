@@ -15,7 +15,9 @@ function App() {
 
   return (
     <>
+      {/* CSS 리셋 기능 */}
       <Reset />
+      {/* 라우터 처리 기능 */}
       <RouterProvider router={router} />
     </>
   );
