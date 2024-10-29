@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Cart.css";
-import { useCart } from "./CartContext";
+import { useOur } from "./OurContext";
 
 function Cart() {
   //전역에서 필요한 값들을 가져오기?
