@@ -2,7 +2,6 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { FaChevronDown, FaBell } from 'react-icons/fa6';
 import { FaCartArrowDown } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import MainPop from './MainPop';
 import { useDispatch, useSelector } from 'react-redux';
 import { popBoolActions } from '../../store/slice/popBoolSlice';
@@ -124,10 +123,10 @@ const Top = () => {
         <button>
           <FaBell />
         </button>
-        <Link to="/cart">
+        <a href="/">
           <span className="sr-only">장바구니 가기</span>
           <FaCartArrowDown />
-        </Link>
+        </a>
       </Icons>
     </Tops>
   );
