@@ -12,6 +12,25 @@
   justify-content: space-between;
   align-items: center;
 }
+.cart_no_result {
+  width: 100%;
+  max-width: 600px;
+  height: 158px;
+  margin-top: 150px;
+  font-size: 13px;
+}
+.movelogin_btn {
+  justify-content: center;
+  text-align: center; /* 텍스트 중앙 정렬 */
+  width: 110px;
+  height: 24px;
+  border: 1px solid #e9e9e9;
+  border-radius: 5px;
+  margin-top: 7px;
+  padding-top: 5px;
+  cursor: pointer; /* 커서 포인터로 변경 */
+}
+
 .cart_page_bottom_area {
   width: 100%;
   max-width: 600px;
@@ -36,8 +55,16 @@
   width: 100%; /* 전체 너비를 차지하도록 설정 */
   cursor: pointer;
 }
+
 .hide {
   display: none;
+}
+.vertical_alignment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 270px;
 }
 .purchase_btn {
   display: flex;
@@ -54,4 +81,18 @@
 }
 .modal_arrow_amount {
   margin-left: 340px; /* 화살표와 텍스트 사이의 간격 조정 */
+}
+
+.continu_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 568px;
+  height: 44px;
+  color: white;
+  background-color: black;
+  margin-top: 10px;
+  margin-left: 6.5px;
+  cursor: pointer;
 }

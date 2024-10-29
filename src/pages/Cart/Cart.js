@@ -5,7 +5,7 @@ import { useOur } from "./OurContext";
 
 function Cart() {
   //전역에서 필요한 값들을 가져오기?
-  //const { products, setProducts, calculateTotal } = useCart();
+  //   const { products, setProducts, calculateTotal } = useOur();
   const navigate = useNavigate();
   const [logged, setLogged] = useState(false);
   /*
@@ -26,7 +26,10 @@ function Cart() {
     console.log("홈페이지 이동");
     navigate("/");
   };
-
+  const moveLogin = () => {
+    console.log("로그인페이지 이동");
+    // navigate("/login");
+  };
   return (
     <div className="all">
       <div className="cart_page_top_area">
@@ -49,12 +52,11 @@ function Cart() {
             />
           </svg>
         </div>
-        <div> 장바구니</div>
+        <div style={{ fontSize: "16px", marginRight: "450px" }}> 장바구니</div>
         <div
           style={{ marginRight: "4px", cursor: "pointer" }}
           onClick={moveHomePage}
         >
-          {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -72,11 +74,15 @@ function Cart() {
         </div>
       </div>
 
-      <div className="장바구니 영역">
-        <div className={`${!logged ? "비로그인 시 출력" : "hide"}`}>
-          <li>장바구니에 담은 상품이 없어요</li>
-          <li>상품을 추가해보세요.</li>
-          <div className="로그인창 이동 버튼">로그인하러 가기</div>
+      <div className={`${!logged ? "cart_no_result" : ""} `}>
+        <div className={`${!logged ? "vertical_alignment" : "hide"} `}>
+          <div style={{ fontWeight: "bold", marginBottom: "7px" }}>
+            장바구니에 담은 상품이 없어요
+          </div>
+          <div style={{ color: "#666666" }}>상품을 추가해보세요.</div>
+          <div className="movelogin_btn" onClick={moveLogin}>
+            로그인하러 가기
+          </div>
         </div>
 
         <div className={`${logged ? "로그인 시 출력" : "hide"}`}></div>
@@ -84,7 +90,9 @@ function Cart() {
 
       <div className="cart_page_bottom_area">
         <div className={`${!logged ? "비로그인 시 출력" : "hide"}`}>
-          <div className="(메인이동)">쇼핑계속하기</div>
+          <div className="continu_btn" onClick={moveHomePage}>
+            쇼핑계속하기
+          </div>
         </div>
         <div className={`${logged ? "로그인 시 출력" : "hide"} `}>
           <div className="혜택표시 영역">
