@@ -1,0 +1,7 @@
+.footNavi li a.active span {
+  opacity: 1 !important;
+}
+
+.footNavi li a.active svg {
+  opacity: 1 !important;
+}

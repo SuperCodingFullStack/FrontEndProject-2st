@@ -14,6 +14,9 @@ const Tops = styled.div`
   align-items: center;
   padding: 0 15px;
   height: 55px;
+  &.heightDown {
+    height: 40px;
+  }
 `;
 
 const buttonAni = keyframes`
@@ -91,12 +94,17 @@ const Icons = styled.div`
     svg {
       fill: #fff;
       font-size: 20px;
+      &.color_reverse {
+        fill: #000;
+      }
     }
   }
 `;
 
 const Top = () => {
   const dispatch = useDispatch();
+
+  const isFootMenu = useSelector((state) => state.footMenu.isFootMenu);
 
   const popOn = () => {
     dispatch(popBoolActions.popOn());
@@ -105,27 +113,31 @@ const Top = () => {
   const popOnOff = useSelector((state) => state.popBools.popBool);
 
   return (
-    <Tops>
+    <Tops className={`${isFootMenu ? 'heightDown' : ''}`}>
       {ReactDOM.createPortal(<MainPop />, document.querySelector('#root'))}
       {popOnOff &&
         ReactDOM.createPortal(<Dimmed />, document.querySelector('#root'))}
-      <Buttons onClick={popOn}>
-        <div className="img">
-          <img src="./logo.png" alt="logo" />
-        </div>
-        <div className="chev">
-          <div className="chev-wrap">
-            <FaChevronDown />
+      {!isFootMenu && (
+        <Buttons onClick={popOn}>
+          <div className="img">
+            <img src="./logo.png" alt="logo" />
           </div>
-        </div>
-      </Buttons>
+          <div className="chev">
+            <div className="chev-wrap">
+              <FaChevronDown />
+            </div>
+          </div>
+        </Buttons>
+      )}
       <Icons>
-        <button>
-          <FaBell />
-        </button>
+        {!isFootMenu && (
+          <button>
+            <FaBell />
+          </button>
+        )}
         <a href="/">
           <span className="sr-only">장바구니 가기</span>
-          <FaCartArrowDown />
+          <FaCartArrowDown className={`${isFootMenu ? 'color_reverse' : ''}`} />
         </a>
       </Icons>
     </Tops>
