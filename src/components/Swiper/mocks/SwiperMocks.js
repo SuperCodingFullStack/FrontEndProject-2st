@@ -6,7 +6,7 @@ const SwiperMocks = [
   },
   {
     slider_idx: 2,
-    images: 'https://i.imgur.com/W17Z1u1.jpeg',
+    images: 'https://i.imgur.com/FmU18GJ.jpeg',
     figcaption: '첫 구매 혜택 최대 6만 5천 원 | 20% 쿠폰과 웰컴 딜까지',
   },
   {
