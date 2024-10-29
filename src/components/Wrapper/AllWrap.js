@@ -4,6 +4,8 @@ import Header from '../Header/Header';
 import Navi from '../Header/Navi';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import RootElement from '../../pages/RootElement';
+import Menu from '../../pages/Category/Menu';
+import FootNavi from '../Header/FootNavi';
 
 const Wrapping = styled.div`
   max-width: 600px;
@@ -21,7 +23,9 @@ const AllWrap = () => {
         <Navi />
         <Routes>
           <Route path="/" element={<RootElement />} />
+          <Route path="/menu" element={<Menu />} />
         </Routes>
+        <FootNavi />
       </BrowserRouter>
     </Wrapping>
   );
