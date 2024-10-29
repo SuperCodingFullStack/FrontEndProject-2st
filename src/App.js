@@ -1,6 +1,7 @@
-import React from 'react';
-import { Reset } from 'styled-reset';
-import AllWrap from './components/Wrapper/AllWrap';
+import React from "react";
+import { Reset } from "styled-reset";
+import AllWrap from "./components/Wrapper/AllWrap";
+import Cart from "./pages/Cart/Cart";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       {/* CSS 리셋 기능 */}
       <Reset />
       <AllWrap />
+      {/* <Cart></Cart> */}
     </>
   );
 }
