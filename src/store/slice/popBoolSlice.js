@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const popBoolSlice = createSlice({
   name: 'popBool',
   initialState: {
-    popBool: false,
+    popBool: true,
   },
   reducers: {
     popOn(state) {

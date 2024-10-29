@@ -1,11 +1,10 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
-import AllWrap from '../../components/Wrapper/AllWrap';
+import MainSwiper from '../../components/Swiper/MainSwiper';
 
 const RootElement = () => {
   return (
     <>
-      <Outlet />
+      <MainSwiper />
     </>
   );
 };
