@@ -13,6 +13,7 @@ const SignUpBody = () => {
     showPassword,
     showCheckPassword,
     email,
+    isEmailValid,
     recommandId,
     handleIdChange,
     handlePasswordChange,
@@ -92,13 +93,20 @@ const SignUpBody = () => {
             placeholder="이메일을 입력해 주세요"
             value={email}
             onChange={handleEmailChange}
+            isValid={isEmailValid}
           />
           {email && (
             <RemoveEmailIcon onClick={handleRemoveEmail}>
               <IoMdCloseCircle />
             </RemoveEmailIcon>
           )}
-          <EmailInfo>계정 분실 시 본인인증 정보로 활용됩니다.</EmailInfo>
+          {isEmailValid ? (
+            <EmailInfo>계정 분실 시 본인인증 정보로 활용됩니다.</EmailInfo>
+          ) : (
+            <EmailErrorMessage>
+              올바른 이메일 주소를 입력하세요.
+            </EmailErrorMessage>
+          )}
         </EmailContainer>
 
         <RecommandIdContainer>
@@ -292,7 +300,7 @@ const Email = styled.input`
   margin-top: 0.5rem;
 
   &:focus {
-    border-color: gray;
+    border-color: ${({ isValid }) => (isValid ? "gray" : "#f40103")};
     outline: none;
   }
 
@@ -310,6 +318,12 @@ const RemoveEmailIcon = styled.span`
   cursor: pointer;
   color: #cccccc;
   font-size: 1.18rem;
+`;
+
+const EmailErrorMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #f40103;
 `;
 
 const EmailInfo = styled.p`
