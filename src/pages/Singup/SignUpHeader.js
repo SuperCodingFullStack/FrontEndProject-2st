@@ -4,11 +4,11 @@ import styled from "styled-components";
 import useFormFields from "../hooks/useFormFields";
 
 const SignUpHeader = () => {
-  const { handlePrevBtnClick } = useFormFields();
+  const { handleSignUpPagePrevBtnClick } = useFormFields();
 
   return (
     <Header>
-      <BackButton onClick={handlePrevBtnClick}>
+      <BackButton onClick={handleSignUpPagePrevBtnClick}>
         <SlArrowLeft />
       </BackButton>
       <Title>회원가입</Title>
