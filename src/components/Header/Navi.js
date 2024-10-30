@@ -9,6 +9,10 @@ const Navis = styled.ul`
   padding: 0 15px;
   display: flex;
   gap: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgb(26, 27, 31);
   li {
     a {
       display: block;

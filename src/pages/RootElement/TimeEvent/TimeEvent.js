@@ -28,20 +28,18 @@ const TimeEvent = () => {
 
   const handleMouseDown = (e) => {
     if (!sliderRef.current) return;
-    dispatch(dragActions.setDraggable());
+    dispatch(dragActions.setNoneDraggable());
+    dispatch(
+      dragActions.setTransformPosit({
+        x: e.pageX - sliderRef?.current.offsetLeft,
+        y: 0,
+      })
+    );
   };
 
   const handleMouseMove = (e) => {
-    if (!dragVar) return;
+    if (!dragVar || !sliderRef.current) return;
     e.preventDefault();
-    if (e.pageX > sliderRef.current.offsetLeft) {
-      dispatch(
-        dragActions.setTransformPosit({
-          x: e.pageX - sliderRef?.current.offsetLeft,
-          y: 0,
-        })
-      );
-    }
   };
 
   const handleMouseLeaveOrUp = () => {
