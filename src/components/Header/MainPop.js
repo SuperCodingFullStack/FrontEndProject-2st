@@ -8,7 +8,7 @@ const MainPop = () => {
 
   const dispatch = useDispatch();
 
-  const popOff = () => {
+  const popOff = (e) => {
     dispatch(popBoolActions.popOff());
   };
 
