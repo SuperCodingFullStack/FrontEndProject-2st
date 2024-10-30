@@ -2,12 +2,13 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Cart.css";
 import { useOur } from "./OurContext";
+import BrandSection from "./BrandSection";
 
 function Cart() {
   //전역에서 필요한 값들을 가져오기?
   //   const { products, setProducts, calculateTotal } = useOur();
   const navigate = useNavigate();
-  const [logged, setLogged] = useState(false);
+  const [logged, setLogged] = useState(true);
   /*
   useEffect(() => {
     // 해당 페이지 최초 랜더링시 로그인 된 상태면? 바로 비동기적으로 제품정보들을 가져온다?
@@ -21,6 +22,34 @@ function Cart() {
     fetchData();
 }}, [setProducts]);
   */
+
+  // 가짜 목데이터
+  const tests = [
+    {
+      user: "아이더",
+      productName: "POP α 이중직 트레이닝 팬츠_Heather Grey",
+      size: "36(90)",
+      quantity: 1,
+      price: 79000,
+      imageUrl: "https://example.com/product-image1.jpg",
+    },
+    {
+      user: "뉴발란스",
+      productName: "NBPFEF752S / MT410KM5 (SILVER)",
+      size: "235",
+      quantity: 1,
+      price: 109000,
+      imageUrl: "https://example.com/product-image2.jpg",
+    },
+    {
+      user: "나이키",
+      productName: "에어 포스 1 '07",
+      size: "270",
+      quantity: 1,
+      price: 129000,
+      imageUrl: "https://example.com/product-image3.jpg",
+    },
+  ];
 
   const moveHomePage = () => {
     console.log("홈페이지 이동");
@@ -85,7 +114,52 @@ function Cart() {
           </div>
         </div>
 
-        <div className={`${logged ? "로그인 시 출력" : "hide"}`}></div>
+        <div className={`${logged ? "로그인 시 출력" : "hide"}`}>
+          {/* {products.map((product) => (
+        <BrandSection key={product.brand} brand={product.brand} products={product.items} />
+      ))} */}
+          {tests.map((test, index) => (
+            <BrandSection
+              key={index}
+              brand={test.user}
+              products={[test]} // BrandSection에 제품 목록을 배열 형태로 전달
+            />
+          ))}
+        </div>
+      </div>
+      <div className={`${logged ? "purchase_area" : "hide"}`}>
+        <div className="purchase_btn" style={{ padding: "4px" }}>
+          구매하기(0개)
+        </div>
+
+        <div style={{ fontSize: "18px", fontWeight: "bold", padding: "4px" }}>
+          구매금액
+        </div>
+
+        <div className="sort_amount">
+          <div>상품금액</div>
+          <div>0원</div>
+        </div>
+
+        <div className="sort_amount">
+          <div>할인 금액</div>
+          <div style={{ color: "blue" }}>-0원</div>
+        </div>
+        <div className="sort_amount">
+          <div>배송비</div>
+          <div>배송비 무료</div>
+        </div>
+
+        <div className="sort_amount">
+          <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+            총 구매 금액
+          </div>
+          <div style={{ fontWeight: "bold" }}>0원</div>
+        </div>
+        <div className="sort_amount">
+          <div>등급적립</div>
+          <div style={{ color: "blue" }}>최대 0원</div>
+        </div>
       </div>
 
       <div className="cart_page_bottom_area">
@@ -123,7 +197,7 @@ function Cart() {
               </div>
             </div>
           </div>
-          <div className="purchase_btn">구매하기(0개)</div>
+          <div className="purchase_btn">아래 구매하기(0개)</div>
         </div>
       </div>
     </div>

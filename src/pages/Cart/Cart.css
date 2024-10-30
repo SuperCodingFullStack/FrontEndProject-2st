@@ -1,3 +1,4 @@
+/* 전체영역 */
 .all {
   max-width: 600px;
   margin: 0 auto;
@@ -7,11 +8,19 @@
   flex: 1;
   font-size: 16px;
 }
+
+.hide {
+  display: none;
+}
+/* 상단 영역 */
 .cart_page_top_area {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+/* 중간영역 */
+
+/* 로그인 되지 않았을 때 */
 .cart_no_result {
   width: 100%;
   max-width: 600px;
@@ -19,6 +28,7 @@
   margin-top: 150px;
   font-size: 13px;
 }
+
 .movelogin_btn {
   justify-content: center;
   text-align: center; /* 텍스트 중앙 정렬 */
@@ -31,6 +41,35 @@
   cursor: pointer; /* 커서 포인터로 변경 */
 }
 
+.vertical_alignment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  align-items: center;
+  margin-top: 270px;
+}
+
+/* 로그인이 되었을 때 */
+
+/* 구매구역 */
+.purchase_area {
+  display: flex;
+
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  height: 289px;
+  background-color: rgb(255, 255, 255);
+  font-size: 13px;
+}
+.sort_amount {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 4px;
+}
+/* 하단영역 */
 .cart_page_bottom_area {
   width: 100%;
   max-width: 600px;
@@ -56,16 +95,6 @@
   cursor: pointer;
 }
 
-.hide {
-  display: none;
-}
-.vertical_alignment {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 270px;
-}
 .purchase_btn {
   display: flex;
   justify-content: center;
