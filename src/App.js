@@ -1,10 +1,12 @@
-import "./App.css";
-import Login from "./components/Login/Login";
+import { Reset } from "styled-reset";
+import AllWrap from "./components/Wrapper/AllWrap";
 
 function App() {
   return (
-    <div className="App">
-      <Login />
+    <div>
+      {/* CSS 리셋 기능 */}
+      <Reset />
+      <AllWrap />
     </div>
   );
 }
