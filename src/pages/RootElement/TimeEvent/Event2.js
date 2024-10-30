@@ -3,17 +3,17 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const EventOne = styled.div`
+const EventTwo = styled.div`
   overflow: hidden;
 `;
 
-const Event1 = () => {
+const Event2 = () => {
   const positX = useSelector((state) => state.drag.positionX);
 
   return (
-    <EventOne>
+    <EventTwo>
       <ul
-        className="flex gap-2"
+        className="flex gap-2 pt-2"
         style={{ transform: `translateX(-${positX}px` }}
       >
         <li className="inline-block" style={{ flex: '0 0 auto' }}>
@@ -26,12 +26,12 @@ const Event1 = () => {
             }}
           >
             <img
-              src="https://image.msscdn.net/display/images/2024/10/24/586a1d82de864453a66bcfc81f5428f0.jpg"
+              src="https://image.msscdn.net/display/images/2024/10/24/c28274bf96e14bcb95897df0d0a697f9.jpg"
               alt="icons"
               width="26px"
               height="26px"
             />
-            <span className="text-sm ml-2">스파이더 주짓수 도복</span>
+            <span className="text-sm ml-2">무탠다드 홈 론칭</span>
           </Link>
         </li>
         <li className="inline-block" style={{ flex: '0 0 auto' }}>
@@ -89,8 +89,8 @@ const Event1 = () => {
           </Link>
         </li>
       </ul>
-    </EventOne>
+    </EventTwo>
   );
 };
 
-export default Event1;
+export default Event2;

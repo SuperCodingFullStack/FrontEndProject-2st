@@ -4,6 +4,8 @@ const dragSlice = createSlice({
   name: 'drag',
   initialState: {
     isDraggable: false,
+    positionX: 0,
+    positionY: 0,
   },
   reducers: {
     setDraggable(state) {
@@ -11,6 +13,10 @@ const dragSlice = createSlice({
     },
     setNoneDraggable(state) {
       state.isDraggable = false;
+    },
+    setTransformPosit(state, action) {
+      state.positionX = action.payload.x;
+      state.positionY = action.payload.y;
     },
   },
 });
