@@ -190,9 +190,7 @@ const SignUpBody = () => {
           {imagePreview && <ImagePreview src={imagePreview} alt="미리보기" />}
         </ProfileImgContainer>
 
-        <SignUpBtnContainer>
-          <SignUpBtn isFormValid={isFormValid}>가입하기</SignUpBtn>
-        </SignUpBtnContainer>
+        <SignUpBtn isFormValid={isFormValid}>가입하기</SignUpBtn>
       </form>
     </Container>
   );
@@ -201,7 +199,7 @@ const SignUpBody = () => {
 // 스타일 정의
 const Container = styled.div`
   background-color: white;
-  min-height: 100vh;
+  height: 100vh;
   padding: 1.5rem;
   border: 1px solid #eaeaea;
   display: flex;
@@ -601,13 +599,6 @@ const ImagePreview = styled.image`
   border-radius: 0.3rem;
 `;
 
-const SignUpBtnContainer = styled.div`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  margin-top: 2rem;
-`;
-
 const SignUpBtn = styled.button`
   background-color: ${({ isFormValid }) => (isFormValid ? "black" : "#EAEAEA")};
   border-radius: 0.3rem;
@@ -619,7 +610,8 @@ const SignUpBtn = styled.button`
   font-weight: bold;
   font-size: 0.9rem;
   padding: 0.5rem 0;
-  margin-top: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 export default SignUpBody;
