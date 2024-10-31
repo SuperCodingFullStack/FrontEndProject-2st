@@ -18,7 +18,7 @@ const FootNavi = () => {
 
   return (
     <ul
-      className="fixed bottom-0 left-0 right-0 bg-white flex justify-center items-center gap-10 footNavi"
+      className="fixed bottom-0 left-0 right-0 bg-white flex justify-center items-center gap-10 footNavi z-50"
       style={{ maxWidth: '600px', margin: '0 auto', padding: '10px 0' }}
     >
       <li>

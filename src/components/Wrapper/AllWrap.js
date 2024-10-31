@@ -1,20 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import Header from "../Header/Header";
-import Navi from "../Header/Navi";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import RootElement from "../../pages/RootElement";
-import Menu from "../../pages/Category/Menu";
-import FootNavi from "../Header/FootNavi";
-import Cart from "../../pages/Cart/Cart";
-import Test from "../../pages/Cart/testcheck";
+import React from 'react';
+import styled from 'styled-components';
+import Header from '../Header/Header';
+import Navi from '../Header/Navi';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import RootElement from '../../pages/RootElement';
+import Menu from '../../pages/Category/Menu';
+import FootNavi from '../Header/FootNavi';
+import Cart from '../../pages/Cart/Cart';
+import Details from '../../pages/Details/Details';
 
 const Wrapping = styled.div`
   max-width: 600px;
   margin: 0 auto;
   height: 100vh;
   background-color: rgb(26, 27, 31);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 const AllWrap = () => {
@@ -27,7 +28,8 @@ const AllWrap = () => {
             <Wrapping>
               <Header />
               <Navi />
-              <RootElement /> <FootNavi />
+              <RootElement />
+              <FootNavi />
             </Wrapping>
           }
         />
@@ -36,13 +38,20 @@ const AllWrap = () => {
           element={
             <Wrapping>
               <Header />
-              <Navi />
               <Menu />
               <FootNavi />
             </Wrapping>
           }
         />
-
+        <Route
+          path="/products/:id"
+          element={
+            <Wrapping>
+              <Details />
+              <FootNavi />
+            </Wrapping>
+          }
+        ></Route>
         <Route
           path="/cart"
           element={
@@ -51,14 +60,6 @@ const AllWrap = () => {
             </Wrapping>
           }
         />
-        <Route
-          path="/test"
-          element={
-            <Wrapping>
-              <Test />
-            </Wrapping>
-          }
-        ></Route>
       </Routes>
     </BrowserRouter>
   );
