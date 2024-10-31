@@ -9,7 +9,8 @@ const Wrapping = styled.div`
   margin: 0 auto;
   height: 100vh;
   background-color: rgb(26, 27, 31);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 const AllWrap = () => {
