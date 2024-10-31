@@ -1,14 +1,19 @@
-// src/index.js
 import React from "react";
-import ReactDOM from "react-dom/client"; // ReactDOM에서 createRoot 사용
+import ReactDOM from "react-dom/client";
+import "./index.css";
 import App from "./App";
-import GlobalStyle from "./Styles/GlobalStyle";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+const queryClient = new QueryClient();
+
 root.render(
-  <>
-    <GlobalStyle />
-    <App />
-  </>
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </Provider>
 );
