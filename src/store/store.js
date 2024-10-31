@@ -1,8 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
-import popBoolSlice from './slice/popBoolSlice';
-import activeSlice from './slice/activeSlice';
-import footMenuSlice from './slice/footMenuSlice';
-import dragSlice from './slice/dragSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import popBoolSlice from "./slice/popBoolSlice";
+import activeSlice from "./slice/activeSlice";
+import footMenuSlice from "./slice/footMenuSlice";
+import dragSlice from "./slice/dragSlice";
 
 export const store = configureStore({
   reducer: {
