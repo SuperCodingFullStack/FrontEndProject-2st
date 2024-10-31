@@ -11,7 +11,7 @@ const Navis = styled.ul`
   gap: 15px;
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 30;
   background-color: rgb(26, 27, 31);
   li {
     a {

@@ -1,22 +1,31 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const EventOne = styled.div`
   overflow: hidden;
 `;
 
 const Event1 = () => {
-  const positX = useSelector((state) => state.drag.positionX);
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+  };
 
   return (
     <EventOne>
-      <ul
-        className="flex gap-2"
-        style={{ transform: `translateX(-${positX}px` }}
-      >
-        <li className="inline-block" style={{ flex: '0 0 auto' }}>
+      <Slider className="flex gap-2" {...settings}>
+        <li
+          className="inline-block"
+          style={{ flex: '0 0 auto', width: 'auto' }}
+        >
           <Link
             to="/"
             className="flex items-center p-2 bg-white"
@@ -88,7 +97,7 @@ const Event1 = () => {
             <span className="text-sm ml-2">아웃스탠딩 데이</span>
           </Link>
         </li>
-      </ul>
+      </Slider>
     </EventOne>
   );
 };

@@ -53,7 +53,7 @@ const TimeEvent = () => {
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseLeaveOrUp}
-      onMouseLeaver={handleMouseLeaveOrUp}
+      onMouseLeave={handleMouseLeaveOrUp}
       style={{
         cursor: dragVar ? 'grabbing' : 'auto',
       }}

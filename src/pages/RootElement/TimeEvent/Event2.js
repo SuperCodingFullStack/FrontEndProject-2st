@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 import styled from 'styled-components';
 
 const EventTwo = styled.div`
@@ -8,14 +9,17 @@ const EventTwo = styled.div`
 `;
 
 const Event2 = () => {
-  const positX = useSelector((state) => state.drag.positionX);
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+  };
 
   return (
     <EventTwo>
-      <ul
-        className="flex gap-2 pt-2"
-        style={{ transform: `translateX(-${positX}px` }}
-      >
+      <Slider className="flex gap-2 pt-2" {...settings}>
         <li className="inline-block" style={{ flex: '0 0 auto' }}>
           <Link
             to="/"
@@ -88,7 +92,7 @@ const Event2 = () => {
             <span className="text-sm ml-2">아웃스탠딩 데이</span>
           </Link>
         </li>
-      </ul>
+      </Slider>
     </EventTwo>
   );
 };

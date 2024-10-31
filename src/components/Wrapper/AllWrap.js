@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import RootElement from '../../pages/RootElement';
 import Menu from '../../pages/Category/Menu';
 import FootNavi from '../Header/FootNavi';
+import Details from '../../pages/Details/Details';
 
 const Wrapping = styled.div`
   max-width: 600px;
@@ -18,17 +19,40 @@ const Wrapping = styled.div`
 
 const AllWrap = () => {
   return (
-    <Wrapping>
-      <Header />
-      <BrowserRouter>
-        <Navi />
-        <Routes>
-          <Route path="/" element={<RootElement />} />
-          <Route path="/menu" element={<Menu />} />
-        </Routes>
-        <FootNavi />
-      </BrowserRouter>
-    </Wrapping>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Wrapping>
+              <Header />
+              <Navi />
+              <RootElement />
+              <FootNavi />
+            </Wrapping>
+          }
+        />
+        <Route
+          path="/menu"
+          element={
+            <Wrapping>
+              <Header />
+              <Menu />
+              <FootNavi />
+            </Wrapping>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <Wrapping>
+              <Details />
+              <FootNavi />
+            </Wrapping>
+          }
+        ></Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
