@@ -7,16 +7,53 @@
   overflow: hidden;
   flex: 1;
   font-size: 16px;
+  overflow: scroll;
+  font-family: sans-serif;
+  padding-top: 52px; /* 상단 영역 높이 */
+  padding-bottom: 100px; /* 하단 영역 높이 */
 }
 
 .hide {
   display: none;
 }
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 1px solid rgb(244, 244, 244);
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #000;
+  border: none;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✔"; /* 체크 표시 */
+  color: white; /* 체크 표시 색상 */
+  font-size: 12px; /* 체크 표시 크기 */
+  position: absolute;
+  top: 0;
+  left: 2px;
+}
+
 /* 상단 영역 */
 .cart_page_top_area {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 52px;
+  width: 100%;
+  max-width: 600px;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(245, 245, 245);
+  z-index: 1;
 }
 /* 중간영역 */
 
@@ -82,14 +119,14 @@
   color: white;
   text-align: center;
   padding: 10px;
-  z-index: 10;
+  z-index: 1;
   color: black;
 }
 
 .alignment {
   display: flex;
   align-items: center; /* 수직 정렬 */
-  font-size: 13px;
+  font-size: 12px;
   margin-right: 350px; /* 필요에 따라 조정 */
   width: 100%; /* 전체 너비를 차지하도록 설정 */
   cursor: pointer;
@@ -124,4 +161,84 @@
   margin-top: 10px;
   margin-left: 6.5px;
   cursor: pointer;
+}
+
+/* 하위 컴포넌트 들 영역 */
+
+/* 브랜드 섹션 */
+.brand-section {
+  background-color: rgb(255, 255, 255);
+}
+
+.brand_name_area {
+  display: flex;
+  font-size: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  padding-left: 0px;
+}
+.brand_name_area input[type="checkbox"] {
+  margin-right: 10px;
+}
+.brandShop {
+  margin-left: auto;
+  margin-right: 20px;
+  font-size: 13px;
+  color: #bebfbe;
+  text-decoration: underline;
+}
+
+.가로정렬 {
+  display: flex;
+}
+
+/* 제품에 대한 컴포넌트 섹션 */
+.product-item {
+  border: solid 1px black;
+  background-color: rgb(255, 255, 255);
+}
+
+.cart_content_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 5px;
+  padding: 5px;
+  width: 460px;
+}
+
+.cart_option_btn {
+  width: 268px;
+  height: 36px;
+  border: 1px solid #bebfbe;
+  margin-left: 18px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+.cart_cupon_btn {
+  width: 268px;
+  height: 36px;
+  border: 1px solid #bebfbe;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+.product_name {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart_content_img {
+  width: 75px;
+  height: 100px;
+  border: solid 0.5px black;
+  font-size: 3px;
+  margin-left: 5px;
+}
+.세로정렬 {
+  display: flex;
+  flex-direction: column;
 }

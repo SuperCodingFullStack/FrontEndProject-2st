@@ -1,68 +1,47 @@
-// components/BrandSection.js
-// import React from "react";
-// import ProductItem from "./ProductItem";
-
-// const BrandSection = ({ brand, products }) => {
-//   return (
-//     <div className="brand-section">
-//       <h3>{brand}</h3>
-//       {products.map((product) => (
-//         <ProductItem key={product.id} product={product} />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default BrandSection;
-
-// components/BrandSection.js
 import React from "react";
 import ProductItem from "./ProductItem";
 
-// 가짜 목데이터
-const tests = [
-  {
-    id: 1,
-    user: "아이더",
-    productName: "POP α 이중직 트레이닝 팬츠_Heather Grey",
-    size: "36(90)",
-    quantity: 1,
-    price: 79000,
-    imageUrl: "https://example.com/product-image1.jpg",
-  },
-  {
-    id: 2,
-    user: "뉴발란스",
-    productName: "NBPFEF752S / MT410KM5 (SILVER)",
-    size: "235",
-    quantity: 1,
-    price: 109000,
-    imageUrl: "https://example.com/product-image2.jpg",
-  },
-  {
-    id: 3,
-    user: "나이키",
-    productName: "에어 포스 1 '07",
-    size: "270",
-    quantity: 1,
-    price: 129000,
-    imageUrl: "https://example.com/product-image3.jpg",
-  },
-];
-
-// 브랜드별 제품을 필터링하여 렌더링하는 BrandSection 컴포넌트
-const BrandSection = ({ brand }) => {
-  // 해당 브랜드에 맞는 제품들만 필터링
-  const brandProducts = tests.filter((product) => product.user === brand);
-
+const BrandSection = ({
+  brand,
+  products,
+  isSelected,
+  onBrandSelect,
+  onProductSelect,
+  selectedProducts,
+}) => {
   return (
     <div className="brand-section">
-      <h3>{brand}</h3>
-      {brandProducts.map((product) => (
-        <ProductItem key={product.id} product={product} />
+      <div className="allcheck">
+        <input
+          type="checkbox"
+          id={""}
+          checked={""}
+          onChange={() => {}} // 브랜드 체크박스 상태 변경 처리
+        />
+        <label htmlFor={""}>전체선택</label>
+        <div>선택삭제</div>
+      </div>
+      <div className="brand_name_area">
+        <input
+          type="checkbox"
+          id={brand}
+          checked={isSelected}
+          onChange={onBrandSelect} // 브랜드 체크박스 상태 변경 처리
+        />
+        <label htmlFor={brand}>{brand}</label>
+        <a href={`/brand/${brand}`} className="brandShop">
+          브랜드 숍
+        </a>
+      </div>
+      {products.map((product, index) => (
+        <ProductItem
+          key={`${product.user_username}_${index}`}
+          product={product}
+          isSelected={selectedProducts.has(product.product_item_name)} // 제품 선택 상태 전달
+          onProductSelect={onProductSelect} // 제품 선택 처리 함수 전달
+        />
       ))}
     </div>
   );
 };
-
 export default BrandSection;

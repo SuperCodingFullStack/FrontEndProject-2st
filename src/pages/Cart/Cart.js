@@ -9,6 +9,9 @@ function Cart() {
   //   const { products, setProducts, calculateTotal } = useOur();
   const navigate = useNavigate();
   const [logged, setLogged] = useState(true);
+  const [selectedAll, setSelectedAll] = useState(new Set());
+  const [selectedBrands, setSelectedBrands] = useState(new Set()); // 선택된 브랜드
+  const [selectedProducts, setSelectedProducts] = useState(new Set()); // 선택된 제품
   /*
   useEffect(() => {
     // 해당 페이지 최초 랜더링시 로그인 된 상태면? 바로 비동기적으로 제품정보들을 가져온다?
@@ -23,33 +26,55 @@ function Cart() {
 }}, [setProducts]);
   */
 
-  // 가짜 목데이터
-  const tests = [
+  // 가짜 목데이터 서버에서 받아와요.
+  const cartItems = [
+    // {
+    //   id: "상품 id"
+    //   name: "POP α 이중직 트레이닝 팬츠_Heather Grey size: 36(90)",
+    //   price: 79000,
+    //   mainImg: "https://example.com/product-image1.jpg",
+    //   amount: 1, //수량
+    //   username: "아이더", // 판매자 이름
+
+    // },
     {
-      user: "아이더",
-      productName: "POP α 이중직 트레이닝 팬츠_Heather Grey",
-      size: "36(90)",
+      user_username: "아이더",
+      product_item_name: "POP α 이중직 트레이닝 팬츠_Heather Black size: (95)",
+
       quantity: 1,
-      price: 79000,
+      product_price: 79000,
       imageUrl: "https://example.com/product-image1.jpg",
     },
     {
-      user: "뉴발란스",
-      productName: "NBPFEF752S / MT410KM5 (SILVER)",
-      size: "235",
+      user_username: "아이더",
+      product_item_name: "POP α 이중직 트레이닝 팬츠_Heather Blue size: (100)",
+
       quantity: 1,
-      price: 109000,
+      product_price: 79000,
+      imageUrl: "https://example.com/product-image1.jpg",
+    },
+    {
+      user_username: "뉴발란스",
+      product_item_name: "NBPFEF752S / MT410KM5 (SILVER) size: 235",
+
+      quantity: 1,
+      product_price: 109000,
       imageUrl: "https://example.com/product-image2.jpg",
     },
     {
-      user: "나이키",
-      productName: "에어 포스 1 '07",
-      size: "270",
+      user_username: "나이키",
+      product_item_name: "에어 포스 1 '07 size: 270",
+
       quantity: 1,
-      price: 129000,
+      product_price: 129000,
       imageUrl: "https://example.com/product-image3.jpg",
     },
   ];
+
+  const groupedCartItems = cartItems.reduce((acc, item) => {
+    (acc[item.user_username] = acc[item.user_username] || []).push(item);
+    return acc;
+  }, {});
 
   const moveHomePage = () => {
     console.log("홈페이지 이동");
@@ -59,6 +84,41 @@ function Cart() {
     console.log("로그인페이지 이동");
     // navigate("/login");
   };
+
+  // 체크박스관련?
+  const handleBrandSelect = (brand) => {
+    const newSelectedBrands = new Set(selectedBrands);
+    if (newSelectedBrands.has(brand)) {
+      newSelectedBrands.delete(brand);
+      // 브랜드 선택 해제 시 해당 브랜드의 모든 제품도 선택 해제
+      cartItems.forEach((item) => {
+        if (item.user_username === brand) {
+          selectedProducts.delete(item.product_item_name);
+        }
+      });
+    } else {
+      newSelectedBrands.add(brand);
+      // 브랜드 선택 시 해당 브랜드의 모든 제품 선택
+      cartItems.forEach((item) => {
+        if (item.user_username === brand) {
+          selectedProducts.add(item.product_item_name);
+        }
+      });
+    }
+    setSelectedBrands(newSelectedBrands);
+    setSelectedProducts(new Set(selectedProducts));
+  };
+
+  const handleProductSelect = (productName) => {
+    const newSelectedProducts = new Set(selectedProducts);
+    if (newSelectedProducts.has(productName)) {
+      newSelectedProducts.delete(productName);
+    } else {
+      newSelectedProducts.add(productName);
+    }
+    setSelectedProducts(newSelectedProducts);
+  };
+
   return (
     <div className="all">
       <div className="cart_page_top_area">
@@ -113,16 +173,16 @@ function Cart() {
             로그인하러 가기
           </div>
         </div>
-
         <div className={`${logged ? "로그인 시 출력" : "hide"}`}>
-          {/* {products.map((product) => (
-        <BrandSection key={product.brand} brand={product.brand} products={product.items} />
-      ))} */}
-          {tests.map((test, index) => (
+          {Object.entries(groupedCartItems).map(([brand, products], index) => (
             <BrandSection
-              key={index}
-              brand={test.user}
-              products={[test]} // BrandSection에 제품 목록을 배열 형태로 전달
+              key={`${brand}_${index}`}
+              brand={brand}
+              products={products}
+              isSelected={selectedBrands.has(brand)} // 브랜드 선택 상태 전달
+              onBrandSelect={() => handleBrandSelect(brand)} // 브랜드 선택 처리 함수
+              onProductSelect={handleProductSelect} // 제품 선택 처리 함수
+              selectedProducts={selectedProducts} // 선택된 제품들 전달
             />
           ))}
         </div>

@@ -7,6 +7,7 @@ import RootElement from "../../pages/RootElement";
 import Menu from "../../pages/Category/Menu";
 import FootNavi from "../Header/FootNavi";
 import Cart from "../../pages/Cart/Cart";
+import Test from "../../pages/Cart/testcheck";
 
 const Wrapping = styled.div`
   max-width: 600px;
@@ -50,6 +51,14 @@ const AllWrap = () => {
             </Wrapping>
           }
         />
+        <Route
+          path="/test"
+          element={
+            <Wrapping>
+              <Test />
+            </Wrapping>
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
