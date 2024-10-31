@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { RxEyeClosed } from "react-icons/rx";
 import { PiEye } from "react-icons/pi";
 import { IoMdCloseCircle } from "react-icons/io";
 import useFormFields from "../hooks/useFormFields";
 
-// TODO: 아이디과 비밀번호를 입력하지 않고, 로그인 버튼을 눌렀을 때 알림창
-// TODO: 아이디, 비밀번호 유효성 검사
 // TODO: 로그인이 완료되었을 때 마이페이지로 이동
 
 const LoginBody = () => {
@@ -22,7 +20,17 @@ const LoginBody = () => {
     handleSignUpClick,
   } = useFormFields();
 
-  const isLoginFormValid = id && password;
+  const [isIdValid, setIsIdValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    const idValid = id !== "";
+    const passwordValid = password !== "";
+
+    setIsIdValid(idValid);
+    setIsPasswordValid(passwordValid);
+  };
 
   return (
     <Container>
@@ -33,12 +41,19 @@ const LoginBody = () => {
             required
             placeholder="아이디"
             value={id}
-            onChange={handleIdChange}
+            onChange={(e) => {
+              handleIdChange(e);
+              if (!isIdValid) setIsIdValid(true);
+            }}
+            isValid={isIdValid}
           />
           {id && (
             <RemoveIdIcon onClick={handleRemoveId}>
               <IoMdCloseCircle />
             </RemoveIdIcon>
+          )}
+          {!isIdValid && (
+            <IdErrorMessage>아이디를 입력해주세요.</IdErrorMessage>
           )}
         </IdBox>
 
@@ -48,19 +63,31 @@ const LoginBody = () => {
             required
             placeholder="비밀번호"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={(e) => {
+              handlePasswordChange(e);
+              if (!isPasswordValid) setIsPasswordValid(true);
+            }}
+            isValid={isPasswordValid}
           />
           {password && (
             <RemovePwIcon onClick={handleRemovePassword}>
               <IoMdCloseCircle />
             </RemovePwIcon>
           )}
-          <VisibleIcon onClick={clickPasswordVisibility}>
+          <VisibleIcon
+            isValid={isPasswordValid}
+            onClick={clickPasswordVisibility}
+          >
             {showPassword ? <PiEye /> : <RxEyeClosed />}
           </VisibleIcon>
+          {!isPasswordValid && (
+            <PasswordErrorMessage>
+              비밀번호를 입력해주세요.
+            </PasswordErrorMessage>
+          )}
         </PasswordBox>
 
-        <LoginBtn isFormValid={isLoginFormValid}>로그인</LoginBtn>
+        <LoginBtn onClick={handleLoginClick}>로그인</LoginBtn>
 
         <SignUpContainer>
           <Message>가입만 해도 즉시 20% 할인</Message>
@@ -96,7 +123,7 @@ const IdBox = styled.div`
 `;
 
 const Id = styled.input`
-  border: 1px solid #e0e0e0;
+  border: 1px solid ${({ isValid }) => (isValid ? "#e0e0e0" : "#f40103")};
   border-radius: 0.3rem;
   width: 100%;
   height: 2.3rem;
@@ -104,7 +131,7 @@ const Id = styled.input`
   padding-left: 0.5rem;
 
   &:focus {
-    border-color: gray;
+    border-color: ${({ isValid }) => (isValid ? "gray" : "#f40103")};
     outline: none;
   }
 
@@ -124,6 +151,12 @@ const RemoveIdIcon = styled.span`
   font-size: 1.18rem;
 `;
 
+const IdErrorMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #f40103;
+`;
+
 const PasswordBox = styled.div`
   width: 35rem;
   position: relative;
@@ -132,7 +165,7 @@ const PasswordBox = styled.div`
 `;
 
 const Password = styled.input`
-  border: 1px solid #e0e0e0;
+  border: 1px solid ${({ isValid }) => (isValid ? "#e0e0e0" : "#f40103")};
   border-radius: 0.3rem;
   text-align: start;
   padding-left: 0.5rem;
@@ -140,7 +173,7 @@ const Password = styled.input`
   height: 2.3rem;
 
   &:focus {
-    border-color: gray;
+    border-color: ${({ isValid }) => (isValid ? "gray" : "#f40103")};
     outline: none;
   }
 
@@ -163,11 +196,17 @@ const RemovePwIcon = styled.span`
 const VisibleIcon = styled.span`
   position: absolute;
   right: 0.7rem;
-  top: 55%;
+  top: ${({ isValid }) => (isValid ? "55%" : "40%")};
   transform: translateY(-50%);
   cursor: pointer;
   color: #949494;
   font-size: 1.18rem;
+`;
+
+const PasswordErrorMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #f40103;
 `;
 
 const LoginBtn = styled.button`
