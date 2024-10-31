@@ -501,7 +501,10 @@ const TitleAddress = styled.label`
   font-weight: 400;
 `;
 
-const PostcodeContainer = styled.div``;
+const PostcodeContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const Postcode = styled.input`
   border: 1px solid #e0e0e0;
@@ -509,7 +512,7 @@ const Postcode = styled.input`
   text-align: start;
   padding-left: 0.5rem;
   width: 30%;
-  height: 2.2rem;
+  height: 2.3rem;
   margin-top: 0.6rem;
 
   &:focus {
@@ -526,9 +529,12 @@ const Postcode = styled.input`
 const SearchBtn = styled.button`
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
-  padding: 0.5rem;
+  height: 2.3rem;
+  padding: 0.5rem 0.3rem;
   margin-left: 0.3rem;
   cursor: pointer;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
 `;
 
 const Address = styled.input`
