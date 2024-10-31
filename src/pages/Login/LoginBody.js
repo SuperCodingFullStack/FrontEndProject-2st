@@ -8,7 +8,6 @@ import useFormFields from "../hooks/useFormFields";
 // TODO: 아이디과 비밀번호를 입력하지 않고, 로그인 버튼을 눌렀을 때 알림창
 // TODO: 아이디, 비밀번호 유효성 검사
 // TODO: 로그인이 완료되었을 때 마이페이지로 이동
-// TODO: 헤더에 뒤로가기 버튼을 눌렀을 때 로그인이 안된채 마이페이지로 이동
 
 const LoginBody = () => {
   const {
@@ -27,7 +26,7 @@ const LoginBody = () => {
 
   return (
     <Container>
-      <form>
+      <Form>
         <IdBox>
           <Id
             type="text"
@@ -67,7 +66,7 @@ const LoginBody = () => {
           <Message>가입만 해도 즉시 20% 할인</Message>
           <SignUpBtn onClick={handleSignUpClick}>회원가입</SignUpBtn>
         </SignUpContainer>
-      </form>
+      </Form>
     </Container>
   );
 };
@@ -82,6 +81,14 @@ const Container = styled.div`
   background-color: white;
 `;
 
+const Form = styled.form`
+  width: 100%;
+  max-width: 35rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const IdBox = styled.div`
   width: 35rem;
   position: relative;
@@ -92,7 +99,7 @@ const Id = styled.input`
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
   width: 100%;
-  height: 1.9rem;
+  height: 2.3rem;
   text-align: start;
   padding-left: 0.5rem;
 
@@ -102,14 +109,14 @@ const Id = styled.input`
   }
 
   &::placeholder {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 0.88rem;
   }
 `;
 
 const RemoveIdIcon = styled.span`
   position: absolute;
-  right: 0;
+  right: 0.7rem;
   top: 55%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -130,7 +137,7 @@ const Password = styled.input`
   text-align: start;
   padding-left: 0.5rem;
   width: 100%;
-  height: 1.9rem;
+  height: 2.3rem;
 
   &:focus {
     border-color: gray;
@@ -138,14 +145,14 @@ const Password = styled.input`
   }
 
   &::placeholder {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 0.88rem;
   }
 `;
 
 const RemovePwIcon = styled.span`
   position: absolute;
-  right: 1.7rem;
+  right: 2.5rem;
   top: 55%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -155,7 +162,7 @@ const RemovePwIcon = styled.span`
 
 const VisibleIcon = styled.span`
   position: absolute;
-  right: 0;
+  right: 0.7rem;
   top: 55%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -169,12 +176,11 @@ const LoginBtn = styled.button`
   border-radius: 0.3rem;
   border: none;
   color: white;
-  width: 35.7rem;
-  height: 2.7rem;
+  width: 35rem;
+  height: 2.9rem;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 0.9rem;
-  padding: 0.5rem 0;
 `;
 
 const SignUpContainer = styled.div`
@@ -186,7 +192,7 @@ const SignUpContainer = styled.div`
 
 const Message = styled.p`
   font-size: 0.8rem;
-  font-weight: bold;
+  font-weight: 500;
   margin-right: 1rem;
 `;
 const SignUpBtn = styled.button`
@@ -194,7 +200,7 @@ const SignUpBtn = styled.button`
   border: 1px solid #eaeaea;
   border-radius: 0.2rem;
   padding: 0.3rem 0.6rem;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 0.8rem;
   cursor: pointer;
 `;

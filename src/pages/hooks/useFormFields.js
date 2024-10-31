@@ -53,6 +53,7 @@ const useFormFields = () => {
     setShowCheckPassword(!showCheckPassword);
 
   const handleSignUpClick = () => navigate("/signup");
+  const handleLoginPagePrevBtnClick = () => navigate("/mypage");
   const handleSignUpPagePrevBtnClick = () => navigate("/login");
 
   return {
@@ -80,6 +81,7 @@ const useFormFields = () => {
     clickPasswordVisibility,
     clickCheckPasswordVisibitity,
     handleSignUpClick,
+    handleLoginPagePrevBtnClick,
     handleSignUpPagePrevBtnClick,
   };
 };
