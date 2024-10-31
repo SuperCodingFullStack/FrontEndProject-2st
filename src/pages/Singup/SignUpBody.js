@@ -16,12 +16,14 @@ const SignUpBody = () => {
     showCheckPassword,
     email,
     isEmailValid,
+    isEmailTouched,
     phoneNumber,
     recommandId,
     handleIdChange,
     handlePasswordChange,
     handleCheckPasswordChange,
     handleEmailChange,
+    handleEmailFocus,
     handlePhoneChange,
     handleRecommandIdChange,
     handleRemoveId,
@@ -44,7 +46,8 @@ const SignUpBody = () => {
 
   const { imagePreview, handleImageChange } = useProfileImgForm();
 
-  const isFormValid = id && password && checkPassword && email && phoneNumber;
+  const isFormValid =
+    id && password && checkPassword && email && phoneNumber && address;
 
   return (
     <Container>
@@ -108,6 +111,7 @@ const SignUpBody = () => {
             placeholder="이메일을 입력해 주세요"
             value={email}
             onChange={handleEmailChange}
+            onFocus={handleEmailFocus}
             isValid={isEmailValid}
           />
           {email && (
@@ -115,8 +119,10 @@ const SignUpBody = () => {
               <IoMdCloseCircle />
             </RemoveEmailIcon>
           )}
-          {isEmailValid ? (
+          {!isEmailTouched ? (
             <EmailInfo>계정 분실 시 본인인증 정보로 활용됩니다.</EmailInfo>
+          ) : isEmailValid ? (
+            <EmailValid>사용 가능한 이메일입니다.</EmailValid>
           ) : (
             <EmailErrorMessage>
               올바른 이메일 주소를 입력하세요.
@@ -397,6 +403,12 @@ const EmailErrorMessage = styled.p`
   margin-top: 0.4rem;
   font-size: 0.7rem;
   color: #f40103;
+`;
+
+const EmailValid = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #4b80f3;
 `;
 
 const EmailInfo = styled.p`
