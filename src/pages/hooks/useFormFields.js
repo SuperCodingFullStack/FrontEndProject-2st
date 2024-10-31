@@ -15,6 +15,8 @@ const useFormFields = () => {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
 
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const [recommandId, setRecommandId] = useState("");
 
   const navigate = useNavigate();
@@ -30,12 +32,20 @@ const useFormFields = () => {
     setIsEmailValid(emailRegex.test(newEmail));
   };
 
+  const handlePhoneChange = (e) => {
+    const { value } = e.target;
+    // 숫자만 허용하고 11자리로 제한
+    const formattedValue = value.replace(/\D/g, "").slice(0, 11);
+    setPhoneNumber(formattedValue);
+  };
+
   const handleRecommandIdChange = (e) => setRecommandId(e.target.value);
 
   const handleRemoveId = () => setId("");
   const handleRemovePassword = () => setPassword("");
   const handleRemoveCheckPassword = () => setCheckPassword("");
   const handleRemoveEmail = () => setEmail("");
+  const handleRemovePhone = () => setPhoneNumber("");
   const handleRemoveRecommandId = () => setRecommandId("");
 
   const clickPasswordVisibility = () => setShowPassword(!showPassword);
@@ -53,16 +63,19 @@ const useFormFields = () => {
     showCheckPassword,
     email,
     isEmailValid,
+    phoneNumber,
     recommandId,
     handleIdChange,
     handlePasswordChange,
     handleCheckPasswordChange,
     handleEmailChange,
+    handlePhoneChange,
     handleRecommandIdChange,
     handleRemoveId,
     handleRemovePassword,
     handleRemoveCheckPassword,
     handleRemoveEmail,
+    handleRemovePhone,
     handleRemoveRecommandId,
     clickPasswordVisibility,
     clickCheckPasswordVisibitity,
