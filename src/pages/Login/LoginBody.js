@@ -23,6 +23,8 @@ const LoginBody = () => {
     handleSignUpClick,
   } = useFormFields();
 
+  const isLoginFormValid = id && password;
+
   return (
     <Container>
       <form>
@@ -59,7 +61,7 @@ const LoginBody = () => {
           </VisibleIcon>
         </PasswordBox>
 
-        <LoginBtn>로그인</LoginBtn>
+        <LoginBtn isFormValid={isLoginFormValid}>로그인</LoginBtn>
 
         <SignUpContainer>
           <Message>가입만 해도 즉시 20% 할인</Message>
