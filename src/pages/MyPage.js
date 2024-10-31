@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import BottomMenu from "../components/BottomMenu";
-import "../Styles/Mypages.css";
+// import "../Styles/Mypages.css";
 
 const MyPageContainer = styled.div`
   position: fixed;
