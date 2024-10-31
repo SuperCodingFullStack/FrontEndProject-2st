@@ -1,0 +1,27 @@
+.main-swiper .swiper-wrapper .swiper-slide {
+  aspect-ratio: 1/1;
+  width: calc(100% - 32px) !important;
+}
+
+.main-swiper .swiper-wrapper .swiper-slide a {
+  display: block;
+  height: 100%;
+}
+
+.main-swiper .swiper-wrapper .swiper-slide a > div {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  color: #fff;
+}
+
+.main-swiper .swiper-wrapper .swiper-slide a > div h3 {
+  font-size: 14px;
+  padding-top: 20px;
+}
+
+.main-swiper .swiper-wrapper .swiper-slide a > div h2 {
+  font-size: 26px;
+}
