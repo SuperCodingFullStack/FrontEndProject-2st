@@ -44,7 +44,7 @@ const SignUpBody = () => {
     setDetailedAddress,
   } = useAddressForm();
 
-  const { imagePreview, handleImageChange } = useProfileImgForm();
+  const { profileImg, imagePreview, handleImageChange } = useProfileImgForm();
 
   const isFormValid =
     id && password && checkPassword && email && phoneNumber && address;
@@ -156,10 +156,17 @@ const SignUpBody = () => {
               placeholder="우편번호"
               value={postcode}
               readOnly
+              required
             />
             <SearchBtn onClick={handlePostcodeSearch}>우편번호 찾기</SearchBtn>
           </PostcodeContainer>
-          <Address type="text" placeholder="주소" value={address} readOnly />
+          <Address
+            type="text"
+            placeholder="주소"
+            value={address}
+            readOnly
+            required
+          />
           <DetailedAddress
             type="text"
             placeholder="상세 주소를 입력하세요"
@@ -188,12 +195,29 @@ const SignUpBody = () => {
 
         <ProfileImgContainer>
           <TitleProfileImg>프로필 이미지 업로드</TitleProfileImg>
+          <ImagePreview src={imagePreview || profileImg} alt="미리보기" />
           <ImageInput
             type="file"
+            id="profileImg"
             accept="image/*"
+            style={{ display: "none" }}
             onChange={handleImageChange}
           />
-          {imagePreview && <ImagePreview src={imagePreview} alt="미리보기" />}
+          <label
+            htmlFor="profileImg"
+            style={{
+              cursor: "pointer",
+              padding: "0.5rem 1rem",
+              backgroundColor: "white",
+              borderRadius: "0.3rem",
+              border: "1px solid #eaeaea",
+              fontSize: "0.8rem",
+              textAlign: "center",
+              marginTop: "0.7rem",
+            }}
+          >
+            파일 선택
+          </label>
         </ProfileImgContainer>
 
         <SignUpBtn isFormValid={isFormValid}>가입하기</SignUpBtn>
@@ -614,11 +638,12 @@ const ImageInput = styled.input`
 `;
 
 const ImagePreview = styled.image`
-  max-width: 200px;
-  max-height: 200px;
-  margin-top: 0.5rem;
+  width: 200px;
+  height: 200px;
+  margin-top: 0.7rem;
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
+  object-fit: cover;
 `;
 
 const SignUpBtn = styled.button`
