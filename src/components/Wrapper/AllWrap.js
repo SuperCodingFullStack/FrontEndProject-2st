@@ -7,7 +7,6 @@ import RootElement from '../../pages/RootElement';
 import Menu from '../../pages/Category/Menu';
 import FootNavi from '../Header/FootNavi';
 import Cart from '../../pages/Cart/Cart';
-import Test from '../../pages/Cart/testcheck';
 import Details from '../../pages/Details/Details';
 
 const Wrapping = styled.div`
