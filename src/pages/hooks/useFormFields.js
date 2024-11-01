@@ -13,7 +13,8 @@ const useFormFields = () => {
   const [showCheckPassword, setShowCheckPassword] = useState(false);
 
   const [email, setEmail] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isEmailTouched, setIsEmailTouched] = useState(false);
 
   const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -27,9 +28,14 @@ const useFormFields = () => {
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
+    setIsEmailTouched(true);
 
     // 이메일 유효성 검사 실행
     setIsEmailValid(emailRegex.test(newEmail));
+  };
+
+  const handleEmailFocus = () => {
+    setIsEmailTouched(true);
   };
 
   const handlePhoneChange = (e) => {
@@ -53,6 +59,7 @@ const useFormFields = () => {
     setShowCheckPassword(!showCheckPassword);
 
   const handleSignUpClick = () => navigate("/signup");
+  const handleLoginPagePrevBtnClick = () => navigate("/mypage");
   const handleSignUpPagePrevBtnClick = () => navigate("/login");
 
   return {
@@ -63,12 +70,14 @@ const useFormFields = () => {
     showCheckPassword,
     email,
     isEmailValid,
+    isEmailTouched,
     phoneNumber,
     recommandId,
     handleIdChange,
     handlePasswordChange,
     handleCheckPasswordChange,
     handleEmailChange,
+    handleEmailFocus,
     handlePhoneChange,
     handleRecommandIdChange,
     handleRemoveId,
@@ -80,6 +89,7 @@ const useFormFields = () => {
     clickPasswordVisibility,
     clickCheckPasswordVisibitity,
     handleSignUpClick,
+    handleLoginPagePrevBtnClick,
     handleSignUpPagePrevBtnClick,
   };
 };

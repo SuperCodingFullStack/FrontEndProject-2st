@@ -16,12 +16,14 @@ const SignUpBody = () => {
     showCheckPassword,
     email,
     isEmailValid,
+    isEmailTouched,
     phoneNumber,
     recommandId,
     handleIdChange,
     handlePasswordChange,
     handleCheckPasswordChange,
     handleEmailChange,
+    handleEmailFocus,
     handlePhoneChange,
     handleRecommandIdChange,
     handleRemoveId,
@@ -42,13 +44,14 @@ const SignUpBody = () => {
     setDetailedAddress,
   } = useAddressForm();
 
-  const { imagePreview, handleImageChange } = useProfileImgForm();
+  const { profileImg, imagePreview, handleImageChange } = useProfileImgForm();
 
-  const isFormValid = id && password && checkPassword && email && phoneNumber;
+  const isFormValid =
+    id && password && checkPassword && email && phoneNumber && address;
 
   return (
     <Container>
-      <form>
+      <Form>
         <IdContainer>
           <TitleId>아이디 *</TitleId>
           <Id
@@ -108,6 +111,7 @@ const SignUpBody = () => {
             placeholder="이메일을 입력해 주세요"
             value={email}
             onChange={handleEmailChange}
+            onFocus={handleEmailFocus}
             isValid={isEmailValid}
           />
           {email && (
@@ -115,8 +119,10 @@ const SignUpBody = () => {
               <IoMdCloseCircle />
             </RemoveEmailIcon>
           )}
-          {isEmailValid ? (
+          {!isEmailTouched ? (
             <EmailInfo>계정 분실 시 본인인증 정보로 활용됩니다.</EmailInfo>
+          ) : isEmailValid ? (
+            <EmailValid>사용 가능한 이메일입니다.</EmailValid>
           ) : (
             <EmailErrorMessage>
               올바른 이메일 주소를 입력하세요.
@@ -150,10 +156,17 @@ const SignUpBody = () => {
               placeholder="우편번호"
               value={postcode}
               readOnly
+              required
             />
             <SearchBtn onClick={handlePostcodeSearch}>우편번호 찾기</SearchBtn>
           </PostcodeContainer>
-          <Address type="text" placeholder="주소" value={address} readOnly />
+          <Address
+            type="text"
+            placeholder="주소"
+            value={address}
+            readOnly
+            required
+          />
           <DetailedAddress
             type="text"
             placeholder="상세 주소를 입력하세요"
@@ -181,17 +194,34 @@ const SignUpBody = () => {
         </RecommandIdContainer>
 
         <ProfileImgContainer>
-          <TitleProfileImg>프로필 이미지 업로드</TitleProfileImg>
+          <TitleProfileImg>프로필 이미지 업로드 (선택)</TitleProfileImg>
+          <ImagePreview src={imagePreview || profileImg} alt="미리보기" />
           <ImageInput
             type="file"
+            id="profileImg"
             accept="image/*"
+            style={{ display: "none" }}
             onChange={handleImageChange}
           />
-          {imagePreview && <ImagePreview src={imagePreview} alt="미리보기" />}
+          <label
+            htmlFor="profileImg"
+            style={{
+              cursor: "pointer",
+              padding: "0.5rem 1rem",
+              backgroundColor: "white",
+              borderRadius: "0.3rem",
+              border: "1px solid #eaeaea",
+              fontSize: "0.8rem",
+              textAlign: "center",
+              marginTop: "0.7rem",
+            }}
+          >
+            파일 선택
+          </label>
         </ProfileImgContainer>
 
         <SignUpBtn isFormValid={isFormValid}>가입하기</SignUpBtn>
-      </form>
+      </Form>
     </Container>
   );
 };
@@ -208,6 +238,14 @@ const Container = styled.div`
   box-sizing: border-box;
 `;
 
+const Form = styled.form`
+  width: 100%;
+  max-width: 35rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const IdContainer = styled.div`
   width: 35rem;
   position: relative;
@@ -216,14 +254,14 @@ const IdContainer = styled.div`
 
 const TitleId = styled.label`
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 const Id = styled.input`
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
   width: 100%;
-  height: 2rem;
+  height: 2.3rem;
   text-align: start;
   padding-left: 0.5rem;
   margin-top: 0.5rem;
@@ -234,15 +272,15 @@ const Id = styled.input`
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
   }
 `;
 
 const RemoveIdIcon = styled.span`
   position: absolute;
-  right: 0;
-  top: 75%;
+  right: 0.7rem;
+  top: 70%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #cccccc;
@@ -260,7 +298,7 @@ const PasswordContainer = styled.div`
 
 const TitlePw = styled.label`
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 const Password = styled.input`
@@ -269,7 +307,7 @@ const Password = styled.input`
   text-align: start;
   padding-left: 0.5rem;
   width: 100%;
-  height: 1.9rem;
+  height: 2.3rem;
   margin-top: 0.5rem;
 
   &:focus {
@@ -278,15 +316,15 @@ const Password = styled.input`
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
   }
 `;
 
 const RemovePwIcon = styled.span`
   position: absolute;
-  right: 1.7rem;
-  top: 40%;
+  right: 2.5rem;
+  top: 37%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #cccccc;
@@ -295,8 +333,8 @@ const RemovePwIcon = styled.span`
 
 const VisibleIcon1 = styled.span`
   position: absolute;
-  right: 0;
-  top: 40%;
+  right: 0.7rem;
+  top: 37%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #949494;
@@ -309,7 +347,7 @@ const CheckPassword = styled.input`
   text-align: start;
   padding-left: 0.5rem;
   width: 100%;
-  height: 1.9rem;
+  height: 2.3rem;
   margin-top: 1rem;
 
   &:focus {
@@ -318,15 +356,15 @@ const CheckPassword = styled.input`
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
   }
 `;
 
 const RemoveCheckPwIcon = styled.span`
   position: absolute;
-  right: 1.7rem;
-  top: 87%;
+  right: 2.5rem;
+  top: 84%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #cccccc;
@@ -335,8 +373,8 @@ const RemoveCheckPwIcon = styled.span`
 
 const VisibleIcon2 = styled.span`
   position: absolute;
-  right: 0;
-  top: 87%;
+  right: 0.7rem;
+  top: 84%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #949494;
@@ -352,14 +390,14 @@ const EmailContainer = styled.div`
 
 const TitleEmail = styled.label`
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 const Email = styled.input`
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
   width: 100%;
-  height: 2rem;
+  height: 2.3rem;
   text-align: start;
   padding-left: 0.5rem;
   margin-top: 0.5rem;
@@ -370,15 +408,15 @@ const Email = styled.input`
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
   }
 `;
 
 const RemoveEmailIcon = styled.span`
   position: absolute;
-  right: 0;
-  top: 57%;
+  right: 0.7rem;
+  top: 55%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #cccccc;
@@ -389,6 +427,12 @@ const EmailErrorMessage = styled.p`
   margin-top: 0.4rem;
   font-size: 0.7rem;
   color: #f40103;
+`;
+
+const EmailValid = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #4b80f3;
 `;
 
 const EmailInfo = styled.p`
@@ -406,7 +450,7 @@ const PhoneContainer = styled.div`
 
 const TitlePhone = styled.p`
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 const Phone = styled.input`
@@ -415,7 +459,7 @@ const Phone = styled.input`
   text-align: start;
   padding-left: 0.5rem;
   width: 100%;
-  height: 1.9rem;
+  height: 2.3rem;
   margin-top: 0.5rem;
 
   &:focus {
@@ -424,15 +468,15 @@ const Phone = styled.input`
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
   }
 `;
 
 const RemovePhoneNumIcon = styled.span`
   position: absolute;
-  right: 0;
-  top: 57%;
+  right: 0.7rem;
+  top: 54%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #cccccc;
@@ -454,10 +498,13 @@ const AddressContainer = styled.div`
 
 const TitleAddress = styled.label`
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
-const PostcodeContainer = styled.div``;
+const PostcodeContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const Postcode = styled.input`
   border: 1px solid #e0e0e0;
@@ -465,8 +512,8 @@ const Postcode = styled.input`
   text-align: start;
   padding-left: 0.5rem;
   width: 30%;
-  height: 1.9rem;
-  margin-top: 0.5rem;
+  height: 2.3rem;
+  margin-top: 0.6rem;
 
   &:focus {
     border-color: gray;
@@ -474,7 +521,7 @@ const Postcode = styled.input`
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
   }
 `;
@@ -482,9 +529,12 @@ const Postcode = styled.input`
 const SearchBtn = styled.button`
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
-  padding: 0.5rem;
+  height: 2.3rem;
+  padding: 0.5rem 0.3rem;
   margin-left: 0.3rem;
   cursor: pointer;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
 `;
 
 const Address = styled.input`
@@ -493,7 +543,7 @@ const Address = styled.input`
   text-align: start;
   padding-left: 0.5rem;
   width: 100%;
-  height: 1.9rem;
+  height: 2.3rem;
   margin-top: 0.5rem;
 
   &:focus {
@@ -502,7 +552,7 @@ const Address = styled.input`
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
   }
 `;
@@ -513,7 +563,7 @@ const DetailedAddress = styled.input`
   text-align: start;
   padding-left: 0.5rem;
   width: 100%;
-  height: 1.9rem;
+  height: 2.3rem;
   margin-top: 0.5rem;
 
   &:focus {
@@ -522,7 +572,7 @@ const DetailedAddress = styled.input`
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
   }
 `;
@@ -536,14 +586,14 @@ const RecommandIdContainer = styled.div`
 
 const TitleRecommandId = styled.p`
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 const RecommandId = styled.input`
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
   width: 100%;
-  height: 2rem;
+  height: 2.3rem;
   text-align: start;
   padding-left: 0.5rem;
   margin-top: 0.5rem;
@@ -554,7 +604,7 @@ const RecommandId = styled.input`
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
   }
 `;
@@ -567,8 +617,8 @@ const RecommandIdInfo = styled.p`
 
 const RemoveRecommandIdIcon = styled.span`
   position: absolute;
-  right: 0;
-  top: 57%;
+  right: 0.7rem;
+  top: 55%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #cccccc;
@@ -580,11 +630,13 @@ const ProfileImgContainer = styled.div`
   position: relative;
   margin-top: 2.5rem;
   border: none;
+  display: flex;
+  flex-direction: column;
 `;
 
 const TitleProfileImg = styled.label`
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 const ImageInput = styled.input`
@@ -592,11 +644,12 @@ const ImageInput = styled.input`
 `;
 
 const ImagePreview = styled.image`
-  max-width: 200px;
-  max-height: 200px;
-  margin-top: 0.5rem;
+  width: 200px;
+  height: 200px;
+  margin-top: 0.7rem;
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
+  object-fit: contain;
 `;
 
 const SignUpBtn = styled.button`
@@ -604,14 +657,13 @@ const SignUpBtn = styled.button`
   border-radius: 0.3rem;
   border: none;
   color: ${({ isFormValid }) => (isFormValid ? "white" : "#CCCCCC")};
-  width: 35.7rem;
-  height: 2.7rem;
+  width: 35rem;
+  height: 3rem;
   cursor: pointer;
   font-weight: bold;
   font-size: 0.9rem;
-  padding: 0.5rem 0;
+  padding: 0.8rem 0;
   margin-top: 2rem;
-  margin-bottom: 2rem;
 `;
 
 export default SignUpBody;
