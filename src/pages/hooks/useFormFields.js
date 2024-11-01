@@ -12,6 +12,8 @@ const useFormFields = () => {
   const [checkPassword, setCheckPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showCheckPassword, setShowCheckPassword] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
 
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -32,8 +34,31 @@ const useFormFields = () => {
     setIsIdValid(isValid);
   };
 
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-  const handleCheckPasswordChange = (e) => setCheckPassword(e.target.value);
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+
+    // 비밀번호 유효성 검사
+    setIsPasswordValid(validatePassword(newPassword));
+
+    // 비밀번호 일치 여부 확인
+    setIsPasswordMatch(newPassword === checkPassword);
+  };
+
+  const handleCheckPasswordChange = (e) => {
+    const newCheckPassword = e.target.value;
+    setCheckPassword(newCheckPassword);
+
+    // 비밀번호 일치 여부 확인
+    setIsPasswordMatch(password === newCheckPassword);
+  };
+
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
@@ -78,6 +103,8 @@ const useFormFields = () => {
     checkPassword,
     showPassword,
     showCheckPassword,
+    isPasswordValid,
+    isPasswordMatch,
     email,
     isEmailValid,
     isEmailTouched,

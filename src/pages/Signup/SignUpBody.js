@@ -15,6 +15,8 @@ const SignUpBody = () => {
     checkPassword,
     showPassword,
     showCheckPassword,
+    isPasswordValid,
+    isPasswordMatch,
     email,
     isEmailValid,
     isEmailTouched,
@@ -82,37 +84,70 @@ const SignUpBody = () => {
 
         <PasswordContainer>
           <TitlePw>비밀번호 *</TitlePw>
-          <Password
-            type={showPassword ? "text" : "password"}
-            required
-            placeholder="숫자, 영문, 특수문자 조합 최소 8자"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-          {password && (
-            <RemovePwIcon onClick={handleRemovePassword}>
-              <IoMdCloseCircle />
-            </RemovePwIcon>
-          )}
-          <VisibleIcon1 onClick={clickPasswordVisibility}>
-            {showPassword ? <PiEye /> : <RxEyeClosed />}
-          </VisibleIcon1>
+          <PasswordInnerContainer>
+            <Password
+              type={showPassword ? "text" : "password"}
+              required
+              placeholder="숫자, 영문, 특수문자 조합 최소 8자"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            {password && (
+              <RemovePwIcon onClick={handleRemovePassword}>
+                <IoMdCloseCircle />
+              </RemovePwIcon>
+            )}
+            <VisibleIcon1 onClick={clickPasswordVisibility}>
+              {showPassword ? <PiEye /> : <RxEyeClosed />}
+            </VisibleIcon1>
 
-          <CheckPassword
-            type={showCheckPassword ? "text" : "password"}
-            required
-            placeholder="새 비밀번호 확인"
-            value={checkPassword}
-            onChange={handleCheckPasswordChange}
-          />
-          {checkPassword && (
-            <RemoveCheckPwIcon onClick={handleRemoveCheckPassword}>
-              <IoMdCloseCircle />
-            </RemoveCheckPwIcon>
-          )}
-          <VisibleIcon2 onClick={clickCheckPasswordVisibitity}>
-            {showCheckPassword ? <PiEye /> : <RxEyeClosed />}
-          </VisibleIcon2>
+            {password && (
+              <>
+                {!isPasswordValid ? (
+                  <PasswordErrorMessage>
+                    비밀번호는 숫자, 영문, 특수문자를 포함하여 최소 8자여야
+                    합니다.
+                  </PasswordErrorMessage>
+                ) : (
+                  <PasswordSuccesMessage>
+                    사용 가능한 비밀번호입니다.
+                  </PasswordSuccesMessage>
+                )}
+              </>
+            )}
+          </PasswordInnerContainer>
+
+          <CheckPasswordContainer>
+            <CheckPassword
+              type={showCheckPassword ? "text" : "password"}
+              required
+              placeholder="새 비밀번호 확인"
+              value={checkPassword}
+              onChange={handleCheckPasswordChange}
+            />
+            {checkPassword && (
+              <RemoveCheckPwIcon onClick={handleRemoveCheckPassword}>
+                <IoMdCloseCircle />
+              </RemoveCheckPwIcon>
+            )}
+            <VisibleIcon2 onClick={clickCheckPasswordVisibitity}>
+              {showCheckPassword ? <PiEye /> : <RxEyeClosed />}
+            </VisibleIcon2>
+
+            {checkPassword && (
+              <>
+                {!isPasswordMatch ? (
+                  <CheckPasswordErrorMessage>
+                    비밀번호가 일치하지 않습니다.
+                  </CheckPasswordErrorMessage>
+                ) : (
+                  <CheckPasswordSuccesMessage>
+                    비밀번호가 일치합니다.
+                  </CheckPasswordSuccesMessage>
+                )}
+              </>
+            )}
+          </CheckPasswordContainer>
         </PasswordContainer>
 
         <EmailContainer>
@@ -324,6 +359,10 @@ const TitlePw = styled.label`
   font-weight: 400;
 `;
 
+const PasswordInnerContainer = styled.div`
+  position: relative;
+`;
+
 const Password = styled.input`
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
@@ -347,7 +386,7 @@ const Password = styled.input`
 const RemovePwIcon = styled.span`
   position: absolute;
   right: 2.5rem;
-  top: 37%;
+  top: 43%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #cccccc;
@@ -357,11 +396,28 @@ const RemovePwIcon = styled.span`
 const VisibleIcon1 = styled.span`
   position: absolute;
   right: 0.7rem;
-  top: 37%;
+  top: 45%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #949494;
   font-size: 1.18rem;
+`;
+
+const PasswordErrorMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #f40103;
+`;
+
+const PasswordSuccesMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #4b80f3;
+`;
+
+const CheckPasswordContainer = styled.div`
+  margin-top: 1rem;
+  position: relative;
 `;
 
 const CheckPassword = styled.input`
@@ -387,7 +443,7 @@ const CheckPassword = styled.input`
 const RemoveCheckPwIcon = styled.span`
   position: absolute;
   right: 2.5rem;
-  top: 84%;
+  top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #cccccc;
@@ -397,11 +453,23 @@ const RemoveCheckPwIcon = styled.span`
 const VisibleIcon2 = styled.span`
   position: absolute;
   right: 0.7rem;
-  top: 84%;
+  top: 52%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #949494;
   font-size: 1.18rem;
+`;
+
+const CheckPasswordErrorMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #f40103;
+`;
+
+const CheckPasswordSuccesMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #4b80f3;
 `;
 
 const EmailContainer = styled.div`
