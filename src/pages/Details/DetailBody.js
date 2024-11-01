@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import styled from 'styled-components';
-import ImageSlider from './ImageSlider';
+import styled from "styled-components";
+import ImageSlider from "./ImageSlider";
 
 const DBody = styled.div``;
 
