@@ -5,10 +5,10 @@ import ImageSlider from "./ImageSlider";
 
 const DBody = styled.div``;
 
-const DetailBody = () => {
+const DetailBody = ({ filteredProducts }) => {
   return (
     <DBody>
-      <ImageSlider />
+      <ImageSlider filteredProducts={filteredProducts} />
     </DBody>
   );
 };
