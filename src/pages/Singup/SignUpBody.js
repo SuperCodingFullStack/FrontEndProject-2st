@@ -194,7 +194,7 @@ const SignUpBody = () => {
         </RecommandIdContainer>
 
         <ProfileImgContainer>
-          <TitleProfileImg>프로필 이미지 업로드</TitleProfileImg>
+          <TitleProfileImg>프로필 이미지 업로드 (선택)</TitleProfileImg>
           <ImagePreview src={imagePreview || profileImg} alt="미리보기" />
           <ImageInput
             type="file"
@@ -649,7 +649,7 @@ const ImagePreview = styled.image`
   margin-top: 0.7rem;
   border: 1px solid #e0e0e0;
   border-radius: 0.3rem;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 const SignUpBtn = styled.button`
