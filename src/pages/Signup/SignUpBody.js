@@ -642,7 +642,7 @@ const ImageInput = styled.input`
   margin-top: 0.5rem;
 `;
 
-const ImagePreview = styled.image`
+const ImagePreview = styled.img`
   width: 200px;
   height: 200px;
   margin-top: 0.7rem;
