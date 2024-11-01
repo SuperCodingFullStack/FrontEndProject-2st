@@ -104,7 +104,6 @@ const Container = styled.div`
   border: 1px solid #eaeaea;
   display: flex;
   justify-content: center;
-  height: 100vh;
   background-color: white;
 `;
 

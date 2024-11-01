@@ -229,7 +229,6 @@ const SignUpBody = () => {
 // 스타일 정의
 const Container = styled.div`
   background-color: white;
-  height: 100vh;
   padding: 1.5rem;
   border: 1px solid #eaeaea;
   display: flex;
