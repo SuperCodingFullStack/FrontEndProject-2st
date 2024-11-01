@@ -1,0 +1,32 @@
+.MyTitle {
+  font-size: 16px;
+  width: 28px;
+  height: 24px;
+  display: flex;
+}
+.IconsBar {
+  justify-content: space-between;
+  display: flex;
+  margin: 0px 0px 0px 218.625px;
+  padding: 0px 0px 0px 16px;
+}
+.OptionImg {
+  width: 30px;
+}
+.CartImg {
+  width: 30px;
+}
+.BellImg {
+  width: 30px;
+}
+.PropileStatus {
+  width: 350px;
+  height: 56px;
+  padding-left: 5px;
+}
+.Line {
+  width: 520px;
+  height: 1px;
+  background: #8a8a8a1a;
+  margin: 4px;
+}
