@@ -28,51 +28,50 @@ function Cart() {
 
   // 가짜 목데이터 서버에서 받아와요.
   const cartItems = [
-    // {
-    //   id: "상품 id"
-    //   name: "POP α 이중직 트레이닝 팬츠_Heather Grey size: 36(90)",
-    //   price: 79000,
-    //   mainImg: "https://example.com/product-image1.jpg",
-    //   amount: 1, //수량
-    //   username: "아이더", // 판매자 이름
-
-    // },
     {
-      user_username: "아이더",
-      product_item_name: "POP α 이중직 트레이닝 팬츠_Heather Black size: (95)",
-
-      quantity: 1,
-      product_price: 79000,
-      imageUrl: "https://example.com/product-image1.jpg",
+      id: 1,
+      name: "POP α 이중직 트레이닝 팬츠_Heather Grey size: 36(90)",
+      price: 79000,
+      mainImg: "https://example.com/product-image1.jpg",
+      amount: 1, //수량
+      username: "아이더", // 판매자 이름
     },
     {
-      user_username: "아이더",
-      product_item_name: "POP α 이중직 트레이닝 팬츠_Heather Blue size: (100)",
-
-      quantity: 1,
-      product_price: 79000,
-      imageUrl: "https://example.com/product-image1.jpg",
+      id: 2,
+      name: "POP α 이중직 트레이닝 팬츠_Heather Black size: (95)",
+      price: 79000,
+      mainImg: "https://source.unsplash.com/random/300x300",
+      amount: 1,
+      username: "아이더",
     },
     {
-      user_username: "뉴발란스",
-      product_item_name: "NBPFEF752S / MT410KM5 (SILVER) size: 235",
-
-      quantity: 1,
-      product_price: 109000,
-      imageUrl: "https://example.com/product-image2.jpg",
+      id: 3,
+      name: "POP α 이중직 트레이닝 팬츠_Heather Blue size: (100)",
+      price: 79000,
+      mainImg: "https://via.placeholder.com/150",
+      amount: 1,
+      username: "아이더",
     },
     {
-      user_username: "나이키",
-      product_item_name: "에어 포스 1 '07 size: 270",
-
-      quantity: 1,
-      product_price: 129000,
-      imageUrl: "https://example.com/product-image3.jpg",
+      id: 4,
+      name: "NBPFEF752S / MT410KM5 (SILVER) size: 235",
+      price: 109000,
+      mainImg: "https://example.com/product-image1.jpg",
+      amount: 1,
+      username: "뉴발란스",
+    },
+    {
+      id: 5,
+      name: "에어 포스 1 '07 size: 270",
+      price: 129000,
+      mainImg: "https://example.com/product-image3.jpg",
+      amount: 1,
+      username: "나이키",
     },
   ];
 
   const groupedCartItems = cartItems.reduce((acc, item) => {
-    (acc[item.user_username] = acc[item.user_username] || []).push(item);
+    (acc[item.username] = acc[item.username] || []).push(item);
     return acc;
   }, {});
 
@@ -93,7 +92,7 @@ function Cart() {
       // 브랜드 선택 해제 시 해당 브랜드의 모든 제품도 선택 해제
       cartItems.forEach((item) => {
         if (item.user_username === brand) {
-          selectedProducts.delete(item.product_item_name);
+          selectedProducts.delete(item.name);
         }
       });
     } else {
@@ -101,7 +100,7 @@ function Cart() {
       // 브랜드 선택 시 해당 브랜드의 모든 제품 선택
       cartItems.forEach((item) => {
         if (item.user_username === brand) {
-          selectedProducts.add(item.product_item_name);
+          selectedProducts.add(item.name);
         }
       });
     }

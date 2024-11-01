@@ -35,9 +35,9 @@ const BrandSection = ({
       </div>
       {products.map((product, index) => (
         <ProductItem
-          key={`${product.user_username}_${index}`}
+          key={`${product.username}_${index}`}
           product={product}
-          isSelected={selectedProducts.has(product.product_item_name)} // 제품 선택 상태 전달
+          isSelected={selectedProducts.has(product.name)} // 제품 선택 상태 전달
           onProductSelect={onProductSelect} // 제품 선택 처리 함수 전달
         />
       ))}
