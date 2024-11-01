@@ -10,6 +10,7 @@ import useProfileImgForm from "../hooks/useProfileImgForm";
 const SignUpBody = () => {
   const {
     id,
+    isIdValid,
     password,
     checkPassword,
     showPassword,
@@ -65,6 +66,17 @@ const SignUpBody = () => {
             <RemoveIdIcon onClick={handleRemoveId}>
               <IoMdCloseCircle />
             </RemoveIdIcon>
+          )}
+          {id && (
+            <>
+              {!isIdValid ? (
+                <IdErrorMessage>
+                  아이디는 5-11자 영문 또는 숫자만 사용해야 합니다.
+                </IdErrorMessage>
+              ) : (
+                <IdSuccessMessage>사용 가능한 아이디입니다.</IdSuccessMessage>
+              )}
+            </>
           )}
         </IdContainer>
 
@@ -279,11 +291,23 @@ const Id = styled.input`
 const RemoveIdIcon = styled.span`
   position: absolute;
   right: 0.7rem;
-  top: 70%;
+  top: 55%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #cccccc;
   font-size: 1.18rem;
+`;
+
+const IdErrorMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #f40103;
+`;
+
+const IdSuccessMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #4b80f3;
 `;
 
 const PasswordContainer = styled.div`

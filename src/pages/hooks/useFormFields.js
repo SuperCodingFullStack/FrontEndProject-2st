@@ -6,6 +6,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const useFormFields = () => {
   const [id, setId] = useState("");
+  const [isIdValid, setIsIdValid] = useState(false);
 
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
@@ -22,7 +23,15 @@ const useFormFields = () => {
 
   const navigate = useNavigate();
 
-  const handleIdChange = (e) => setId(e.target.value);
+  const handleIdChange = (e) => {
+    const value = e.target.value;
+    setId(value);
+
+    // 유효성 검사
+    const isValid = /^[a-zA-Z0-9]{5,11}$/.test(value);
+    setIsIdValid(isValid);
+  };
+
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleCheckPasswordChange = (e) => setCheckPassword(e.target.value);
   const handleEmailChange = (e) => {
@@ -64,6 +73,7 @@ const useFormFields = () => {
 
   return {
     id,
+    isIdValid,
     password,
     checkPassword,
     showPassword,
