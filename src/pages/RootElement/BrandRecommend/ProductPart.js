@@ -22,6 +22,7 @@ const ProductPart = ({ data }) => {
 
   const dragVar = useSelector((state) => state.drag.isDraggable);
   const productX = useSelector((state) => state.drag.productPositionX);
+  const sorted = useSelector((state) => state.filter.activeFilter);
 
   const handleDragStart = (e) => {
     e.preventDefault();
@@ -63,9 +64,14 @@ const ProductPart = ({ data }) => {
       ref={sliderRef}
     >
       <ul style={{ transform: `translateX(-${productX}px)` }}>
-        {data.map((datas) => (
-          <ProductComponent datas={datas} key={datas.id} />
-        ))}
+        {data
+          .sort((a, b) => {
+            if (sorted === 0) return b.price - a.price;
+            if (sorted === 1) return a.title.localeCompare(b.title);
+          })
+          .map((datas) => (
+            <ProductComponent datas={datas} key={datas.id} />
+          ))}
       </ul>
     </Part>
   );

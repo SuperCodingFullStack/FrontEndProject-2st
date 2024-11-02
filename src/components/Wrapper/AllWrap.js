@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../Header/Header";
 import Navi from "../Header/Navi";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RootElement from "../../pages/RootElement";
 import Menu from "../../pages/Category/Menu";
 import FootNavi from "../Header/FootNavi";
@@ -78,7 +78,15 @@ const AllWrap = () => {
             </Wrapping>
           }
         />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route
+          path="/mypage"
+          element={
+            <Wrapping>
+              <MyPage />
+              <FootNavi />
+            </Wrapping>
+          }
+        />
         <Route
           path="/product-register"
           element={

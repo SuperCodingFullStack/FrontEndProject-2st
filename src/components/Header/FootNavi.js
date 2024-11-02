@@ -53,7 +53,7 @@ const FootNavi = () => {
       </li>
       <li>
         <Link
-          to="/"
+          to="/mypage"
           className="flex flex-col-reverse items-center gap-1"
           onClick={() => {
             setActive({ boolean: true, idx: 2 });
