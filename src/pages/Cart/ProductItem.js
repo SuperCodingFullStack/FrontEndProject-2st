@@ -7,7 +7,7 @@ const ProductItem = ({ product, isSelected, onProductSelect }) => {
         <input
           type="checkbox"
           checked={isSelected}
-          onChange={() => onProductSelect(product.name)} // 제품 체크박스 상태 변경 처리
+          onChange={() => onProductSelect(product.id)} // 제품 체크박스 상태 변경 처리
         />
         <div className="cart_content_img">
           <img src={product.mainImg} alt="제품 이미지" />

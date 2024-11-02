@@ -32,9 +32,10 @@ input[type="checkbox"]:checked {
 }
 
 input[type="checkbox"]:checked::after {
-  content: "✔"; /* 체크 표시 */
+  content: "∨"; /* 체크 표시 */
   color: white; /* 체크 표시 색상 */
-  font-size: 12px; /* 체크 표시 크기 */
+  font-size: 13px; /* 체크 표시 크기 */
+  font-weight: bold;
   position: absolute;
   top: 0;
   left: 2px;
