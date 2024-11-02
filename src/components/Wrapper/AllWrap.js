@@ -16,10 +16,7 @@ import ProductRegister from "../../pages/ProductRegister";
 const Wrapping = styled.div`
   max-width: 600px;
   margin: 0 auto;
-  height: 100vh;
   background-color: rgb(26, 27, 31);
-  overflow-x: hidden;
-  overflow-y: auto;
 `;
 
 const AllWrap = () => {
@@ -81,9 +78,16 @@ const AllWrap = () => {
             </Wrapping>
           }
         />
-        <Route path="/" element={<Navigate to="/mypage" />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/product-register" element={<ProductRegister />} />
+        <Route
+          path="/product-register"
+          element={
+            <Wrapping>
+              <ProductRegister />
+              <FootNavi />
+            </Wrapping>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
