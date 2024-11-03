@@ -29,11 +29,8 @@ const cartSlice = createSlice({
         : 0;
 
       state.totalQuantity = state.selectedAll
-        ? state.cartItems.reduce(
-            (total, item) => total + (item.amount || 0), // 'amount'로 수정
-            0
-          )
-        : 0; // 총 수량 계산
+        ? state.cartItems.reduce((total, item) => total + (item.amount || 0), 0)
+        : 0;
     },
 
     toggleBrand: (state, action) => {
@@ -45,21 +42,17 @@ const cartSlice = createSlice({
 
       if (state.selectedBrands.includes(brand)) {
         state.selectedBrands = state.selectedBrands.filter((b) => b !== brand);
-        // Remove products of this brand from selectedProducts
         state.selectedProducts = state.selectedProducts.filter(
           (id) => !brandProductIds.includes(id)
         );
       } else {
         state.selectedBrands.push(brand);
-        // Add products of this brand to selectedProducts
         state.selectedProducts.push(...brandProductIds);
       }
 
-      // 전체 선택 상태 업데이트
       state.selectedAll =
         state.selectedProducts.length === state.cartItems.length;
 
-      // 총 가격과 총 수량 계산
       state.totalPrice = state.selectedProducts.reduce((total, productId) => {
         const item = state.cartItems.find((item) => item.id === productId);
         return total + (item ? item.price * item.amount : 0);
@@ -85,11 +78,9 @@ const cartSlice = createSlice({
         state.selectedProducts.push(productId);
       }
 
-      // 전체 선택 상태 업데이트
       state.selectedAll =
         state.selectedProducts.length === state.cartItems.length;
 
-      // 브랜드 선택 상태 업데이트
       const uniqueBrands = [
         ...new Set(state.cartItems.map((item) => item.username)),
       ];
@@ -113,7 +104,6 @@ const cartSlice = createSlice({
         }
       });
 
-      // 총 가격과 총 수량 계산
       state.totalPrice = state.selectedProducts.reduce((total, productId) => {
         const item = state.cartItems.find((item) => item.id === productId);
         return total + (item ? item.price * item.amount : 0);
@@ -131,9 +121,38 @@ const cartSlice = createSlice({
     setCartItems: (state, action) => {
       state.cartItems = action.payload;
     },
+
+    removeSelectedItems: (state, action) => {
+      const productId = action.payload; // 삭제할 제품 ID
+
+      if (productId) {
+        // 특정 제품 삭제
+        state.cartItems = state.cartItems.filter(
+          (item) => item.id !== productId
+        );
+      } else {
+        // 선택된 모든 제품 삭제
+        state.cartItems = state.cartItems.filter(
+          (item) => !state.selectedProducts.includes(item.id)
+        );
+      }
+
+      // 선택된 상태 초기화
+      state.selectedProducts = [];
+      state.selectedBrands = [];
+      state.selectedAll = false;
+      state.totalPrice = 0;
+      state.totalQuantity = 0;
+    },
   },
 });
 
-export const { toggleSelectAll, toggleBrand, toggleProduct, setCartItems } =
-  cartSlice.actions;
+export const {
+  toggleSelectAll,
+  toggleBrand,
+  toggleProduct,
+  setCartItems,
+  removeSelectedItems,
+} = cartSlice.actions;
+
 export default cartSlice.reducer;

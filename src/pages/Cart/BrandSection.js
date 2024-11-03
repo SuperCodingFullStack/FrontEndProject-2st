@@ -8,6 +8,11 @@ const BrandSection = ({
   onBrandSelect,
   onProductSelect,
   selectedProducts,
+  openModal,
+  onConfirmDelete,
+  isModalOpen,
+  setModalOpen, // 추가된 부분
+  handleOpenModalForSingleDelete,
 }) => {
   return (
     <div className="brand-section">
@@ -29,6 +34,7 @@ const BrandSection = ({
           product={product}
           isSelected={selectedProducts.includes(product.id)} // 제품 선택 상태 전달
           onProductSelect={onProductSelect} // 제품 선택 처리 함수 전달
+          handleOpenModalForSingleDelete={handleOpenModalForSingleDelete} // 수정된 부분
         />
       ))}
     </div>
