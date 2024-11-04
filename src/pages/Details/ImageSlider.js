@@ -1,16 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import React from "react";
+import styled from "styled-components";
 
-const Slider = styled.div``;
+const Sliders = styled.div``;
 
-const ImageSlider = () => {
+const ImageSlider = ({ filteredProducts }) => {
   return (
-    <Slider>
-      <Swiper>
-        <SwiperSlide></SwiperSlide>
-      </Swiper>
-    </Slider>
+    <Sliders>
+      <img src={filteredProducts.image} alt="fitleredImage" />
+    </Sliders>
   );
 };
 

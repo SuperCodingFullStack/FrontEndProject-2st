@@ -1,37 +1,25 @@
-import React from 'react';
-import Slider from 'react-slick';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const EventOne = styled.div`
   overflow: hidden;
 `;
 
-const Event1 = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-  };
-
+const Event1 = ({ px }) => {
   return (
     <EventOne>
-      <Slider className="flex gap-2" {...settings}>
+      <ul className="flex gap-2" style={{ transform: `translateX(-${px}px)` }}>
         <li
           className="inline-block"
-          style={{ flex: '0 0 auto', width: 'auto' }}
+          style={{ flex: "0 0 auto", width: "auto" }}
         >
           <Link
             to="/"
             className="flex items-center p-2 bg-white"
             style={{
-              border: '1px solid rgba(0,0,0,.15)',
-              borderRadius: '6px',
+              border: "1px solid rgba(0,0,0,.15)",
+              borderRadius: "6px",
             }}
           >
             <img
@@ -43,13 +31,13 @@ const Event1 = () => {
             <span className="text-sm ml-2">스파이더 주짓수 도복</span>
           </Link>
         </li>
-        <li className="inline-block" style={{ flex: '0 0 auto' }}>
+        <li className="inline-block" style={{ flex: "0 0 auto" }}>
           <Link
             to="/"
             className="flex items-center p-2 bg-white"
             style={{
-              border: '1px solid rgba(0,0,0,.15)',
-              borderRadius: '6px',
+              border: "1px solid rgba(0,0,0,.15)",
+              borderRadius: "6px",
             }}
           >
             <img
@@ -61,13 +49,13 @@ const Event1 = () => {
             <span className="text-sm ml-2">유호진 스타일링</span>
           </Link>
         </li>
-        <li className="inline-block" style={{ flex: '0 0 auto' }}>
+        <li className="inline-block" style={{ flex: "0 0 auto" }}>
           <Link
             to="/"
             className="flex items-center p-2 bg-white"
             style={{
-              border: '1px solid rgba(0,0,0,.15)',
-              borderRadius: '6px',
+              border: "1px solid rgba(0,0,0,.15)",
+              borderRadius: "6px",
             }}
           >
             <img
@@ -79,13 +67,13 @@ const Event1 = () => {
             <span className="text-sm ml-2">스파이더 주짓수 도복</span>
           </Link>
         </li>
-        <li className="inline-block" style={{ flex: '0 0 auto' }}>
+        <li className="inline-block" style={{ flex: "0 0 auto" }}>
           <Link
             to="/"
             className="flex items-center p-2 bg-white"
             style={{
-              border: '1px solid rgba(0,0,0,.15)',
-              borderRadius: '6px',
+              border: "1px solid rgba(0,0,0,.15)",
+              borderRadius: "6px",
             }}
           >
             <img
@@ -97,7 +85,7 @@ const Event1 = () => {
             <span className="text-sm ml-2">아웃스탠딩 데이</span>
           </Link>
         </li>
-      </Slider>
+      </ul>
     </EventOne>
   );
 };
