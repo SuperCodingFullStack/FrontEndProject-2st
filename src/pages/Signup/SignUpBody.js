@@ -6,6 +6,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import useFormFields from "../hooks/useFormFields";
 import useAddressForm from "../hooks/useAddressForm";
 import useProfileImgForm from "../hooks/useProfileImgForm";
+// import useSignup from "../hooks/useSignup";
 
 const SignUpBody = () => {
   const {
@@ -49,12 +50,24 @@ const SignUpBody = () => {
 
   const { profileImg, imagePreview, handleImageChange } = useProfileImgForm();
 
+  // const { handelSignup, signupError } = useSignup({
+  //   id,
+  //   password,
+  //   email,
+  //   phoneNumber,
+  //   address,
+  //   recommandId,
+  //   profileImg,
+  // });
+
   const isFormValid =
     id && password && checkPassword && email && phoneNumber && address;
 
   return (
     <Container>
       <Form>
+        {/* {" "}
+        onSubmit={handelSignup} */}
         <IdContainer>
           <TitleId>아이디 *</TitleId>
           <Id
@@ -81,7 +94,6 @@ const SignUpBody = () => {
             </>
           )}
         </IdContainer>
-
         <PasswordContainer>
           <TitlePw>비밀번호 *</TitlePw>
           <PasswordInnerContainer>
@@ -149,7 +161,6 @@ const SignUpBody = () => {
             )}
           </CheckPasswordContainer>
         </PasswordContainer>
-
         <EmailContainer>
           <TitleEmail>이메일 *</TitleEmail>
           <Email
@@ -176,7 +187,6 @@ const SignUpBody = () => {
             </EmailErrorMessage>
           )}
         </EmailContainer>
-
         <PhoneContainer>
           <TitlePhone>전화번호 *</TitlePhone>
           <Phone
@@ -194,7 +204,6 @@ const SignUpBody = () => {
           )}
           <PhoneNumInfo>숫자만 입력해 주세요.</PhoneNumInfo>
         </PhoneContainer>
-
         <AddressContainer>
           <TitleAddress>주소 *</TitleAddress>
           <PostcodeContainer>
@@ -221,7 +230,6 @@ const SignUpBody = () => {
             onChange={(e) => setDetailedAddress(e.target.value)}
           />
         </AddressContainer>
-
         <RecommandIdContainer>
           <TitleRecommandId>친구 초대 추천인 아이디 (선택)</TitleRecommandId>
           <RecommandId
@@ -239,7 +247,6 @@ const SignUpBody = () => {
             가입 후 추천인과 신규회원 모두 적립금 5,000원을 드립니다.
           </RecommandIdInfo>
         </RecommandIdContainer>
-
         <ProfileImgContainer>
           <TitleProfileImg>프로필 이미지 업로드 (선택)</TitleProfileImg>
           <ImagePreview src={imagePreview || profileImg} alt="미리보기" />
@@ -266,8 +273,8 @@ const SignUpBody = () => {
             파일 선택
           </label>
         </ProfileImgContainer>
-
         <SignUpBtn isFormValid={isFormValid}>가입하기</SignUpBtn>
+        {/* {signupError && <ErrorMessage>{signupError}</ErrorMessage>} */}
       </Form>
     </Container>
   );
@@ -756,5 +763,11 @@ const SignUpBtn = styled.button`
   padding: 0.8rem 0;
   margin-top: 2rem;
 `;
+
+// const ErrorMessage = styled.p`
+//   margin-top: 0.4rem;
+//   font-size: 0.7rem;
+//   color: #f40103;
+// `;
 
 export default SignUpBody;
