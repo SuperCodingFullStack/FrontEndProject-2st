@@ -82,7 +82,14 @@ const AllWrap = () => {
           }
         />
         <Route path="/" element={<Navigate to="/mypage" />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route
+          path="/mypage"
+          element={
+            <Wrapping>
+              <MyPage /> <FootNavi />
+            </Wrapping>
+          }
+        />
         <Route path="/product-register" element={<ProductRegister />} />
       </Routes>
     </BrowserRouter>
