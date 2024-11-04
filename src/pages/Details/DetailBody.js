@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
-import styled from 'styled-components';
-import ImageSlider from './ImageSlider';
+import styled from "styled-components";
+import ImageSlider from "./ImageSlider";
 
 const DBody = styled.div``;
 
-const DetailBody = () => {
+const DetailBody = ({ filteredProducts }) => {
   return (
     <DBody>
-      <ImageSlider />
+      <ImageSlider filteredProducts={filteredProducts} />
     </DBody>
   );
 };
