@@ -60,7 +60,8 @@ function Cart() {
         id: 1,
         name: "POP α 이중직 트레이닝 팬츠_Heather Grey size: 36(90)",
         price: 79000,
-        mainImg: "https://example.com/product-image1.jpg",
+        mainImg:
+          "https://mymusinsabucket.s3.ap-northeast-2.amazonaws.com/14fb553c-ecat.png",
         amount: 1, //수량
         username: "아이더", // 판매자 이름
       },
