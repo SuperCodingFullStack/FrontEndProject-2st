@@ -5,11 +5,11 @@ import ContextProvider from "./pages/Cart/OurContext";
 
 function App() {
   return (
-    <ContextProvider>
-      {/* CSS 리셋 기능 */}
+    <>
+      {/* CSS Reset */}
       <Reset />
       <AllWrap />
-    </ContextProvider>
+    </>
   );
 }
 

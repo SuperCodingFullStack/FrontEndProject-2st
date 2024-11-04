@@ -29,13 +29,8 @@ const Label = styled.span`
   font-weight: bold;
   margin-right: 10px;
 `;
-const Option = styled.div`
-  background-position: center;
-  backgroundne;
-  cursor: po-size: contain;
-  border: nointer;
-  margin-right: 50px;
-`;
+const Option = styled.div``;
+
 const Bell = styled.div`
   background-position: center;
   border: none;

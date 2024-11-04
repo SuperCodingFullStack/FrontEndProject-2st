@@ -198,6 +198,7 @@ const ProductRegister = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(all);
 
     // TODO: 백엔드로 보내기
   };

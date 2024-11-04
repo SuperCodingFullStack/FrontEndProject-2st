@@ -6,13 +6,13 @@ const productSlice = createSlice({
     categoryList: [
       {
         id: 1,
-        label: "여성",
-        control: "woman",
+        label: "상의",
+        control: "top",
       },
       {
         id: 2,
-        label: "남성",
-        control: "man",
+        label: "하의",
+        control: "bottom",
       },
     ],
     categorySelected: null,
