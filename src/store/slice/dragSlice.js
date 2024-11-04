@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const dragSlice = createSlice({
-  name: 'drag',
+  name: "drag",
   initialState: {
     isDraggable: false,
-    startPositionX: 0,
-    startPositionY: 0,
+    positionX: 0,
+    productPositionX: 0,
   },
   reducers: {
     setDraggable(state) {
@@ -15,8 +15,10 @@ const dragSlice = createSlice({
       state.isDraggable = false;
     },
     setTransformPosit(state, action) {
-      state.startPositionX = action.payload.x;
-      state.startPositionY = action.payload.y;
+      state.positionX = action.payload.x;
+    },
+    setProductPosit(state, action) {
+      state.productPositionX = action.payload.x;
     },
   },
 });
