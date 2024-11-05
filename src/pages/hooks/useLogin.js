@@ -12,7 +12,7 @@ const useLogin = () => {
   const handleLogin = async (id, password) => {
     try {
       const response = await api.post("/auth/login", { id, password });
-      const token = response.data.token;
+      const token = response.data.token; // 백엔드에서 생성한 JWT 토큰
       localStorage.setItem("token", token); // JWT 토큰을 localStorage에 저장
       dispatch(login(token));
       setError(null);
