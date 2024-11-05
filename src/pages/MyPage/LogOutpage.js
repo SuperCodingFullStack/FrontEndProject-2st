@@ -127,7 +127,7 @@ const MyPage = () => {
       </Title>
       <Profile>
         <Link
-          to="/login"
+          to="/loginstate"
           onClick={() => {
             setActive({ boolean: true, idx: 0 });
           }}

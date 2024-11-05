@@ -1,4 +1,4 @@
-// App.js
+// Mypage.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import LoginPage from "./LogInpage";
