@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Noto Sans KR' !important;
+  font-family: "Noto Sans KR" !important;
   overflow-y: auto;
 }

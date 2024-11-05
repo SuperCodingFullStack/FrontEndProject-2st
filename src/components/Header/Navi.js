@@ -1,9 +1,9 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import styled from 'styled-components';
-import { activeActions } from '../../store/slice/activeSlice';
+import styled from "styled-components";
+import { activeActions } from "../../store/slice/activeSlice";
 
 const Navis = styled.ul`
   padding: 0 15px;
@@ -26,7 +26,7 @@ const Navis = styled.ul`
       }
       &:hover::after,
       &.active::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 0;
@@ -51,11 +51,7 @@ const Navi = () => {
           onClick={() => {
             dispatch(activeActions.Active(0));
           }}
-          className={`${
-            (active && num === 0) || (active && num.payload === 0)
-              ? 'active'
-              : ''
-          }`}
+          className={`${active && num === 0 ? "active" : ""}`}
         >
           추천
         </Link>
@@ -66,7 +62,7 @@ const Navi = () => {
           onClick={() => {
             dispatch(activeActions.Active(1));
           }}
-          className={`${active && num.payload === 1 ? 'active' : ''}`}
+          className={`${active && num === 1 ? "active" : ""}`}
         >
           브랜드
         </Link>
@@ -77,7 +73,7 @@ const Navi = () => {
           onClick={() => {
             dispatch(activeActions.Active(2));
           }}
-          className={`${active && num.payload === 2 ? 'active' : ''}`}
+          className={`${active && num === 2 ? "active" : ""}`}
         >
           발매
         </Link>
