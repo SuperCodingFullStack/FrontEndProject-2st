@@ -9,7 +9,7 @@ import FootNavi from "../Header/FootNavi";
 import Cart from "../../pages/Cart/Cart";
 import Details from "../../pages/Details/Details";
 import Login from "../../pages/Login/Login";
-import SignUp from "../../pages/Singup/SignUp";
+import SignUp from "../../pages/Signup/SignUp";
 import MyPage from "../../pages/MyPage/MyPage";
 import ProductRegister from "../../pages/ProductRegister";
 import Order from "../../pages/Order/Order";
@@ -18,6 +18,12 @@ const Wrapping = styled.div`
   max-width: 600px;
   margin: 0 auto;
   background-color: rgb(26, 27, 31);
+`;
+
+const WrappingBasic = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+  height: 100vh;
 `;
 
 const AllWrap = () => {
@@ -65,18 +71,18 @@ const AllWrap = () => {
         <Route
           path="/login"
           element={
-            <Wrapping>
+            <WrappingBasic>
               <Login />
-            </Wrapping>
+            </WrappingBasic>
           }
         />
 
         <Route
           path="/signup"
           element={
-            <Wrapping>
+            <WrappingBasic>
               <SignUp />
-            </Wrapping>
+            </WrappingBasic>
           }
         />
         <Route

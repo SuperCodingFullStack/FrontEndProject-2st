@@ -6,11 +6,14 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const useFormFields = () => {
   const [id, setId] = useState("");
+  const [isIdValid, setIsIdValid] = useState(false);
 
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showCheckPassword, setShowCheckPassword] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
 
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -22,9 +25,40 @@ const useFormFields = () => {
 
   const navigate = useNavigate();
 
-  const handleIdChange = (e) => setId(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-  const handleCheckPasswordChange = (e) => setCheckPassword(e.target.value);
+  const handleIdChange = (e) => {
+    const value = e.target.value;
+    setId(value);
+
+    // 유효성 검사
+    const isValid = /^[a-zA-Z0-9]{5,11}$/.test(value);
+    setIsIdValid(isValid);
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+
+    // 비밀번호 유효성 검사
+    setIsPasswordValid(validatePassword(newPassword));
+
+    // 비밀번호 일치 여부 확인
+    setIsPasswordMatch(newPassword === checkPassword);
+  };
+
+  const handleCheckPasswordChange = (e) => {
+    const newCheckPassword = e.target.value;
+    setCheckPassword(newCheckPassword);
+
+    // 비밀번호 일치 여부 확인
+    setIsPasswordMatch(password === newCheckPassword);
+  };
+
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
@@ -64,10 +98,13 @@ const useFormFields = () => {
 
   return {
     id,
+    isIdValid,
     password,
     checkPassword,
     showPassword,
     showCheckPassword,
+    isPasswordValid,
+    isPasswordMatch,
     email,
     isEmailValid,
     isEmailTouched,

@@ -3,6 +3,7 @@ import popBoolSlice from "./slice/popBoolSlice";
 import activeSlice from "./slice/activeSlice";
 import footMenuSlice from "./slice/footMenuSlice";
 import dragSlice from "./slice/dragSlice";
+import authSlice from "./slice/authSlice";
 import { enableMapSet } from "immer"; // Immer에서 enableMapSet 가져오기
 import cartReducer from "./slice/cartSlice";
 import productSlice from "./slice/productSlice";
@@ -16,6 +17,7 @@ export const store = configureStore({
     activing: activeSlice.reducer,
     footMenu: footMenuSlice.reducer,
     drag: dragSlice.reducer,
+    auth: authSlice.reducer,
     cart: cartReducer,
     products: productSlice.reducer,
     log: loggedSlice.reducer,

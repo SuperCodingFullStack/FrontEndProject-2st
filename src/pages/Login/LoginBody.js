@@ -4,10 +4,11 @@ import { RxEyeClosed } from "react-icons/rx";
 import { PiEye } from "react-icons/pi";
 import { IoMdCloseCircle } from "react-icons/io";
 import useFormFields from "../hooks/useFormFields";
-
-// TODO: 로그인이 완료되었을 때 마이페이지로 이동
+import useLogin from "../hooks/useLogin";
 
 const LoginBody = () => {
+  const { error, handleLogin } = useLogin();
+
   const {
     id,
     password,
@@ -30,6 +31,10 @@ const LoginBody = () => {
 
     setIsIdValid(idValid);
     setIsPasswordValid(passwordValid);
+
+    if (idValid && passwordValid) {
+      handleLogin(id, password); // Login.js의 handleLogin 호출
+    }
   };
 
   return (
@@ -89,6 +94,8 @@ const LoginBody = () => {
 
         <LoginBtn onClick={handleLoginClick}>로그인</LoginBtn>
 
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+
         <SignUpContainer>
           <Message>가입만 해도 즉시 20% 할인</Message>
           <SignUpBtn onClick={handleSignUpClick}>회원가입</SignUpBtn>
@@ -104,7 +111,6 @@ const Container = styled.div`
   border: 1px solid #eaeaea;
   display: flex;
   justify-content: center;
-  height: 100vh;
   background-color: white;
 `;
 
@@ -220,6 +226,12 @@ const LoginBtn = styled.button`
   cursor: pointer;
   font-weight: 500;
   font-size: 0.9rem;
+`;
+
+const ErrorMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #f40103;
 `;
 
 const SignUpContainer = styled.div`

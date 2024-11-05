@@ -21,7 +21,6 @@ const Header = styled.div`
   align-items: center;
   padding: 1rem 1.3rem;
   background-color: #f5f5f5;
-  // font-family: Pretendard;
 `;
 
 const BackButton = styled.button`
