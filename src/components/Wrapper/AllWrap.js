@@ -9,13 +9,8 @@ import FootNavi from "../Header/FootNavi";
 import Cart from "../../pages/Cart/Cart";
 import Details from "../../pages/Details/Details";
 import Login from "../../pages/Login/Login";
-<<<<<<< HEAD
 import SignUp from "../../pages/Signup/SignUp";
-import MyPage from "../../pages/MyPage";
-=======
-import SignUp from "../../pages/Singup/SignUp";
 import MyPage from "../../pages/MyPage/MyPage";
->>>>>>> alpha
 import ProductRegister from "../../pages/ProductRegister";
 
 const Wrapping = styled.div`
