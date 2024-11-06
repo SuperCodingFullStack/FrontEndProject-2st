@@ -34,6 +34,7 @@ const useFormFields = () => {
     setIsIdValid(isValid);
   };
 
+  // 비밀번호 유효성 검사
   const validatePassword = (password) => {
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;

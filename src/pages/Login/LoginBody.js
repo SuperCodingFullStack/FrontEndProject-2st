@@ -98,7 +98,9 @@ const LoginBody = () => {
 
         <SignUpContainer>
           <Message>가입만 해도 즉시 20% 할인</Message>
-          <SignUpBtn onClick={handleSignUpClick}>회원가입</SignUpBtn>
+          <SignUpBtn onClick={handleSignUpClick} type="submit">
+            회원가입
+          </SignUpBtn>
         </SignUpContainer>
       </Form>
     </Container>

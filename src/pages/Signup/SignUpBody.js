@@ -6,9 +6,12 @@ import { IoMdCloseCircle } from "react-icons/io";
 import useFormFields from "../hooks/useFormFields";
 import useAddressForm from "../hooks/useAddressForm";
 import useProfileImgForm from "../hooks/useProfileImgForm";
-// import useSignup from "../hooks/useSignup";
+import useSignup from "../hooks/useSignup";
+import { useNavigate } from "react-router-dom";
 
 const SignUpBody = () => {
+  const navigate = useNavigate();
+
   const {
     id,
     isIdValid,
@@ -50,24 +53,27 @@ const SignUpBody = () => {
 
   const { profileImg, imagePreview, handleImageChange } = useProfileImgForm();
 
-  // const { handelSignup, signupError } = useSignup({
-  //   id,
-  //   password,
-  //   email,
-  //   phoneNumber,
-  //   address,
-  //   recommandId,
-  //   profileImg,
-  // });
+  const { handelSignup, signupError } = useSignup({
+    id,
+    password,
+    email,
+    phoneNumber,
+    address,
+    recommandId,
+    profileImg,
+    onSuccess: () => {
+      navigate("/login");
+      console.log("회원가입 성공");
+    },
+  });
 
-  const isFormValid =
-    id && password && checkPassword && email && phoneNumber && address;
+  const isformvalid = () => {
+    return id && password && checkPassword && email && phoneNumber && address;
+  };
 
   return (
     <Container>
-      <Form>
-        {/* {" "}
-        onSubmit={handelSignup} */}
+      <Form onSubmit={handelSignup}>
         <IdContainer>
           <TitleId>아이디 *</TitleId>
           <Id
@@ -273,8 +279,10 @@ const SignUpBody = () => {
             파일 선택
           </label>
         </ProfileImgContainer>
-        <SignUpBtn isFormValid={isFormValid}>가입하기</SignUpBtn>
-        {/* {signupError && <ErrorMessage>{signupError}</ErrorMessage>} */}
+        <SignUpBtn type="submit" isformvalid={isformvalid()}>
+          가입하기
+        </SignUpBtn>
+        {signupError && <ErrorMessage>{signupError}</ErrorMessage>}
       </Form>
     </Container>
   );
@@ -750,24 +758,26 @@ const ImagePreview = styled.img`
   object-fit: contain;
 `;
 
-const SignUpBtn = styled.button`
-  background-color: ${({ isFormValid }) => (isFormValid ? "black" : "#EAEAEA")};
+const SignUpBtn = styled.button.attrs((props) => ({
+  disabled: !props.isformvalid,
+}))`
+  background-color: ${({ isformvalid }) => (isformvalid ? "black" : "#EAEAEA")};
   border-radius: 0.3rem;
   border: none;
-  color: ${({ isFormValid }) => (isFormValid ? "white" : "#CCCCCC")};
+  color: ${({ isformvalid }) => (isformvalid ? "white" : "#CCCCCC")};
   width: 35rem;
   height: 3rem;
-  cursor: pointer;
+  cursor: ${({ isformvalid }) => (isformvalid ? "pointer" : "not-allowed")};
   font-weight: bold;
   font-size: 0.9rem;
   padding: 0.8rem 0;
   margin-top: 2rem;
 `;
 
-// const ErrorMessage = styled.p`
-//   margin-top: 0.4rem;
-//   font-size: 0.7rem;
-//   color: #f40103;
-// `;
+const ErrorMessage = styled.p`
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: #f40103;
+`;
 
 export default SignUpBody;

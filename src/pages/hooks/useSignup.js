@@ -1,6 +1,5 @@
-// src/hooks/useSignup.js
 import { useState } from "react";
-import api from "../utils/api";
+import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 
 const useSignup = () => {
@@ -20,7 +19,7 @@ const useSignup = () => {
     e.preventDefault();
 
     try {
-      await api.post("/auth/signup", {
+      await api.post("http://52.78.168.169/api/signup", {
         id,
         password,
         phoneNumber,
