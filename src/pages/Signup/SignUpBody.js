@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from "react";
-import styled, { StyleSheetManager } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 import { RxEyeClosed } from "react-icons/rx";
 import { PiEye } from "react-icons/pi";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -62,236 +62,237 @@ const SignUpBody = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("회원가입 버튼 클릭됨"); // 버튼 클릭 여부 확인
-    handleSignup(e);
+    console.log("회원가입 버튼 클릭됨");
+    const formData = {
+      userName: id,
+      password,
+      email,
+      address,
+      phone: phoneNumber,
+      referenceId: recommandId || "",
+      cashed: 0,
+      profile_img: profileImg,
+    };
+    handleSignup(formData);
   };
 
-  const isFormValid = useCallback(() => {
-    return id && password && checkPassword && email && phoneNumber && address;
-  }, [id, password, checkPassword, email, phoneNumber, address]);
-
-  useEffect(() => {
-    console.log("Form valid:", isFormValid());
-  }, [id, password, checkPassword, email, phoneNumber, address, isFormValid]);
+  const isFormValid =
+    id && password && checkPassword && email && phoneNumber && address;
 
   return (
-    <StyleSheetManager shouldForwardProp={(prop) => prop !== "isFormValid"}>
-      <Container>
-        <Form onSubmit={handleSubmit}>
-          <IdContainer>
-            <TitleId>아이디 *</TitleId>
-            <Id
-              type="text"
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <IdContainer>
+          <TitleId>아이디 *</TitleId>
+          <Id
+            type="text"
+            required
+            placeholder="영문, 숫자 5-11자"
+            value={id}
+            onChange={handleIdChange}
+          />
+          {id && (
+            <RemoveIdIcon onClick={handleRemoveId}>
+              <IoMdCloseCircle />
+            </RemoveIdIcon>
+          )}
+          {id && (
+            <>
+              {!isIdValid ? (
+                <IdErrorMessage>
+                  아이디는 5-11자 영문 또는 숫자만 사용해야 합니다.
+                </IdErrorMessage>
+              ) : (
+                <IdSuccessMessage>사용 가능한 아이디입니다.</IdSuccessMessage>
+              )}
+            </>
+          )}
+        </IdContainer>
+        <PasswordContainer>
+          <TitlePw>비밀번호 *</TitlePw>
+          <PasswordInnerContainer>
+            <Password
+              type={showPassword ? "text" : "password"}
               required
-              placeholder="영문, 숫자 5-11자"
-              value={id}
-              onChange={handleIdChange}
+              placeholder="숫자, 영문, 특수문자 조합 최소 8자"
+              value={password}
+              onChange={handlePasswordChange}
             />
-            {id && (
-              <RemoveIdIcon onClick={handleRemoveId}>
+            {password && (
+              <RemovePwIcon onClick={handleRemovePassword}>
                 <IoMdCloseCircle />
-              </RemoveIdIcon>
+              </RemovePwIcon>
             )}
-            {id && (
+            <VisibleIcon1 onClick={clickPasswordVisibility}>
+              {showPassword ? <PiEye /> : <RxEyeClosed />}
+            </VisibleIcon1>
+
+            {password && (
               <>
-                {!isIdValid ? (
-                  <IdErrorMessage>
-                    아이디는 5-11자 영문 또는 숫자만 사용해야 합니다.
-                  </IdErrorMessage>
+                {!isPasswordValid ? (
+                  <PasswordErrorMessage>
+                    비밀번호는 숫자, 영문, 특수문자를 포함하여 최소 8자여야
+                    합니다.
+                  </PasswordErrorMessage>
                 ) : (
-                  <IdSuccessMessage>사용 가능한 아이디입니다.</IdSuccessMessage>
+                  <PasswordSuccesMessage>
+                    사용 가능한 비밀번호입니다.
+                  </PasswordSuccesMessage>
                 )}
               </>
             )}
-          </IdContainer>
-          <PasswordContainer>
-            <TitlePw>비밀번호 *</TitlePw>
-            <PasswordInnerContainer>
-              <Password
-                type={showPassword ? "text" : "password"}
-                required
-                placeholder="숫자, 영문, 특수문자 조합 최소 8자"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-              {password && (
-                <RemovePwIcon onClick={handleRemovePassword}>
-                  <IoMdCloseCircle />
-                </RemovePwIcon>
-              )}
-              <VisibleIcon1 onClick={clickPasswordVisibility}>
-                {showPassword ? <PiEye /> : <RxEyeClosed />}
-              </VisibleIcon1>
+          </PasswordInnerContainer>
 
-              {password && (
-                <>
-                  {!isPasswordValid ? (
-                    <PasswordErrorMessage>
-                      비밀번호는 숫자, 영문, 특수문자를 포함하여 최소 8자여야
-                      합니다.
-                    </PasswordErrorMessage>
-                  ) : (
-                    <PasswordSuccesMessage>
-                      사용 가능한 비밀번호입니다.
-                    </PasswordSuccesMessage>
-                  )}
-                </>
-              )}
-            </PasswordInnerContainer>
-
-            <CheckPasswordContainer>
-              <CheckPassword
-                type={showCheckPassword ? "text" : "password"}
-                required
-                placeholder="새 비밀번호 확인"
-                value={checkPassword}
-                onChange={handleCheckPasswordChange}
-              />
-              {checkPassword && (
-                <RemoveCheckPwIcon onClick={handleRemoveCheckPassword}>
-                  <IoMdCloseCircle />
-                </RemoveCheckPwIcon>
-              )}
-              <VisibleIcon2 onClick={clickCheckPasswordVisibitity}>
-                {showCheckPassword ? <PiEye /> : <RxEyeClosed />}
-              </VisibleIcon2>
-
-              {checkPassword && (
-                <>
-                  {!isPasswordMatch ? (
-                    <CheckPasswordErrorMessage>
-                      비밀번호가 일치하지 않습니다.
-                    </CheckPasswordErrorMessage>
-                  ) : (
-                    <CheckPasswordSuccesMessage>
-                      비밀번호가 일치합니다.
-                    </CheckPasswordSuccesMessage>
-                  )}
-                </>
-              )}
-            </CheckPasswordContainer>
-          </PasswordContainer>
-          <EmailContainer>
-            <TitleEmail>이메일 *</TitleEmail>
-            <Email
-              type="email"
+          <CheckPasswordContainer>
+            <CheckPassword
+              type={showCheckPassword ? "text" : "password"}
               required
-              placeholder="이메일을 입력해 주세요"
-              value={email}
-              onChange={handleEmailChange}
-              onFocus={handleEmailFocus}
-              $isValid={isEmailValid}
+              placeholder="새 비밀번호 확인"
+              value={checkPassword}
+              onChange={handleCheckPasswordChange}
             />
-            {email && (
-              <RemoveEmailIcon onClick={handleRemoveEmail}>
+            {checkPassword && (
+              <RemoveCheckPwIcon onClick={handleRemoveCheckPassword}>
                 <IoMdCloseCircle />
-              </RemoveEmailIcon>
+              </RemoveCheckPwIcon>
             )}
-            {!isEmailTouched ? (
-              <EmailInfo>계정 분실 시 본인인증 정보로 활용됩니다.</EmailInfo>
-            ) : isEmailValid ? (
-              <EmailValid>사용 가능한 이메일입니다.</EmailValid>
-            ) : (
-              <EmailErrorMessage>
-                올바른 이메일 주소를 입력하세요.
-              </EmailErrorMessage>
+            <VisibleIcon2 onClick={clickCheckPasswordVisibitity}>
+              {showCheckPassword ? <PiEye /> : <RxEyeClosed />}
+            </VisibleIcon2>
+
+            {checkPassword && (
+              <>
+                {!isPasswordMatch ? (
+                  <CheckPasswordErrorMessage>
+                    비밀번호가 일치하지 않습니다.
+                  </CheckPasswordErrorMessage>
+                ) : (
+                  <CheckPasswordSuccesMessage>
+                    비밀번호가 일치합니다.
+                  </CheckPasswordSuccesMessage>
+                )}
+              </>
             )}
-          </EmailContainer>
-          <PhoneContainer>
-            <TitlePhone>전화번호 *</TitlePhone>
-            <Phone
-              type="tel"
-              required
-              placeholder="전화번호를 입력해 주세요"
-              value={phoneNumber}
-              onChange={handlePhoneChange}
-              maxLength={11}
-            />
-            {phoneNumber && (
-              <RemovePhoneNumIcon onClick={handleRemovePhone}>
-                <IoMdCloseCircle />
-              </RemovePhoneNumIcon>
-            )}
-            <PhoneNumInfo>숫자만 입력해 주세요.</PhoneNumInfo>
-          </PhoneContainer>
-          <AddressContainer>
-            <TitleAddress>주소 *</TitleAddress>
-            <PostcodeContainer>
-              <Postcode
-                type="text"
-                placeholder="우편번호"
-                value={postcode}
-                readOnly
-                required
-              />
-              <SearchBtn onClick={handlePostcodeSearch}>
-                우편번호 찾기
-              </SearchBtn>
-            </PostcodeContainer>
-            <Address
+          </CheckPasswordContainer>
+        </PasswordContainer>
+        <EmailContainer>
+          <TitleEmail>이메일 *</TitleEmail>
+          <Email
+            type="email"
+            required
+            placeholder="이메일을 입력해 주세요"
+            value={email}
+            onChange={handleEmailChange}
+            onFocus={handleEmailFocus}
+            isValid={isEmailValid}
+          />
+          {email && (
+            <RemoveEmailIcon onClick={handleRemoveEmail}>
+              <IoMdCloseCircle />
+            </RemoveEmailIcon>
+          )}
+          {!isEmailTouched ? (
+            <EmailInfo>계정 분실 시 본인인증 정보로 활용됩니다.</EmailInfo>
+          ) : isEmailValid ? (
+            <EmailValid>사용 가능한 이메일입니다.</EmailValid>
+          ) : (
+            <EmailErrorMessage>
+              올바른 이메일 주소를 입력하세요.
+            </EmailErrorMessage>
+          )}
+        </EmailContainer>
+        <PhoneContainer>
+          <TitlePhone>전화번호 *</TitlePhone>
+          <Phone
+            type="tel"
+            required
+            placeholder="전화번호를 입력해 주세요"
+            value={phoneNumber}
+            onChange={handlePhoneChange}
+            maxLength={11}
+          />
+          {phoneNumber && (
+            <RemovePhoneNumIcon onClick={handleRemovePhone}>
+              <IoMdCloseCircle />
+            </RemovePhoneNumIcon>
+          )}
+          <PhoneNumInfo>숫자만 입력해 주세요.</PhoneNumInfo>
+        </PhoneContainer>
+        <AddressContainer>
+          <TitleAddress>주소 *</TitleAddress>
+          <PostcodeContainer>
+            <Postcode
               type="text"
-              placeholder="주소"
-              value={address}
+              placeholder="우편번호"
+              value={postcode}
               readOnly
               required
             />
-            <DetailedAddress
-              type="text"
-              placeholder="상세 주소를 입력하세요"
-              value={detailedAddress}
-              onChange={(e) => setDetailedAddress(e.target.value)}
-            />
-          </AddressContainer>
-          <RecommandIdContainer>
-            <TitleRecommandId>친구 초대 추천인 아이디 (선택)</TitleRecommandId>
-            <RecommandId
-              type="text"
-              placeholder="추천인 아이디를 입력해 주세요"
-              value={recommandId}
-              onChange={handleRecommandIdChange}
-            />
-            {recommandId && (
-              <RemoveRecommandIdIcon onClick={handleRemoveRecommandId}>
-                <IoMdCloseCircle />
-              </RemoveRecommandIdIcon>
-            )}
-            <RecommandIdInfo>
-              가입 후 추천인과 신규회원 모두 적립금 5,000원을 드립니다.
-            </RecommandIdInfo>
-          </RecommandIdContainer>
-          <ProfileImgContainer>
-            <TitleProfileImg>프로필 이미지 업로드 (선택)</TitleProfileImg>
-            <ImagePreview src={imagePreview || profileImg} alt="미리보기" />
-            <ImageInput
-              type="file"
-              id="profileImg"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={handleImageChange}
-            />
-            <label
-              htmlFor="profileImg"
-              style={{
-                cursor: "pointer",
-                padding: "0.5rem 1rem",
-                backgroundColor: "white",
-                borderRadius: "0.3rem",
-                border: "1px solid #eaeaea",
-                fontSize: "0.8rem",
-                textAlign: "center",
-                marginTop: "0.7rem",
-              }}
-            >
-              파일 선택
-            </label>
-          </ProfileImgContainer>
-          <SignUpBtn type="submit" isFormValid={isFormValid()}>
-            가입하기
-          </SignUpBtn>
-          {signupError && <ErrorMessage>{signupError}</ErrorMessage>}
-        </Form>
-      </Container>
-    </StyleSheetManager>
+            <SearchBtn onClick={handlePostcodeSearch}>우편번호 찾기</SearchBtn>
+          </PostcodeContainer>
+          <Address
+            type="text"
+            placeholder="주소"
+            value={address}
+            readOnly
+            required
+          />
+          <DetailedAddress
+            type="text"
+            placeholder="상세 주소를 입력하세요"
+            value={detailedAddress}
+            onChange={(e) => setDetailedAddress(e.target.value)}
+          />
+        </AddressContainer>
+        <RecommandIdContainer>
+          <TitleRecommandId>친구 초대 추천인 아이디 (선택)</TitleRecommandId>
+          <RecommandId
+            type="text"
+            placeholder="추천인 아이디를 입력해 주세요"
+            value={recommandId}
+            onChange={handleRecommandIdChange}
+          />
+          {recommandId && (
+            <RemoveRecommandIdIcon onClick={handleRemoveRecommandId}>
+              <IoMdCloseCircle />
+            </RemoveRecommandIdIcon>
+          )}
+          <RecommandIdInfo>
+            가입 후 추천인과 신규회원 모두 적립금 5,000원을 드립니다.
+          </RecommandIdInfo>
+        </RecommandIdContainer>
+        <ProfileImgContainer>
+          <TitleProfileImg>프로필 이미지 업로드 (선택)</TitleProfileImg>
+          <ImagePreview src={imagePreview || profileImg} alt="미리보기" />
+          <ImageInput
+            type="file"
+            id="profileImg"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleImageChange}
+          />
+          <label
+            htmlFor="profileImg"
+            style={{
+              cursor: "pointer",
+              padding: "0.5rem 1rem",
+              backgroundColor: "white",
+              borderRadius: "0.3rem",
+              border: "1px solid #eaeaea",
+              fontSize: "0.8rem",
+              textAlign: "center",
+              marginTop: "0.7rem",
+            }}
+          >
+            파일 선택
+          </label>
+        </ProfileImgContainer>
+        <SignUpBtn type="submit" isFormValid={isFormValid}>
+          가입하기
+        </SignUpBtn>
+        {signupError && <ErrorMessage>{signupError}</ErrorMessage>}
+      </Form>
+    </Container>
   );
 };
 

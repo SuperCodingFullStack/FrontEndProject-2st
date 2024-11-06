@@ -1,6 +1,5 @@
 import { useState } from "react";
 import api from "../../utils/api";
-import { useNavigate } from "react-router-dom";
 
 const useSignup = ({ onSuccess }) => {
   const [id, setId] = useState("");
@@ -13,27 +12,17 @@ const useSignup = ({ onSuccess }) => {
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
   const [profileImg, setProfileImg] = useState(defaultImage);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
+  const handleSignup = async (data) => {
+    console.log("회원가입:", data);
 
     try {
-      await api.post("http://52.78.168.169/api/signup", {
-        userName: id,
-        password,
-        phone: phoneNumber,
-        address,
-        referenceId: recommandId || "",
-        cashed: 0,
-        profile_img: profileImg,
-        email,
-      });
-      setError(null);
+      await api.post("/api/signup", data);
+      setError(null); // 오류 메세지나 상태를 초기화하는 역할
       onSuccess();
-      navigate("/login"); // 회원가입 성공 시 로그인 페이지로 이동
     } catch (err) {
-      setError(err.response?.message || "회원가입 실패");
+      console.error("회원가입 오류:", err.response?.data || err.message);
+      setError(err.response?.data?.message || "회원가입 실패");
     }
   };
 

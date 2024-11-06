@@ -31,8 +31,18 @@ const useLogin = () => {
       setError(null);
       navigate("/mypage"); // 로그인 성공 시 마이페이지로 이동
     } catch (err) {
-      console.error(err.response?.data || err.message);
-      setError("로그인 실패: 아이디 또는 비밀번호를 확인하세요.");
+      if (err.response) {
+        console.error("응답 상태 코드:", err.response.status);
+        console.error("응답 데이터:", err.response.data);
+        setError(
+          err.response.status === 500
+            ? "서버 오류가 발생했습니다. 관리자에게 문의하세요."
+            : "로그인 실패: 아이디 또는 비밀번호를 확인하세요."
+        );
+      } else {
+        console.error("네트워크 오류:", err.message);
+        setError("네트워크 오류가 발생했습니다. 인터넷 연결을 확인하세요.");
+      }
     }
   };
   return {
