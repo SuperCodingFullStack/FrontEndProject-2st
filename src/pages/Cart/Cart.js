@@ -28,6 +28,8 @@ function Cart() {
   const cartItems = useSelector((state) => state.cart.cartItems); // Redux 상태에서 장바구니 아이템 가져오기
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const [userId, isuserId] = useState(1);
+
   //모달관련
   const [isModalOpen, setModalOpen] = useState(false);
   const handleOpenModal = () => {
@@ -52,54 +54,25 @@ function Cart() {
   */
 
   useEffect(() => {
-    // 가짜 목데이터 서버에서 받아오는 부분
-    const fakeCartItems = [
-      // ... (여기에 기존의 cartItems 배열)
+    // 비동기 함수 정의
+    const fetchCartItems = async () => {
+      try {
+        const response = await fetch(`http://52.78.168.169/cart/${userId}`);
 
-      {
-        id: 1,
-        name: "POP α 이중직 트레이닝 팬츠_Heather Grey size: 36(90)",
-        price: 79000,
-        mainImg:
-          "https://mymusinsabucket.s3.ap-northeast-2.amazonaws.com/14fb553c-ecat.png",
-        amount: 1, //수량
-        username: "아이더", // 판매자 이름
-      },
-      {
-        id: 2,
-        name: "POP α 이중직 트레이닝 팬츠_Heather Black size: (95)",
-        price: 79000,
-        mainImg: "https://source.unsplash.com/random/300x300",
-        amount: 1,
-        username: "아이더",
-      },
-      {
-        id: 3,
-        name: "POP α 이중직 트레이닝 팬츠_Heather Blue size: (100)",
-        price: 79000,
-        mainImg: "https://via.placeholder.com/150",
-        amount: 1,
-        username: "아이더",
-      },
-      {
-        id: 4,
-        name: "NBPFEF752S / MT410KM5 (SILVER) size: 235",
-        price: 109000,
-        mainImg: "https://example.com/product-image1.jpg",
-        amount: 1,
-        username: "뉴발란스",
-      },
-      {
-        id: 5,
-        name: "에어 포스 1 '07 size: 270",
-        price: 129000,
-        mainImg: "https://example.com/product-image3.jpg",
-        amount: 1,
-        username: "나이키",
-      },
-    ];
-    dispatch(setCartItems(fakeCartItems)); // Redux 상태에 장바구니 아이템 설정
-  }, [dispatch]);
+        if (!response.ok) {
+          throw new Error("서버에서 데이터를 가져오는 데 실패했습니다.");
+        }
+
+        const data = await response.json();
+        dispatch(setCartItems(data)); // Redux 상태에 장바구니 아이템 설정
+      } catch (error) {
+        console.error("데이터 가져오기 실패:", error);
+      }
+    };
+
+    // 비동기 함수 호출
+    fetchCartItems();
+  }, [dispatch, userId]);
 
   const groupedCartItems = cartItems.reduce((acc, item) => {
     (acc[item.username] = acc[item.username] || []).push(item);
@@ -131,8 +104,8 @@ function Cart() {
   // const handleConfirmDelete = async () => {
   //   try {
   //     // 선택된 상품 IDs를 서버에 삭제 요청
-  //     await fetch("/api/cart", {
-  //       method: "DELETE",
+  //     await fetch(`http://52.78.168.169/cart/{userId}`, {
+  //       method: "GET",
   //       headers: {
   //         "Content-Type": "application/json",
   //       },

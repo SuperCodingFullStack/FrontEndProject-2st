@@ -6,7 +6,7 @@ import ProductPart from "./ProductPart";
 const BrandRecom = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["products"],
-    queryFn: async () => await axios.get("https://fakestoreapi.com/products"),
+    queryFn: async () => await axios.get("http://52.78.168.169/main"),
   });
 
   if (isLoading) return <div>isLoading...</div>;
