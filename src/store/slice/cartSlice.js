@@ -17,7 +17,7 @@ const cartSlice = createSlice({
         ? state.cartItems.map((item) => item.username)
         : [];
       state.selectedProducts = state.selectedAll
-        ? state.cartItems.map((item) => item.id)
+        ? state.cartItems.map((item) => item.productId)
         : [];
 
       // 총 가격과 총 수량 계산
@@ -38,12 +38,12 @@ const cartSlice = createSlice({
       const brandProducts = state.cartItems.filter(
         (item) => item.username === brand
       );
-      const brandProductIds = brandProducts.map((item) => item.id);
+      const brandProductIds = brandProducts.map((item) => item.productId);
 
       if (state.selectedBrands.includes(brand)) {
         state.selectedBrands = state.selectedBrands.filter((b) => b !== brand);
         state.selectedProducts = state.selectedProducts.filter(
-          (id) => !brandProductIds.includes(id)
+          (productId) => !brandProductIds.includes(productId)
         );
       } else {
         state.selectedBrands.push(brand);
@@ -54,13 +54,17 @@ const cartSlice = createSlice({
         state.selectedProducts.length === state.cartItems.length;
 
       state.totalPrice = state.selectedProducts.reduce((total, productId) => {
-        const item = state.cartItems.find((item) => item.id === productId);
+        const item = state.cartItems.find(
+          (item) => item.productId === productId
+        );
         return total + (item ? item.price * item.amount : 0);
       }, 0);
 
       state.totalQuantity = state.selectedProducts.reduce(
         (total, productId) => {
-          const item = state.cartItems.find((item) => item.id === productId);
+          const item = state.cartItems.find(
+            (item) => item.productId === productId
+          );
           return total + (item ? item.amount : 0);
         },
         0
@@ -88,9 +92,9 @@ const cartSlice = createSlice({
         const brandProducts = state.cartItems.filter(
           (item) => item.username === brand
         );
-        const brandProductIds = brandProducts.map((item) => item.id);
-        const allSelected = brandProductIds.every((id) =>
-          state.selectedProducts.includes(id)
+        const brandProductIds = brandProducts.map((item) => item.productId);
+        const allSelected = brandProductIds.every((productId) =>
+          state.selectedProducts.includes(productId)
         );
 
         if (allSelected) {
@@ -105,13 +109,17 @@ const cartSlice = createSlice({
       });
 
       state.totalPrice = state.selectedProducts.reduce((total, productId) => {
-        const item = state.cartItems.find((item) => item.id === productId);
+        const item = state.cartItems.find(
+          (item) => item.productId === productId
+        );
         return total + (item ? item.price * item.amount : 0);
       }, 0);
 
       state.totalQuantity = state.selectedProducts.reduce(
         (total, productId) => {
-          const item = state.cartItems.find((item) => item.id === productId);
+          const item = state.cartItems.find(
+            (item) => item.productId === productId
+          );
           return total + (item ? item.amount : 0);
         },
         0
@@ -128,12 +136,12 @@ const cartSlice = createSlice({
       if (productId) {
         // 특정 제품 삭제
         state.cartItems = state.cartItems.filter(
-          (item) => item.id !== productId
+          (item) => item.productId !== productId
         );
       } else {
         // 선택된 모든 제품 삭제
         state.cartItems = state.cartItems.filter(
-          (item) => !state.selectedProducts.includes(item.id)
+          (item) => !state.selectedProducts.includes(item.productId)
         );
       }
 
@@ -144,6 +152,9 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
       state.totalQuantity = 0;
     },
+    setSelectedProducts: (state, action) => {
+      state.selectedProducts = action.payload;
+    },
   },
 });
 
@@ -153,6 +164,7 @@ export const {
   toggleProduct,
   setCartItems,
   removeSelectedItems,
+  setSelectedProducts,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
