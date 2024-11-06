@@ -2,13 +2,13 @@ import { useState } from "react";
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 
-const useSignup = () => {
+const useSignup = ({ onSuccess }) => {
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [recommandId, setRecommandId] = useState(null);
+  const [recommandId, setRecommandId] = useState("");
   const defaultImage =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
   const [profileImg, setProfileImg] = useState(defaultImage);
@@ -20,17 +20,20 @@ const useSignup = () => {
 
     try {
       await api.post("http://52.78.168.169/api/signup", {
-        id,
+        userName: id,
         password,
-        phoneNumber,
+        phone: phoneNumber,
         address,
-        recommandId,
-        profileImg,
+        referenceId: recommandId || "",
+        cashed: 0,
+        profile_img: profileImg,
+        email,
       });
       setError(null);
+      onSuccess();
       navigate("/login"); // 회원가입 성공 시 로그인 페이지로 이동
     } catch (err) {
-      setError("회원가입 실패: 이미 존재하는 이메일입니다.");
+      setError(err.response?.message || "회원가입 실패");
     }
   };
 

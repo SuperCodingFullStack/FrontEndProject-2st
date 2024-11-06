@@ -33,7 +33,7 @@ const LoginBody = () => {
     setIsPasswordValid(passwordValid);
 
     if (idValid && passwordValid) {
-      handleLogin(id, password); // Login.js의 handleLogin 호출
+      handleLogin(id, password);
     }
   };
 
@@ -130,7 +130,9 @@ const IdBox = styled.div`
   border: none;
 `;
 
-const Id = styled.input`
+const Id = styled.input.attrs((props) => ({
+  "aria-invalid": !props.isValid,
+}))`
   border: 1px solid ${({ isValid }) => (isValid ? "#e0e0e0" : "#f40103")};
   border-radius: 0.3rem;
   width: 100%;
@@ -172,7 +174,9 @@ const PasswordBox = styled.div`
   border: none;
 `;
 
-const Password = styled.input`
+const Password = styled.input.attrs((props) => ({
+  "aria-invalid": !props.isValid,
+}))`
   border: 1px solid ${({ isValid }) => (isValid ? "#e0e0e0" : "#f40103")};
   border-radius: 0.3rem;
   text-align: start;
