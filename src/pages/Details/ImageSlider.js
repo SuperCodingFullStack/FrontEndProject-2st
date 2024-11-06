@@ -6,7 +6,7 @@ const Sliders = styled.div``;
 const ImageSlider = ({ filteredProducts }) => {
   return (
     <Sliders>
-      <img src={filteredProducts.image} alt="fitleredImage" />
+      <img src={filteredProducts.imgs[0]} alt="fitleredImage" />
     </Sliders>
   );
 };

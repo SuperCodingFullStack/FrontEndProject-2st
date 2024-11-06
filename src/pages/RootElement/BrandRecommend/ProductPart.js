@@ -64,10 +64,10 @@ const ProductPart = ({ data }) => {
         {data
           .sort((a, b) => {
             if (sorted === 0) return b.price - a.price;
-            if (sorted === 1) return a.title.localeCompare(b.title);
+            if (sorted === 1) return a.name.localeCompare(b.name);
           })
           .map((datas) => (
-            <ProductComponent datas={datas} key={datas.id} />
+            <ProductComponent datas={datas} key={datas.productId} />
           ))}
       </ul>
     </Part>

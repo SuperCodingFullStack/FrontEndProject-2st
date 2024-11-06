@@ -1,10 +1,12 @@
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { productActions } from "../store/slice/productSlice";
+import { useMutation } from "@tanstack/react-query";
 import Inputs from "./Inputs";
 
 const RegisterContainer = styled.div`
@@ -183,9 +185,9 @@ const ProductRegister = () => {
       const url = URL.createObjectURL(file);
       dispatch(
         productActions.getFilesNames({
-          id: i,
-          fileNames: file.name,
-          imageURL: url,
+          id: i.toString(),
+          fileName: files.name,
+          fileUrl: url,
         })
       );
     });
@@ -196,11 +198,47 @@ const ProductRegister = () => {
     dispatch(productActions.deleteFiles(state));
   };
 
-  const handleSubmit = (e) => {
+  const urlMap = all.files.map((file) => file.fileUrl);
+
+  console.log(urlMap);
+
+  const addProduct = async () => {
+    const res = await fetch("http://52.78.168.169/products/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userIdx: 1,
+        imgs: urlMap,
+        itemName: all.productName,
+        price: all.price,
+        amount: all.amount,
+        introduction: all.intro,
+        endDate: new Date(all.endDate).toISOString(),
+        category: all.categorySelected.label,
+      }),
+    });
+    return res.json();
+  };
+
+  const mutation = useMutation({
+    mutationFn: addProduct,
+  });
+
+  const Navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(all);
 
     // TODO: 백엔드로 보내기
+    try {
+      const response = await mutation.mutateAsync();
+      console.log("Product added successfully:", response);
+      Navigate("/");
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
   };
 
   return (
@@ -246,6 +284,14 @@ const ProductRegister = () => {
           <h2>상품 재고수</h2>
           <Inputs type="number" name="getAmount" states="amount" />
         </ProductWrapper>
+        <ProductWrapper>
+          <h2>판매 종료 날짜</h2>
+          <Inputs type="date" name="getEndDate" states="endDate" />
+        </ProductWrapper>
+        <ProductWrapper>
+          <h2>판매 설명</h2>
+          <Inputs type="textarea" name="getIntro" states="intro" />
+        </ProductWrapper>
         <ProductWrapper className="last">
           <h2>상품 업로드</h2>
           <Upload>
@@ -262,10 +308,10 @@ const ProductRegister = () => {
             <FileList>
               {filesState.map((fileState, ii) => (
                 <li key={ii}>
-                  <img src={fileState.imageURL} alt="iURL" />
+                  <img src={fileState.fileUrl} alt="iURL" />
                   <button
                     className="close"
-                    onClick={(e) => deleteButton(e, fileState.fileNames)}
+                    onClick={(e) => deleteButton(e, fileState.fileName)}
                   >
                     <IoMdClose />
                   </button>

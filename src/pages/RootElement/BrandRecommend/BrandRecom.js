@@ -4,22 +4,27 @@ import React from "react";
 import ProductPart from "./ProductPart";
 
 const BrandRecom = () => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       try {
-        await axios.get("https://52.78.168.169/main");
+        const response = await axios.get("http://52.78.168.169/main");
+        return response.data;
       } catch (error) {
-        console.error(error);
+        console.error(error.message);
+        throw error;
       }
     },
   });
 
-  console.log(isLoading);
+  console.log(data);
 
   if (isLoading) return <div>isLoading...</div>;
 
-  if (isError) return <div>Error</div>;
+  if (isError && error instanceof Error) {
+    console.log("Error Message : " + error.message);
+    return <div>Error</div>;
+  }
 
   return (
     <section

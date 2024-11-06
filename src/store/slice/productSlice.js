@@ -20,6 +20,8 @@ const productSlice = createSlice({
     productName: "",
     price: 0,
     amount: 0,
+    endDate: "",
+    intro: "",
     files: [],
   },
   reducers: {
@@ -49,9 +51,15 @@ const productSlice = createSlice({
     getFilesNames(state, action) {
       state.files.push(action.payload);
     },
+    getEndDate(state, action) {
+      state.endDate = action.payload;
+    },
+    getIntro(state, action) {
+      state.intro = action.payload;
+    },
     deleteFiles(state, action) {
       const newState = state.files.filter(
-        (file) => file.fileNames !== action.payload
+        (file) => file.url !== action.payload
       );
       state.files = newState;
     },

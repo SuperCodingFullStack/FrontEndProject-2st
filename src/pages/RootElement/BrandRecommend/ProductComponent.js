@@ -45,12 +45,12 @@ const Product = styled.li`
 const ProductComponent = ({ datas }) => {
   return (
     <Product>
-      <Link to={`/products/${datas.id}`}>
+      <Link to={`/products/${datas.productId}`}>
         <img src={datas.mainImg} alt="data-image" />
       </Link>
-      <Link to={`/products/${datas.id}`}>
+      <Link to={`/products/${datas.productId}`}>
         <span>{datas.name}</span>
-        <span>{datas.price}$</span>
+        <span>{datas.price}원</span>
       </Link>
     </Product>
   );
