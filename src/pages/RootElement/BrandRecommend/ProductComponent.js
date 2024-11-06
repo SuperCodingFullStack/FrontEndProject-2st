@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const Product = styled.li`
   width: 13.2vw;
@@ -46,10 +46,10 @@ const ProductComponent = ({ datas }) => {
   return (
     <Product>
       <Link to={`/products/${datas.id}`}>
-        <img src={datas.image} alt="data-image" />
+        <img src={datas.mainImg} alt="data-image" />
       </Link>
       <Link to={`/products/${datas.id}`}>
-        <span>{datas.title}</span>
+        <span>{datas.name}</span>
         <span>{datas.price}$</span>
       </Link>
     </Product>

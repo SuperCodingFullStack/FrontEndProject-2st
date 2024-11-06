@@ -7,7 +7,10 @@ import { dragActions } from "../../../store/slice/dragSlice";
 
 const Part = styled.div`
   padding-top: 20px;
-  overflow-x: hidden;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   ul {
     display: grid;
     grid-auto-flow: column;
@@ -21,7 +24,6 @@ const ProductPart = ({ data }) => {
   const dispatch = useDispatch();
 
   const dragVar = useSelector((state) => state.drag.isDraggable);
-  const productX = useSelector((state) => state.drag.productPositionX);
   const sorted = useSelector((state) => state.filter.activeFilter);
 
   const handleDragStart = (e) => {
@@ -36,20 +38,16 @@ const ProductPart = ({ data }) => {
   const handleMouseMove = (e) => {
     if (!dragVar || !sliderRef.current) return;
     e.preventDefault();
-    dispatch(
-      dragActions.setProductPosit({
-        x: e.clientX - sliderRef.current.offsetWidth / 2,
-      })
-    );
+    const { clientWidth, scrollWidth } = sliderRef.current;
+    let newScrollLeft = sliderRef.current.scrollLeft + 5;
+    if (newScrollLeft + clientWidth >= scrollWidth) {
+      newScrollLeft = sliderRef.current.scrollLeft - 5;
+    }
+    sliderRef.current.scrollLeft = newScrollLeft;
   };
 
   const handleMouseUp = () => {
     dispatch(dragActions.setNoneDraggable());
-  };
-
-  const handleMouseLeave = () => {
-    dispatch(dragActions.setNoneDraggable());
-    dispatch(dragActions.setProductPosit({ x: 0 }));
   };
 
   return (
@@ -59,11 +57,10 @@ const ProductPart = ({ data }) => {
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}
       style={{ cursor: dragVar ? "grabbing" : "grab" }}
       ref={sliderRef}
     >
-      <ul style={{ transform: `translateX(-${productX}px)` }}>
+      <ul>
         {data
           .sort((a, b) => {
             if (sorted === 0) return b.price - a.price;
