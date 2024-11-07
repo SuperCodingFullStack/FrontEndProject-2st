@@ -7,9 +7,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "../../store/slice/authSlice"; // userInfo를 저장하는 액션
-
-const [userId, isuserId] = useSelector((state) => state.auth.userId);
+import { logout, setUserInfo } from "../../store/slice/authSlice"; // userInfo를 저장하는 액션
+import api from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const MyPageContainer = styled.div`
   max-width: 600px;
@@ -120,6 +120,27 @@ const ArrowImg = styled.img`
 `;
 
 const MyPage = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const handleDeleteAccount = () => {
+    const confirmDelete = window.confirm("탈퇴하시겠습니까?");
+    if (confirmDelete) {
+      // 삭제 요청 보내기
+      dispatch(logout()); // Redux에서 로그아웃 상태로 변경
+      api
+        .post("/api/withdraw", { token }) // 필요시, 토큰을 함께 보내기
+        .then(() => {
+          alert("탈퇴가 완료되었습니다.");
+          navigate("/"); // 탈퇴 후 메인 페이지로 이동
+        })
+        .catch((error) => {
+          console.error("탈퇴 오류:", error);
+          alert("탈퇴 처리 중 오류가 발생했습니다.");
+        });
+    } else {
+      alert("탈퇴가 취소되었습니다.");
+    }
+  };
   const { userId, profile_img, caches } = useSelector((state) => state.auth);
   const userInfo = {
     StackResponeCash: "0원",
@@ -137,32 +158,12 @@ const MyPage = () => {
   }; // 임시 데이터
   // 토큰
 
+  const logoutbtn = () => {
+    dispatch(logout());
+    // localStorage.removeItem(token());
+  };
+
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    // 로그인된 상태에서만 API 호출 (토큰 등을 사용해서 인증)
-    const fetchUserInfo = async () => {
-      try {
-        // 토큰이 필요한 경우, Authorization 헤더에 토큰을 추가
-        const response = await axios.get(
-          "http://52.78.168.169/api/myPageDetail/`${userId}`",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰을 localStorage에서 가져오는 예시
-            },
-          }
-        );
-
-        // 응답에서 userId와 nickName을 받아와 Redux 상태에 저장
-        const { userId, profile_img, caches } = response.data;
-        dispatch(setUserInfo({ userId, profile_img, caches }));
-      } catch (error) {
-        console.error("User info fetch error:", error);
-      }
-    };
-
-    fetchUserInfo();
-  }, [dispatch]);
 
   return (
     <MyPageContainer className="Rapper">
@@ -288,12 +289,13 @@ const MyPage = () => {
         <div className="Line" />
 
         <div className="세로정렬">
-          <button className="Logout">
-            <sapn>로그아웃</sapn>
+          <button className="Logout" onClick={logoutbtn}>
+            <span>로그아웃</span>
           </button>
           <div className="Line" />
-          <button className="탈퇴">
-            <sapn>탈퇴하기</sapn>
+
+          <button className="탈퇴" onClick={handleDeleteAccount}>
+            탈퇴하기
           </button>
         </div>
       </div>
