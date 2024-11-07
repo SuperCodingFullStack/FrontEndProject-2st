@@ -16,6 +16,7 @@ import Order from "../../pages/Order/Order";
 import { useSelector } from "react-redux";
 import ModifyInfo from "../../pages/MyPage/ModifyInfo";
 import MyProductList from "../../pages/MyPage/MyProductList";
+import DetailBeta from "../../pages/Details/DetailBeta";
 
 const Wrapping = styled.div`
   max-width: 600px;
@@ -132,6 +133,14 @@ const AllWrap = () => {
               <MyProductList />
               <FootNavi />
             </WrappingBasic>
+          }
+        />
+        <Route
+          path="/DetailBeta"
+          element={
+            <Wrapping>
+              <DetailBeta />
+            </Wrapping>
           }
         />
       </Routes>
