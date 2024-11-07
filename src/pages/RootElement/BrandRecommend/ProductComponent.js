@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const Product = styled.li`
   width: 13.2vw;
@@ -12,9 +12,9 @@ const Product = styled.li`
     justify-content: center;
     align-items: center;
     img {
-      object-fit: contain;
-      width: 80%;
-      height: 80%;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
     }
     border-right: 1px solid rgba(0, 0, 0, 0.25);
   }
@@ -45,12 +45,12 @@ const Product = styled.li`
 const ProductComponent = ({ datas }) => {
   return (
     <Product>
-      <Link to={`/products/${datas.id}`}>
-        <img src={datas.image} alt="data-image" />
+      <Link to={`/products/${datas.productId}`}>
+        <img src={datas.mainImg} alt="data-image" />
       </Link>
-      <Link to={`/products/${datas.id}`}>
-        <span>{datas.title}</span>
-        <span>{datas.price}$</span>
+      <Link to={`/products/${datas.productId}`}>
+        <span>{datas.name}</span>
+        <span>{datas.price.toLocaleString()}원</span>
       </Link>
     </Product>
   );

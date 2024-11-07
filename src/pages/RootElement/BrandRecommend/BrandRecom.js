@@ -4,14 +4,25 @@ import React from "react";
 import ProductPart from "./ProductPart";
 
 const BrandRecom = () => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["products"],
-    queryFn: async () => await axios.get("https://fakestoreapi.com/products"),
+    queryFn: async () => {
+      try {
+        const response = await axios.get("http://52.78.168.169/main");
+        return response.data;
+      } catch (error) {
+        console.error(error.message);
+        throw error;
+      }
+    },
   });
 
   if (isLoading) return <div>isLoading...</div>;
 
-  if (isError) return <div>Error</div>;
+  if (isError && error instanceof Error) {
+    console.log("Error Message : " + error.message);
+    return <div>Error</div>;
+  }
 
   return (
     <section
@@ -24,7 +35,7 @@ const BrandRecom = () => {
       }}
     >
       <h2 className="font-medium">눈에 띄는 입점 브랜드</h2>
-      <ProductPart data={data.data} />
+      <ProductPart data={data.content} />
     </section>
   );
 };

@@ -1,0 +1,71 @@
+.order_all {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  background-color: white;
+  font-family: Pretendard, sans-serif;
+  font-size: 16px;
+  padding-top: 52px; /* 상단 영역 높이 */
+  padding-bottom: 100px; /* 하단 영역 높이 */
+}
+
+/* 네비게이션 */
+.Upper_Navey {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: rgb(245, 245, 245);
+  height: 52px;
+  width: 100%;
+  max-width: 600px;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(245, 245, 245);
+  z-index: 1;
+}
+
+/* 배송지 등록 쪽 */
+.destination {
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.destination_top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+}
+.Change_addressBtn {
+  display: flex;
+  width: 75px;
+  height: 25px;
+  font-size: 13px;
+  font-weight: 545;
+  border: 1px solid rgb(251, 251, 251);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* 주문상품 쪽 */
+.Order_product_details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 13px;
+}
+.order_products_list {
+  display: flex;
+  flex-direction: row;
+}
+.products_detail {
+  display: flex;
+  flex-direction: column;
+}

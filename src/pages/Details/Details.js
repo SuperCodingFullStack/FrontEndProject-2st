@@ -10,21 +10,20 @@ const Details = () => {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["ProductDetail", params.id],
-    queryFn: async () => await axios.get("https://fakestoreapi.com/products"),
+    queryFn: async () =>
+      await axios.get(`http://52.78.168.169/products/${params.id}`),
   });
 
   if (isLoading) return <div>Loading</div>;
 
   if (isError) return <div>Error</div>;
 
-  const filteredProducts = data?.data.filter(
-    (item) => item.id === parseInt(params.id)
-  )[0];
+  console.log(data.data);
 
   return (
     <main className="m-auto relative bg-white w-full h-96">
       <DetailHeader />
-      <DetailBody filteredProducts={filteredProducts} />
+      <DetailBody filteredProducts={data.data} />
     </main>
   );
 };

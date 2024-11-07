@@ -20,7 +20,10 @@ const productSlice = createSlice({
     productName: "",
     price: 0,
     amount: 0,
+    endDate: new Date().toISOString().split("T")[0],
+    intro: "",
     files: [],
+    fileTest: [],
   },
   reducers: {
     changeCategory(state, action) {
@@ -49,9 +52,18 @@ const productSlice = createSlice({
     getFilesNames(state, action) {
       state.files.push(action.payload);
     },
+    getEndDate(state, action) {
+      state.endDate = action.payload;
+    },
+    getIntro(state, action) {
+      state.intro = action.payload;
+    },
+    getFileTest(state, action) {
+      state.fileTest = action.payload;
+    },
     deleteFiles(state, action) {
       const newState = state.files.filter(
-        (file) => file.fileNames !== action.payload
+        (file) => file.fileName !== action.payload
       );
       state.files = newState;
     },

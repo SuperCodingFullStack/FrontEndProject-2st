@@ -1,10 +1,12 @@
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { productActions } from "../store/slice/productSlice";
+import { useMutation } from "@tanstack/react-query";
 import Inputs from "./Inputs";
 
 const RegisterContainer = styled.div`
@@ -159,6 +161,7 @@ const ProductRegister = () => {
   );
   const filesState = useSelector((state) => state.products.files);
   const all = useSelector((state) => state.products);
+  const fileTest = useSelector((state) => state.products.fileTest);
 
   const handleCategory = (e) => {
     e.preventDefault();
@@ -179,13 +182,15 @@ const ProductRegister = () => {
   const handleButtonChange = (e) => {
     e.preventDefault();
     const files = Array.from(e.target.files);
+    dispatch(productActions.getFileTest(files));
     files.forEach((file, i) => {
       const url = URL.createObjectURL(file);
       dispatch(
         productActions.getFilesNames({
-          id: i,
-          fileNames: file.name,
-          imageURL: url,
+          id: i.toString(),
+          fileName: file.name,
+          fileUrl: url,
+          file: file,
         })
       );
     });
@@ -196,11 +201,51 @@ const ProductRegister = () => {
     dispatch(productActions.deleteFiles(state));
   };
 
-  const handleSubmit = (e) => {
+  const addProduct = async (fd) => {
+    const res = await fetch("http://52.78.168.169/products/register", {
+      method: "POST",
+      body: fd,
+    });
+    const jsonData = await res.json();
+    return jsonData;
+  };
+
+  const mutation = useMutation({
+    mutationFn: addProduct,
+  });
+
+  const Navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(all);
+
+    const fd = new FormData();
+
+    fd.append("itemName", all.productName);
+    fd.append("price", all.price);
+    fd.append("amount", all.amount);
+    fd.append("introduction", all.intro);
+    fd.append("endDate", new Date(all.endDate).toISOString().split(".")[0]);
+    fd.append("category", all.categorySelected.label);
+    fileTest.forEach((file) => {
+      fd.append("imgs", file);
+    });
+    fd.append("userIdx", 1);
 
     // TODO: 백엔드로 보내기
+    try {
+      const response = await mutation.mutateAsync(fd);
+      if (response) {
+        console.log("Product added successfully:", response);
+        Navigate("/");
+      }
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+
+    fd.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
   };
 
   return (
@@ -246,6 +291,14 @@ const ProductRegister = () => {
           <h2>상품 재고수</h2>
           <Inputs type="number" name="getAmount" states="amount" />
         </ProductWrapper>
+        <ProductWrapper>
+          <h2>판매 종료 날짜</h2>
+          <Inputs type="date" name="getEndDate" states="endDate" />
+        </ProductWrapper>
+        <ProductWrapper>
+          <h2>판매 설명</h2>
+          <Inputs type="textarea" name="getIntro" states="intro" />
+        </ProductWrapper>
         <ProductWrapper className="last">
           <h2>상품 업로드</h2>
           <Upload>
@@ -262,10 +315,10 @@ const ProductRegister = () => {
             <FileList>
               {filesState.map((fileState, ii) => (
                 <li key={ii}>
-                  <img src={fileState.imageURL} alt="iURL" />
+                  <img src={fileState.fileUrl} alt="iURL" />
                   <button
                     className="close"
-                    onClick={(e) => deleteButton(e, fileState.fileNames)}
+                    onClick={(e) => deleteButton(e, fileState.fileName)}
                   >
                     <IoMdClose />
                   </button>

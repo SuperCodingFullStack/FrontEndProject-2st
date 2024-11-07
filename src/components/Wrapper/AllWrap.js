@@ -12,6 +12,7 @@ import Login from "../../pages/Login/Login";
 import SignUp from "../../pages/Signup/SignUp";
 import MyPage from "../../pages/MyPage/MyPage";
 import ProductRegister from "../../pages/ProductRegister";
+import Order from "../../pages/Order/Order";
 
 const Wrapping = styled.div`
   max-width: 600px;
@@ -99,6 +100,14 @@ const AllWrap = () => {
             <Wrapping>
               <ProductRegister />
               <FootNavi />
+            </Wrapping>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <Wrapping>
+              <Order />
             </Wrapping>
           }
         />

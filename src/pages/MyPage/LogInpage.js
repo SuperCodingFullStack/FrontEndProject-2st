@@ -3,7 +3,25 @@ import styled from "styled-components";
 import BottomMenu from "../../components/BottomMenu";
 import "./Mypage.css";
 import "../../index.css";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "./authSlice"; // userInfo를 저장하는 액션
 
+async function fetchUserData() {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const response = await axios.get("/api/users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(response.data);
+  }
+}
 const MyPageContainer = styled.div`
   max-width: 600px;
   margin: 0 auto;
@@ -33,11 +51,10 @@ const ExtraLabel = styled.p`
   font-size: 13px;
   width: 157.2px;
   height: 18px;
+  margin-top: 5px;
 `;
 const Option = styled.div`
   cursor: pointer;
-  cursor: po-size: contain;
-  border: nointer;
 `;
 const Bell = styled.div`
   background-position: center;
@@ -57,6 +74,8 @@ const Profile = styled.div`
   width: 600px;
   height: 40px;
   display: flex;
+  padding: 0 16px;
+  align-items: center;
 `;
 
 const ProfileImg = styled.div`
@@ -112,13 +131,49 @@ const ArrowImg = styled.img`
 `;
 
 const MyPage = () => {
+  const { userId, profile_img, caches } = useSelector((state) => state.auth);
   const userInfo = {
-    name: "홍길동",
     StackResponeCash: "0원",
     CookieMoney: "원",
     Coupon: "장",
     AfterMent: "건",
+    userId: 0,
+    userName: "string",
+    email: "string",
+    referenceId: "string",
+    caches: 0,
+    address: "string",
+    phone: "string",
+    profile_img: "string",
   }; // 임시 데이터
+  // 토큰
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // 로그인된 상태에서만 API 호출 (토큰 등을 사용해서 인증)
+    const fetchUserInfo = async () => {
+      try {
+        // 토큰이 필요한 경우, Authorization 헤더에 토큰을 추가
+        const response = await axios.get(
+          "http://52.78.168.169/api/myPageDetail/",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰을 localStorage에서 가져오는 예시
+            },
+          }
+        );
+
+        // 응답에서 userId와 nickName을 받아와 Redux 상태에 저장
+        const { userId, profile_img, caches } = response.data;
+        dispatch(setUserInfo({ userId, profile_img, caches }));
+      } catch (error) {
+        console.error("User info fetch error:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [dispatch]);
 
   return (
     <MyPageContainer className="Rapper">
@@ -141,10 +196,11 @@ const MyPage = () => {
         </div>
       </Title>
       <Profile>
-        <ProfileImg />
+        <ProfileImg>
+          <u value={profile_img}></u>
+        </ProfileImg>
         <div className="PropileStatus">
-          <NameLabel />
-          {userInfo.name}
+          <NameLabel value={userId} />
           <ExtraLabel>Lv.3 맴버*1%적립*무료배송 </ExtraLabel>
         </div>
         <SnapProfileLapper>
@@ -163,8 +219,10 @@ const MyPage = () => {
       <div className="CookieLabel_세로정렬">
         <div className="CookieLabel">
           <CookieMoney>
-            <p className="적립금">적립금</p>
-            <span className="적립금_금액">{userInfo.CookieMoney} </span>
+            <p className="적립금">홈페이지 money</p>
+            <span className="적립금_금액" value={caches}>
+              {" "}
+            </span>
           </CookieMoney>
           <CookieMoney>
             <p>쿠폰</p>
