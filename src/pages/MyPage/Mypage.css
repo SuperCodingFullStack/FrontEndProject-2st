@@ -108,7 +108,6 @@
   background: #f5f5f5;
   padding: 8px 0px;
   width: 599px;
-  border-right: 1px solid gray;
 }
 .Banner_ContainerWrappe {
   display: flex;
@@ -137,8 +136,7 @@
   text-align: left;
 }
 .Rapper {
-  border-left: 1px solid gray;
-  border-right: 1px solid gray;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.25);
 }
 .MyImpormation_text {
   color: #666666;

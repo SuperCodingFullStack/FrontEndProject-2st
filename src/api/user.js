@@ -3,7 +3,6 @@ import { jwtDecode } from "jwt-decode";
 
 export const fetchUserInfo = async (token) => {
   const decodeToken = jwtDecode(token);
-  console.log(decodeToken);
   const userId = decodeToken.sub;
 
   try {
