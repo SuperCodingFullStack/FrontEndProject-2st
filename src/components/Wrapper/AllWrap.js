@@ -13,6 +13,7 @@ import SignUp from "../../pages/Signup/SignUp";
 import MyPage from "../../pages/MyPage/MyPage";
 import ProductRegister from "../../pages/ProductRegister";
 import Order from "../../pages/Order/Order";
+import { useSelector } from "react-redux";
 
 const Wrapping = styled.div`
   max-width: 600px;
@@ -27,6 +28,8 @@ const WrappingBasic = styled.div`
 `;
 
 const AllWrap = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -98,7 +101,7 @@ const AllWrap = () => {
           path="/product-register"
           element={
             <Wrapping>
-              <ProductRegister />
+              {isAuthenticated ? <ProductRegister /> : <Login />}
               <FootNavi />
             </Wrapping>
           }

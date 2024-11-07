@@ -7,6 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { productActions } from "../store/slice/productSlice";
 import { useMutation } from "@tanstack/react-query";
+import useFetchUserInfo from "./hooks/useFetchUserInfo";
 import Inputs from "./Inputs";
 
 const RegisterContainer = styled.div`
@@ -162,6 +163,7 @@ const ProductRegister = () => {
   const filesState = useSelector((state) => state.products.files);
   const all = useSelector((state) => state.products);
   const fileTest = useSelector((state) => state.products.fileTest);
+  const userInfo = useSelector((state) => state.auth);
 
   const handleCategory = (e) => {
     e.preventDefault();
@@ -216,6 +218,9 @@ const ProductRegister = () => {
 
   const Navigate = useNavigate();
 
+  // UserInfo Import
+  useFetchUserInfo();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -230,7 +235,7 @@ const ProductRegister = () => {
     fileTest.forEach((file) => {
       fd.append("imgs", file);
     });
-    fd.append("userIdx", 1);
+    fd.append("userIdx", userInfo.userId);
 
     // TODO: 백엔드로 보내기
     try {
@@ -242,10 +247,6 @@ const ProductRegister = () => {
     } catch (error) {
       console.error("Error adding product:", error);
     }
-
-    fd.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
   };
 
   return (
