@@ -12,23 +12,27 @@ const cartSlice = createSlice({
   },
   reducers: {
     toggleSelectAll: (state) => {
-      state.selectedAll = !state.selectedAll;
-      state.selectedBrands = state.selectedAll
+      const newSelectedAll = !state.selectedAll;
+      const newSelectedBrands = newSelectedAll
         ? state.cartItems.map((item) => item.username)
         : [];
-      state.selectedProducts = state.selectedAll
+      const newSelectedProducts = newSelectedAll
         ? state.cartItems.map((item) => item.productId)
         : [];
 
+      state.selectedAll = newSelectedAll;
+      state.selectedBrands = newSelectedBrands;
+      state.selectedProducts = newSelectedProducts;
+
       // 총 가격과 총 수량 계산
-      state.totalPrice = state.selectedAll
+      state.totalPrice = newSelectedAll
         ? state.cartItems.reduce(
             (total, item) => total + (item.price * item.amount || 0),
             0
           )
         : 0;
 
-      state.totalQuantity = state.selectedAll
+      state.totalQuantity = newSelectedAll
         ? state.cartItems.reduce((total, item) => total + (item.amount || 0), 0)
         : 0;
     },
@@ -40,110 +44,103 @@ const cartSlice = createSlice({
       );
       const brandProductIds = brandProducts.map((item) => item.productId);
 
-      if (state.selectedBrands.includes(brand)) {
-        state.selectedBrands = state.selectedBrands.filter((b) => b !== brand);
-        state.selectedProducts = state.selectedProducts.filter(
-          (productId) => !brandProductIds.includes(productId)
-        );
-      } else {
-        state.selectedBrands.push(brand);
-        state.selectedProducts.push(...brandProductIds);
-      }
+      const newSelectedBrands = state.selectedBrands.includes(brand)
+        ? state.selectedBrands.filter((b) => b !== brand)
+        : [...state.selectedBrands, brand];
+      const newSelectedProducts = state.selectedProducts.includes(brand)
+        ? state.selectedProducts.filter(
+            (productId) => !brandProductIds.includes(productId)
+          )
+        : [...state.selectedProducts, ...brandProductIds];
+
+      state.selectedBrands = newSelectedBrands;
+      state.selectedProducts = newSelectedProducts;
 
       state.selectedAll =
         state.selectedProducts.length === state.cartItems.length;
 
-      state.totalPrice = state.selectedProducts.reduce((total, productId) => {
+      // 총 가격과 총 수량 계산
+      state.totalPrice = newSelectedProducts.reduce((total, productId) => {
         const item = state.cartItems.find(
           (item) => item.productId === productId
         );
         return total + (item ? item.price * item.amount : 0);
       }, 0);
 
-      state.totalQuantity = state.selectedProducts.reduce(
-        (total, productId) => {
-          const item = state.cartItems.find(
-            (item) => item.productId === productId
-          );
-          return total + (item ? item.amount : 0);
-        },
-        0
-      );
+      state.totalQuantity = newSelectedProducts.reduce((total, productId) => {
+        const item = state.cartItems.find(
+          (item) => item.productId === productId
+        );
+        return total + (item ? item.amount : 0);
+      }, 0);
     },
 
     toggleProduct: (state, action) => {
       const productId = action.payload;
 
-      if (state.selectedProducts.includes(productId)) {
-        state.selectedProducts = state.selectedProducts.filter(
-          (id) => id !== productId
-        );
-      } else {
-        state.selectedProducts.push(productId);
-      }
+      const newSelectedProducts = state.selectedProducts.includes(productId)
+        ? state.selectedProducts.filter((id) => id !== productId)
+        : [...state.selectedProducts, productId];
 
-      state.selectedAll =
-        state.selectedProducts.length === state.cartItems.length;
+      state.selectedProducts = newSelectedProducts;
+
+      state.selectedAll = newSelectedProducts.length === state.cartItems.length;
 
       const uniqueBrands = [
         ...new Set(state.cartItems.map((item) => item.username)),
       ];
-      uniqueBrands.forEach((brand) => {
+
+      const newSelectedBrands = uniqueBrands.reduce((acc, brand) => {
         const brandProducts = state.cartItems.filter(
           (item) => item.username === brand
         );
         const brandProductIds = brandProducts.map((item) => item.productId);
         const allSelected = brandProductIds.every((productId) =>
-          state.selectedProducts.includes(productId)
+          newSelectedProducts.includes(productId)
         );
 
         if (allSelected) {
-          if (!state.selectedBrands.includes(brand)) {
-            state.selectedBrands.push(brand);
-          }
+          if (!acc.includes(brand)) acc.push(brand);
         } else {
-          state.selectedBrands = state.selectedBrands.filter(
-            (b) => b !== brand
-          );
+          acc = acc.filter((b) => b !== brand);
         }
-      });
 
-      state.totalPrice = state.selectedProducts.reduce((total, productId) => {
+        return acc;
+      }, []);
+
+      state.selectedBrands = newSelectedBrands;
+
+      // 총 가격과 총 수량 계산
+      state.totalPrice = newSelectedProducts.reduce((total, productId) => {
         const item = state.cartItems.find(
           (item) => item.productId === productId
         );
         return total + (item ? item.price * item.amount : 0);
       }, 0);
 
-      state.totalQuantity = state.selectedProducts.reduce(
-        (total, productId) => {
-          const item = state.cartItems.find(
-            (item) => item.productId === productId
-          );
-          return total + (item ? item.amount : 0);
-        },
-        0
-      );
+      state.totalQuantity = newSelectedProducts.reduce((total, productId) => {
+        const item = state.cartItems.find(
+          (item) => item.productId === productId
+        );
+        return total + (item ? item.amount : 0);
+      }, 0);
     },
 
     setCartItems: (state, action) => {
+      // 새로 받은 cartItems로 상태 업데이트
       state.cartItems = action.payload;
     },
 
     removeSelectedItems: (state, action) => {
       const productId = action.payload; // 삭제할 제품 ID
 
-      if (productId) {
-        // 특정 제품 삭제
-        state.cartItems = state.cartItems.filter(
-          (item) => item.productId !== productId
-        );
-      } else {
-        // 선택된 모든 제품 삭제
-        state.cartItems = state.cartItems.filter(
-          (item) => !state.selectedProducts.includes(item.productId)
-        );
-      }
+      const newCartItems = productId
+        ? state.cartItems.filter((item) => item.productId !== productId)
+        : state.cartItems.filter(
+            (item) => !state.selectedProducts.includes(item.productId)
+          );
+
+      state.cartItems = newCartItems;
 
       // 선택된 상태 초기화
       state.selectedProducts = [];
