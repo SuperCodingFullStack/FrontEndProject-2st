@@ -18,8 +18,8 @@ import { fetchUserInfo } from "../../api/user";
 function Cart() {
   // 로그인
 
-  // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const isAuthenticated = true;
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // const isAuthenticated = true;
   //네비게이터
   const navigate = useNavigate();
   //리덕스
@@ -31,28 +31,28 @@ function Cart() {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
-  const userId = 1;
+  // const userId = 1;
 
-  //   const [userId, setUserId] = useState(null);
-  //   const token = useSelector((state) => state.auth.token);
+  const [userId, setUserId] = useState(null);
+  const token = useSelector((state) => state.auth.token);
 
-  // useEffect(() => {
-  //     const getUserInfo = async () => {
-  //       try {
-  //         if (token) {
-  //           const userInfo = await fetchUserInfo(token);
-  //           console.log("user info:", userInfo);
-  //           setUserId(userInfo.userId); // userId 상태에 설정
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching user info:", error);
-  //       }
-  //     };
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        if (token) {
+          const userInfo = await fetchUserInfo(token);
+          console.log("user info:", userInfo);
+          setUserId(userInfo.userId); // userId 상태에 설정
+        }
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
 
-  //     if (token) {
-  //       getUserInfo();
-  //     }
-  //   }, [token]);
+    if (token) {
+      getUserInfo();
+    }
+  }, [token]);
 
   //모달관련
   const [isModalOpen, setModalOpen] = useState(false);
