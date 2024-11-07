@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import BottomMenu from "../../components/BottomMenu";
+import SnapProfile from "./SnapProfile";
 import "./Mypage.css";
 import "../../index.css";
 import axios from "axios";
@@ -8,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { logout, setUserInfo } from "../../store/slice/authSlice"; // userInfo를 저장하는 액션
+import useFetchUserInfo from "../hooks/useFetchUserInfo";
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 
@@ -65,28 +67,39 @@ const Profile = styled.div`
   display: flex;
   padding: 0 16px;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const ProfileImg = styled.div`
-  background-color: black;
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  padding: 4px 12px 0px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
-const SnapProfile = styled.span`
-  color: #000000;
-  font-weight: pretendard;
-  font-size: 13px;
-  width: 60px;
-  height: 18px;
-  border: 2px solid #8a8a8a1a;
-  border-radius: 10%;
-  top: 10px;
-`;
+const SnapProfiles = styled.span``;
+
 const SnapProfileLapper = styled.a`
-  padding: 0px 5px;
+  padding: 6px 5px;
+  color: #000000;
+  font-family: "Pretendard";
+  font-size: 13px;
+  width: 100px;
+  border: 2px solid #8a8a8a1a;
+  border-radius: 20px;
+  text-align: center;
+  display: block;
+  cursor: pointer;
+  transition: 0.5s;
+  &:hover {
+    background-color: #000000;
+    color: #fff;
+  }
 `;
 
 const CookieMoney = styled.div`
@@ -122,6 +135,9 @@ const ArrowImg = styled.img`
 const MyPage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+
+  useFetchUserInfo();
+
   const handleDeleteAccount = () => {
     const confirmDelete = window.confirm("탈퇴하시겠습니까?");
     if (confirmDelete) {
@@ -141,35 +157,26 @@ const MyPage = () => {
       alert("탈퇴가 취소되었습니다.");
     }
   };
-  const { userId, profile_img, caches } = useSelector((state) => state.auth);
-  const userInfo = {
-    StackResponeCash: "0원",
-    CookieMoney: "원",
-    Coupon: "장",
-    AfterMent: "건",
-    userId: 0,
-    userName: "string",
-    email: "string",
-    referenceId: "string",
-    caches: 0,
-    address: "string",
-    phone: "string",
-    profile_img: "string",
-  }; // 임시 데이터
-  // 토큰
+  const { userId, profile_img, caches, userNickname } = useSelector(
+    (state) => state.auth
+  );
 
   const logoutbtn = () => {
     dispatch(logout());
-    // localStorage.removeItem(token());
   };
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    localStorage.setItem("profileBoolean", "0");
+  });
+
+  let pBoolean = localStorage.getItem("profileBoolean");
   return (
     <MyPageContainer className="Rapper">
       <Title>
         <div className="MyTitle">
-          <h2>마이</h2>
+          <h2>마이페이지</h2>
         </div>
         <div className="IconsBar">
           <Bell>
@@ -186,24 +193,30 @@ const MyPage = () => {
         </div>
       </Title>
       <Profile>
-        <ProfileImg>
-          <u value={profile_img}></u>
-        </ProfileImg>
-        <div className="PropileStatus">
-          <NameLabel value={userId} />
-          <ExtraLabel>Lv.3 맴버*1%적립*무료배송 </ExtraLabel>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <ProfileImg>
+            <img src={profile_img} alt="profile_img" />
+          </ProfileImg>
+          <div className="PropileStatus">
+            <NameLabel>{userNickname} 님</NameLabel>
+            <ExtraLabel>Lv.3 맴버*1%적립*무료배송 </ExtraLabel>
+          </div>
         </div>
-        <SnapProfileLapper>
-          <SnapProfile> 스냅 프로필</SnapProfile>
+        <SnapProfileLapper
+          onClick={() => {
+            localStorage.setItem("profileBoolean", "1");
+          }}
+        >
+          <SnapProfiles> 스냅 프로필</SnapProfiles>
         </SnapProfileLapper>
-        {/* <SnapProfile /> */}
+        <SnapProfile />
       </Profile>
       <div className="Line" />
 
       <div className="StackResponeCash">
         <span> 가입 후 받은 혜택 </span>
         <span className="SpanStackResponeCash">
-          <u>{userInfo.StackResponeCash}</u>
+          <u></u>
         </span>
       </div>
       <div className="CookieLabel_세로정렬">
@@ -216,11 +229,11 @@ const MyPage = () => {
           </CookieMoney>
           <CookieMoney>
             <p>쿠폰</p>
-            <sapn> {userInfo.Coupon} </sapn>
+            <span></span>
           </CookieMoney>
           <CookieMoney>
             <p>후기작성</p>
-            <sapn> {userInfo.AfterMent} </sapn>
+            <span> </span>
           </CookieMoney>
         </div>
         <a>
