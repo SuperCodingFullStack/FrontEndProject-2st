@@ -113,7 +113,7 @@ const SnapProfile = () => {
 
     formData.append("image", files);
 
-    const res = mutation.mutateAsync(formData);
+    const res = await mutation.mutateAsync(formData);
   };
 
   return (
