@@ -14,6 +14,8 @@ const BrandSection = ({
   setModalOpen, // 추가된 부분
   handleOpenModalForSingleDelete,
 }) => {
+  console.log(products);
+
   return (
     <div className="brand-section">
       <div className="brand_name_area">
@@ -32,9 +34,13 @@ const BrandSection = ({
         <ProductItem
           key={`${product.username}_${index}`}
           product={product}
-          isSelected={selectedProducts.includes(product.id)} // 제품 선택 상태 전달
+          isSelected={selectedProducts.includes(product.productId)} // 제품 선택 상태 전달
           onProductSelect={onProductSelect} // 제품 선택 처리 함수 전달
           handleOpenModalForSingleDelete={handleOpenModalForSingleDelete} // 수정된 부분
+          openModal={openModal} // 모달 열기 함수 전달
+          onConfirmDelete={onConfirmDelete} // 삭제 확인 함수 전달
+          isModalOpen={isModalOpen}
+          setModalOpen={setModalOpen} // 모달 상태 업데이트 함수 전달
         />
       ))}
     </div>
