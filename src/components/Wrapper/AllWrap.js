@@ -13,6 +13,7 @@ import SignUp from "../../pages/Signup/SignUp";
 import MyPage from "../../pages/MyPage/MyPage";
 import ProductRegister from "../../pages/ProductRegister";
 import Order from "../../pages/Order/Order";
+import DetailBeta from "../../pages/Details/DetailBeta";
 
 const Wrapping = styled.div`
   max-width: 600px;
@@ -108,6 +109,14 @@ const AllWrap = () => {
           element={
             <Wrapping>
               <Order />
+            </Wrapping>
+          }
+        />
+        <Route
+          path="/DetailBeta"
+          element={
+            <Wrapping>
+              <DetailBeta />
             </Wrapping>
           }
         />

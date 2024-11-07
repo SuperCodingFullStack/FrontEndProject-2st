@@ -39,8 +39,6 @@ const ExtraLabel = styled.p`
 `;
 const Option = styled.div`
   cursor: pointer;
-  cursor: po-size: contain;
-  border: nointer;
 `;
 const Bell = styled.div`
   background-position: center;
