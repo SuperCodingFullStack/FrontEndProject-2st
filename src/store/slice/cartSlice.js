@@ -14,7 +14,7 @@ const cartSlice = createSlice({
     toggleSelectAll: (state) => {
       const newSelectedAll = !state.selectedAll;
       const newSelectedBrands = newSelectedAll
-        ? state.cartItems.map((item) => item.username)
+        ? [...new Set(state.cartItems.map((item) => item.username))]
         : [];
       const newSelectedProducts = newSelectedAll
         ? state.cartItems.map((item) => item.productId)
@@ -44,18 +44,31 @@ const cartSlice = createSlice({
       );
       const brandProductIds = brandProducts.map((item) => item.productId);
 
+      // 브랜드 선택 상태를 반영
       const newSelectedBrands = state.selectedBrands.includes(brand)
-        ? state.selectedBrands.filter((b) => b !== brand)
-        : [...state.selectedBrands, brand];
-      const newSelectedProducts = state.selectedProducts.includes(brand)
-        ? state.selectedProducts.filter(
-            (productId) => !brandProductIds.includes(productId)
-          )
-        : [...state.selectedProducts, ...brandProductIds];
+        ? state.selectedBrands.filter((b) => b !== brand) // 이미 선택된 브랜드 해제
+        : [...state.selectedBrands, brand]; // 선택되지 않은 브랜드 선택
+
+      let newSelectedProducts;
+      if (state.selectedBrands.includes(brand)) {
+        // 브랜드가 선택된 상태라면 해당 브랜드의 제품들을 모두 해제
+        newSelectedProducts = state.selectedProducts.filter(
+          (productId) => !brandProductIds.includes(productId)
+        );
+      } else {
+        // 브랜드가 선택되지 않은 상태라면 해당 브랜드의 제품들을 모두 선택
+        newSelectedProducts = [
+          ...state.selectedProducts,
+          ...brandProductIds.filter(
+            (id) => !state.selectedProducts.includes(id)
+          ),
+        ];
+      }
 
       state.selectedBrands = newSelectedBrands;
       state.selectedProducts = newSelectedProducts;
 
+      // 전체 선택 여부 업데이트
       state.selectedAll =
         state.selectedProducts.length === state.cartItems.length;
 
@@ -77,13 +90,13 @@ const cartSlice = createSlice({
 
     toggleProduct: (state, action) => {
       const productId = action.payload;
-
       const newSelectedProducts = state.selectedProducts.includes(productId)
         ? state.selectedProducts.filter((id) => id !== productId)
         : [...state.selectedProducts, productId];
 
       state.selectedProducts = newSelectedProducts;
 
+      // 전체 선택 여부 업데이트
       state.selectedAll = newSelectedProducts.length === state.cartItems.length;
 
       const uniqueBrands = [
