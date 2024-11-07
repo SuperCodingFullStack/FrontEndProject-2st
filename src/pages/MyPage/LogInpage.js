@@ -7,7 +7,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "./authSlice"; // userInfo를 저장하는 액션
+import { setUserInfo } from "../../store/slice/authSlice"; // userInfo를 저장하는 액션
 
 async function fetchUserData() {
   const token = localStorage.getItem("token");
