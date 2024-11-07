@@ -137,6 +137,7 @@ const ArrowImg = styled.img`
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const handleMyProductListPrevButton = () => navigate("/myproduct");
   const token = localStorage.getItem("token");
   const [profileOpen, setProfileOpen] = useState(false);
 
@@ -157,6 +158,7 @@ const MyPage = () => {
         })
         .catch((error) => {
           console.error("탈퇴 오류:", error);
+
           alert("탈퇴 처리 중 오류가 발생했습니다.");
         });
     } else {
@@ -250,11 +252,12 @@ const MyPage = () => {
       </div>
 
       <div className="등록_상품_페이지">
-        {/* <link to="/MyProductList"> */}
-        <button onclick="location.href=''" className="등록_상품_페이지_버튼">
-          등록_상품_페이지
+        <button
+          onClick={handleMyProductListPrevButton}
+          className="등록_상품_페이지_버튼"
+        >
+          나의 등록된 상품 리스트
         </button>
-        {/* </link> */}
       </div>
 
       <div className="MenualList">
