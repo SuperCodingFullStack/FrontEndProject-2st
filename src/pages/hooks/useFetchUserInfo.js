@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo } from "../store/authSlice";
-import { fetchUserInfo } from "../api/user"; // API 함수 가져오기
+import { setUserInfo } from "../../store/slice/authSlice";
+import { fetchUserInfo } from "../../api/user"; // API 함수 가져오기
 
 const useFetchUserInfo = () => {
   const dispatch = useDispatch();
