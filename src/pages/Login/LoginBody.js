@@ -93,6 +93,9 @@ const LoginBody = () => {
         </PasswordBox>
 
         <LoginBtn onClick={handleLoginClick}>로그인</LoginBtn>
+        <KakaoLink href="#">
+          <KakaoLoginBtn src="/image/kakao_login_button.png" />
+        </KakaoLink>
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
@@ -232,6 +235,21 @@ const LoginBtn = styled.button`
   cursor: pointer;
   font-weight: 500;
   font-size: 0.9rem;
+`;
+
+const KakaoLink = styled.a`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+const KakaoLoginBtn = styled.img`
+  width: auto;
+  margin-top: 1rem;
+  height: 2.9rem;
+  border: none;
+  border-radius: 0.3rem;
+  object-fit: contain;
 `;
 
 const ErrorMessage = styled.p`
