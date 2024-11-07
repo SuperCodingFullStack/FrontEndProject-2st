@@ -65,13 +65,23 @@ const MyProductList = () => {
         <ProductListContainer>
           {products.map((product, index) => (
             <ProductList key={index}>
-              <ProductImg src={product.imgs[0]} alt={product.itemName} />
-              <ProductName>{product.itemName}</ProductName>
-              <ProductPrice>{product.price}원</ProductPrice>
-              <ProductCategory>{product.category}</ProductCategory>
-              <ProductAmount>수량: {product.amount}</ProductAmount>
-              <EditButton>수정</EditButton>
-              <RemoveButton>삭제</RemoveButton>
+              <ProductContainer>
+                <ImageContainer>
+                  <ProductImg src={product.imgs[0]} alt={product.itemName} />
+                </ImageContainer>
+                <ProductDetail>
+                  <ProductName>상품명 : {product.itemName}</ProductName>
+                  <ProductPrice>가격 : {product.price}원</ProductPrice>
+                  <ProductCategory>
+                    카테고리 : {product.category}
+                  </ProductCategory>
+                  <ProductAmount>수량 : {product.amount}</ProductAmount>
+                </ProductDetail>
+              </ProductContainer>
+              <ButtonContainer>
+                <EditButton>수정</EditButton>
+                <RemoveButton>삭제</RemoveButton>
+              </ButtonContainer>
             </ProductList>
           ))}
         </ProductListContainer>
@@ -104,24 +114,84 @@ const Title = styled.h2`
   font-weight: 500;
 `;
 
-const Body = styled.div``;
+const Body = styled.div`
+  margin-top: 1rem;
+  padding: 1rem;
+`;
 
-const ProductListContainer = styled.div``;
+const ProductListContainer = styled.div`
+  padding: 0.3rem;
+`;
 
 const ProductList = styled.div``;
 
-const ProductImg = styled.img``;
+const ProductContainer = styled.div`
+  display: flex;
+  text-align: center;
+`;
 
-const ProductName = styled.div``;
+const ImageContainer = styled.div`
+  width: 50%;
+`;
 
-const ProductPrice = styled.div``;
+const ProductImg = styled.img`
+  object-fit: cover;
+`;
 
-const ProductCategory = styled.div``;
+const ProductDetail = styled.div`
+  padding: 1rem;
+  text-align: left;
+`;
 
-const ProductAmount = styled.div``;
+const ProductName = styled.div`
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+`;
 
-const EditButton = styled.button``;
+const ProductPrice = styled.div`
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+`;
 
-const RemoveButton = styled.button``;
+const ProductCategory = styled.div`
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+`;
+
+const ProductAmount = styled.div`
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+`;
+
+const ButtonContainer = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+`;
+
+const EditButton = styled.button`
+  border: 1px solid #eaeaea;
+  border-radius: 0.2rem;
+  padding: 0.3rem 0.6rem;
+  font-weight: 400;
+  font-size: 1rem;
+  cursor: pointer;
+`;
+
+const RemoveButton = styled.button`
+  border: 1px solid #eaeaea;
+  border-radius: 0.2rem;
+  padding: 0.3rem 0.6rem;
+  font-weight: 400;
+  font-size: 1rem;
+  cursor: pointer;
+`;
 
 export default MyProductList;
