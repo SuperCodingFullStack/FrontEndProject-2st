@@ -12,9 +12,9 @@ const Product = styled.li`
     justify-content: center;
     align-items: center;
     img {
-      object-fit: contain;
-      width: 80%;
-      height: 80%;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
     }
     border-right: 1px solid rgba(0, 0, 0, 0.25);
   }
@@ -50,7 +50,7 @@ const ProductComponent = ({ datas }) => {
       </Link>
       <Link to={`/products/${datas.productId}`}>
         <span>{datas.name}</span>
-        <span>{datas.price}원</span>
+        <span>{datas.price.toLocaleString()}원</span>
       </Link>
     </Product>
   );

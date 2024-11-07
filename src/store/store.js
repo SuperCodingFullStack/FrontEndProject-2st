@@ -25,6 +25,6 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // serializableCheck 비활성화
+      serializableCheck: false, // serializableCheck unactive
     }),
 });

@@ -161,6 +161,7 @@ const ProductRegister = () => {
   );
   const filesState = useSelector((state) => state.products.files);
   const all = useSelector((state) => state.products);
+  const fileTest = useSelector((state) => state.products.fileTest);
 
   const handleCategory = (e) => {
     e.preventDefault();
@@ -181,13 +182,15 @@ const ProductRegister = () => {
   const handleButtonChange = (e) => {
     e.preventDefault();
     const files = Array.from(e.target.files);
+    dispatch(productActions.getFileTest(files));
     files.forEach((file, i) => {
       const url = URL.createObjectURL(file);
       dispatch(
         productActions.getFilesNames({
           id: i.toString(),
-          fileName: files.name,
+          fileName: file.name,
           fileUrl: url,
+          file: file,
         })
       );
     });
@@ -198,28 +201,13 @@ const ProductRegister = () => {
     dispatch(productActions.deleteFiles(state));
   };
 
-  const urlMap = all.files.map((file) => file.fileUrl);
-
-  console.log(urlMap);
-
-  const addProduct = async () => {
+  const addProduct = async (fd) => {
     const res = await fetch("http://52.78.168.169/products/register", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userIdx: 1,
-        imgs: urlMap,
-        itemName: all.productName,
-        price: all.price,
-        amount: all.amount,
-        introduction: all.intro,
-        endDate: new Date(all.endDate).toISOString(),
-        category: all.categorySelected.label,
-      }),
+      body: fd,
     });
-    return res.json();
+    const jsonData = await res.json();
+    return jsonData;
   };
 
   const mutation = useMutation({
@@ -231,14 +219,33 @@ const ProductRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const fd = new FormData();
+
+    fd.append("itemName", all.productName);
+    fd.append("price", all.price);
+    fd.append("amount", all.amount);
+    fd.append("introduction", all.intro);
+    fd.append("endDate", new Date(all.endDate).toISOString().split(".")[0]);
+    fd.append("category", all.categorySelected.label);
+    fileTest.forEach((file) => {
+      fd.append("imgs", file);
+    });
+    fd.append("userIdx", 1);
+
     // TODO: 백엔드로 보내기
     try {
-      const response = await mutation.mutateAsync();
-      console.log("Product added successfully:", response);
-      Navigate("/");
+      const response = await mutation.mutateAsync(fd);
+      if (response) {
+        console.log("Product added successfully:", response);
+        Navigate("/");
+      }
     } catch (error) {
       console.error("Error adding product:", error);
     }
+
+    fd.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
   };
 
   return (

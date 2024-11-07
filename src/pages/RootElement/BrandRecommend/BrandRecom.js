@@ -17,8 +17,6 @@ const BrandRecom = () => {
     },
   });
 
-  console.log(data);
-
   if (isLoading) return <div>isLoading...</div>;
 
   if (isError && error instanceof Error) {
@@ -37,7 +35,7 @@ const BrandRecom = () => {
       }}
     >
       <h2 className="font-medium">눈에 띄는 입점 브랜드</h2>
-      <ProductPart data={data} />
+      <ProductPart data={data.content} />
     </section>
   );
 };
