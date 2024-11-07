@@ -17,8 +17,8 @@ import "./Cart.css";
 
 function Cart() {
   // 로그인
-  const [logged, isLogged] = useState(true);
-  // const login = useSelector((state) => state.login.login);
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   //네비게이터
   const navigate = useNavigate();
   //리덕스
@@ -29,7 +29,7 @@ function Cart() {
   const cartItems = useSelector((state) => state.cart.cartItems); // Redux 상태에서 장바구니 아이템 가져오기
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
-  const [userId, isuserId] = useState(1);
+  const userId = useSelector((state) => state.auth.userId);
 
   //모달관련
   const [isModalOpen, setModalOpen] = useState(false);
@@ -51,7 +51,7 @@ function Cart() {
       const data = await response.json();
       setProducts(data);
     };
-    if(logged){
+    if(isAuthenticated){
     fetchData();
 }}, [setProducts]);
   */
@@ -73,10 +73,9 @@ function Cart() {
   };
 
   useEffect(() => {
-    // 비동기 함수 정의
-
-    // 비동기 함수 호출
-    fetchCartItems();
+    if (userId) {
+      fetchCartItems();
+    }
   }, [dispatch, userId]);
 
   const groupedCartItems = cartItems.reduce((acc, item) => {
@@ -168,8 +167,8 @@ function Cart() {
     <div className="all">
       <Cart_top />
 
-      <div className={`${!logged ? "cart_no_result" : ""} `}>
-        <div className={`${!logged ? "vertical_alignment" : "hide"} `}>
+      <div className={`${!isAuthenticated ? "cart_no_result" : ""} `}>
+        <div className={`${!isAuthenticated ? "vertical_alignment" : "hide"} `}>
           <div style={{ fontWeight: "bold", marginBottom: "7px" }}>
             장바구니에 담은 상품이 없어요
           </div>
@@ -178,7 +177,7 @@ function Cart() {
             로그인하러 가기
           </div>
         </div>
-        <div className={`${logged ? "로그인 시 출력" : "hide"}`}>
+        <div className={`${isAuthenticated ? "로그인 시 출력" : "hide"}`}>
           <div className="allcheck">
             <input
               type="checkbox"
@@ -217,7 +216,7 @@ function Cart() {
           ))}
         </div>
       </div>
-      <div className={`${logged ? "purchase_area" : "hide"}`}>
+      <div className={`${isAuthenticated ? "purchase_area" : "hide"}`}>
         <div
           className="purchase_btn"
           style={{ padding: "4px" }}
