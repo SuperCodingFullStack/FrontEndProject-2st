@@ -126,13 +126,9 @@ const MyPage = () => {
         </div>
       </Title>
       <Profile>
-        <Link
-          onClick={() => {
-            setActive({ boolean: true, idx: 0 });
-          }}
-        >
+        <Link to="/login">
           <div>
-            <u className="LoginButton">로그인 버튼</u>
+            <u className="LoginButton">로그인</u>
           </div>
         </Link>
 
