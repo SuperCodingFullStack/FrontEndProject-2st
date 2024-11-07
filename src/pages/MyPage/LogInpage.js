@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { logout, setUserInfo } from "../../store/slice/authSlice"; // userInfo를 저장하는 액션
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MyPageContainer = styled.div`
   max-width: 600px;
@@ -227,6 +228,15 @@ const MyPage = () => {
           <div className="BrandLanking">내가 자주산 브랜드, 랭킹은?</div>
         </a>
       </div>
+
+      <div className="등록_상품_페이지">
+        {/* <link to="/MyProductList"> */}
+        <button onclick="location.href=''" className="등록_상품_페이지_버튼">
+          등록_상품_페이지
+        </button>
+        {/* </link> */}
+      </div>
+
       <div className="MenualList">
         <div className="OrderList">취소/반품/교환</div>
         <li className="Orderitem_OrderitemWrrap">
