@@ -20,7 +20,7 @@ const useSignup = () => {
     e.preventDefault();
 
     try {
-      await api.post("/auth/signup", {
+      await api.post("http://52.78.168.169/api/signup", {
         id,
         password,
         phoneNumber,

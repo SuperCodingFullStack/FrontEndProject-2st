@@ -1,20 +1,32 @@
 import React from "react";
 
-const Order_product_list = () => {
+const Order_product_list = ({ product }) => {
   return (
-    <div className="주문 상품 내용">
-      <div>주문상품 1개</div>
-      <div className="배송시간안내">
-        <div>Plus 배송</div>
-        <div>오늘 22시까지 결제 시 내일 도착보장</div>
-      </div>
-      <div className="주문 상품 리스트">
-        <div className="제품 이미지"></div>
-        <div className="이미지빼고 다른 세부내용">
-          <div className="제품브랜드">푸마</div>
-          <div className="제품명">스피드캣 OG-블랙/398846-01 235</div>
-          <div className="제품수량">1개</div>
-          <div className="제품가격">139,000</div>
+    <div className="order_products_list">
+      <img
+        style={{ width: "80px", height: "90px", margin: "5px" }}
+        src={product.mainImg}
+        alt="제품 이미지"
+      />
+      <div className="products_detail">
+        <div
+          style={{
+            fontWeight: "bold",
+            marginBottom: "5px",
+            marginTop: "5px",
+          }}
+          className="제품브랜드"
+        >
+          {product.username}
+        </div>
+        <div style={{ marginBottom: "5px" }} className="제품명">
+          {product.name}
+        </div>
+        <div style={{ marginBottom: "5px" }} className="제품수량">
+          {product.amount}개
+        </div>
+        <div style={{ fontWeight: "bold" }} className="제품가격">
+          {product.price}원
         </div>
       </div>
     </div>

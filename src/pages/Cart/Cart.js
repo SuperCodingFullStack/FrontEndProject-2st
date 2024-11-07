@@ -6,6 +6,7 @@ import {
   toggleBrand,
   toggleProduct,
   setCartItems,
+  setSelectedProducts,
   removeSelectedItems, // 추가
 } from "../../store/slice/cartSlice";
 import Cart_top from "./Cart_top";
@@ -28,6 +29,8 @@ function Cart() {
   const cartItems = useSelector((state) => state.cart.cartItems); // Redux 상태에서 장바구니 아이템 가져오기
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const [userId, isuserId] = useState(1);
+
   //모달관련
   const [isModalOpen, setModalOpen] = useState(false);
   const handleOpenModal = () => {
@@ -37,6 +40,8 @@ function Cart() {
   };
   const handleCloseModal = () => setModalOpen(false);
   const [deleteProductId, setDeleteProductId] = useState(null); // 삭제할 제품 ID 상태
+  //주문페이지로의 전송
+  const selectedItems = useSelector((state) => state.cart.selectedProducts); // 선택된 상품 목록
   /*
   useEffect(() => {
     // 해당 페이지 최초 랜더링시 로그인 된 상태면? 바로 비동기적으로 제품정보들을 가져온다?
@@ -50,56 +55,29 @@ function Cart() {
     fetchData();
 }}, [setProducts]);
   */
+  const fetchCartItems = async () => {
+    try {
+      const response = await fetch(`http://52.78.168.169/cart/${userId}`);
+
+      if (!response.ok) {
+        throw new Error("서버에서 데이터를 가져오는 데 실패했습니다.");
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      dispatch(setCartItems(data)); // Redux 상태에 장바구니 아이템 설정
+    } catch (error) {
+      console.error("데이터 가져오기 실패:", error);
+    }
+  };
 
   useEffect(() => {
-    // 가짜 목데이터 서버에서 받아오는 부분
-    const fakeCartItems = [
-      // ... (여기에 기존의 cartItems 배열)
+    // 비동기 함수 정의
 
-      {
-        id: 1,
-        name: "POP α 이중직 트레이닝 팬츠_Heather Grey size: 36(90)",
-        price: 79000,
-        mainImg:
-          "https://mymusinsabucket.s3.ap-northeast-2.amazonaws.com/14fb553c-ecat.png",
-        amount: 1, //수량
-        username: "아이더", // 판매자 이름
-      },
-      {
-        id: 2,
-        name: "POP α 이중직 트레이닝 팬츠_Heather Black size: (95)",
-        price: 79000,
-        mainImg: "https://source.unsplash.com/random/300x300",
-        amount: 1,
-        username: "아이더",
-      },
-      {
-        id: 3,
-        name: "POP α 이중직 트레이닝 팬츠_Heather Blue size: (100)",
-        price: 79000,
-        mainImg: "https://via.placeholder.com/150",
-        amount: 1,
-        username: "아이더",
-      },
-      {
-        id: 4,
-        name: "NBPFEF752S / MT410KM5 (SILVER) size: 235",
-        price: 109000,
-        mainImg: "https://example.com/product-image1.jpg",
-        amount: 1,
-        username: "뉴발란스",
-      },
-      {
-        id: 5,
-        name: "에어 포스 1 '07 size: 270",
-        price: 129000,
-        mainImg: "https://example.com/product-image3.jpg",
-        amount: 1,
-        username: "나이키",
-      },
-    ];
-    dispatch(setCartItems(fakeCartItems)); // Redux 상태에 장바구니 아이템 설정
-  }, [dispatch]);
+    // 비동기 함수 호출
+    fetchCartItems();
+  }, [dispatch, userId]);
 
   const groupedCartItems = cartItems.reduce((acc, item) => {
     (acc[item.username] = acc[item.username] || []).push(item);
@@ -128,38 +106,63 @@ function Cart() {
     dispatch(toggleProduct(productId));
   };
 
-  // const handleConfirmDelete = async () => {
-  //   try {
-  //     // 선택된 상품 IDs를 서버에 삭제 요청
-  //     await fetch("/api/cart", {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ productIds: selectedProducts }), // 삭제할 상품 ID 배열 전송
-  //     });
+  const handleConfirmDelete = async () => {
+    const productsToDelete = deleteProductId
+      ? [deleteProductId]
+      : selectedProducts;
 
-  //     // 서버에서 성공적으로 삭제된 후 Redux 상태 업데이트
-  //     dispatch(removeSelectedItems());
-  //     onClose(); // 모달 닫기
-  //   } catch (error) {
-  //     console.error("삭제 요청에 실패했습니다:", error);
-  //   }
-  // };
+    if (productsToDelete.length === 0) return;
 
-  const handleConfirmDelete = () => {
-    if (deleteProductId) {
-      // 특정 제품 삭제
-      dispatch(removeSelectedItems(deleteProductId)); // 특정 제품 ID를 전달
-    } else if (selectedProducts.length > 0) {
-      // 여러 제품 삭제
-      dispatch(removeSelectedItems()); // 선택된 제품 삭제
+    try {
+      // 선택된 제품들의 cartId를 하나씩 삭제 요청
+      for (const cartId of productsToDelete) {
+        await fetch(`http://52.78.168.169/cart/item/${cartId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      console.log("삭제 성공");
+      fetchCartItems(); // 장바구니 목록 갱신
+      handleCloseModal(); // 모달 닫기
+      setDeleteProductId(null); // 단일 제품 삭제 상태 초기화
+    } catch (error) {
+      console.error("삭제 요청 실패:", error);
     }
-    handleCloseModal(); // 모달 닫기
   };
+
+  // const handleConfirmDelete = () => {
+  //   if (deleteProductId) {
+  //     // 특정 제품 삭제
+  //     dispatch(removeSelectedItems(deleteProductId)); // 특정 제품 ID를 전달
+  //   } else if (selectedProducts.length > 0) {
+  //     // 여러 제품 삭제
+  //     dispatch(removeSelectedItems()); // 선택된 제품 삭제
+  //   }
+  //   handleCloseModal(); // 모달 닫기
+  // };
   const handleOpenModalForSingleDelete = (productId) => {
     setDeleteProductId(productId); // 삭제할 제품 ID 설정
     setModalOpen(true); // 모달 열기
+  };
+
+  const handlePurchaseClick = () => {
+    if (totalQuantity > 0) {
+      // selectedProducts에서 productId를 이용해 해당 제품 객체를 가져옵니다.
+      const selectedProductObjects = selectedProducts
+        .map((productId) => {
+          return cartItems.find((item) => item.productId === productId);
+        })
+        .filter((item) => item !== undefined); // find가 실패한 경우를 대비해 필터링
+
+      dispatch(setSelectedProducts(selectedProductObjects)); // 객체 배열을 디스패치
+      console.log(selectedProductObjects); // 콘솔에 확인
+
+      navigate("/order");
+    } else {
+      alert("구매할 상품을 선택해주세요.");
+    }
   };
   return (
     <div className="all">
@@ -194,7 +197,7 @@ function Cart() {
             onConfirm={handleConfirmDelete}
             selectedProducts={
               deleteProductId ? [deleteProductId] : selectedProducts
-            } // 하나의 제품 ID 또는 선택된 제품들
+            }
           />
           {Object.entries(groupedCartItems).map(([brand, products]) => (
             <BrandSection
@@ -215,7 +218,11 @@ function Cart() {
         </div>
       </div>
       <div className={`${logged ? "purchase_area" : "hide"}`}>
-        <div className="purchase_btn" style={{ padding: "4px" }}>
+        <div
+          className="purchase_btn"
+          style={{ padding: "4px" }}
+          onClick={handlePurchaseClick}
+        >
           구매하기({totalQuantity}개)
         </div>
 

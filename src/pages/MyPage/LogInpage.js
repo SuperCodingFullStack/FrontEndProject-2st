@@ -51,11 +51,10 @@ const ExtraLabel = styled.p`
   font-size: 13px;
   width: 157.2px;
   height: 18px;
+  margin-top: 5px;
 `;
 const Option = styled.div`
   cursor: pointer;
-  cursor: po-size: contain;
-  border: nointer;
 `;
 const Bell = styled.div`
   background-position: center;
@@ -75,6 +74,8 @@ const Profile = styled.div`
   width: 600px;
   height: 40px;
   display: flex;
+  padding: 0 16px;
+  align-items: center;
 `;
 
 const ProfileImg = styled.div`
