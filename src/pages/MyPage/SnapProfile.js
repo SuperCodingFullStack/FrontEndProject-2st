@@ -2,12 +2,14 @@ import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { FaCamera } from "react-icons/fa";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import useFetchUserInfo from "../hooks/useFetchUserInfo";
+import { useDispatch } from "react-redux";
+import { updateProfileImg } from "../../store/slice/authSlice";
+import { Link } from "react-router-dom";
 
 const Snaps = styled.div`
-  max-width: 600px;
+  max-width: 300px;
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
@@ -18,6 +20,7 @@ const Snaps = styled.div`
   border: 1px solid black;
   padding: 18px;
   font-family: "Pretendard";
+  z-index: 60;
 `;
 
 const ProfileHeader = styled.div`
@@ -35,7 +38,7 @@ const HeaderLeft = styled.div`
   }
 `;
 
-const HeaderRight = styled.a`
+const HeaderRight = styled(Link)`
   align-self: end;
   font-size: 12px;
   color: #6d8eda;
@@ -103,8 +106,16 @@ const SnapProfile = () => {
     );
   };
 
+  const dispatch = useDispatch();
+
   const mutation = useMutation({
     mutationFn: axiosProfileImg,
+    onSuccess: (newImageUrl) => {
+      dispatch(updateProfileImg(newImageUrl));
+    },
+    onError: (error) => {
+      console.log("이미지 업로드 실패");
+    },
   });
 
   const inputChange = async (e) => {
@@ -123,7 +134,9 @@ const SnapProfile = () => {
           <h2>프로필 정보</h2>
           <p>{profileInfo.userEmail}</p>
         </HeaderLeft>
-        <HeaderRight>회원정보 변경하기</HeaderRight>
+        <HeaderRight to={`/modify/${profileInfo.userId}`}>
+          회원정보 변경하기
+        </HeaderRight>
       </ProfileHeader>
       <ProfileBody>
         <ProfileImage>

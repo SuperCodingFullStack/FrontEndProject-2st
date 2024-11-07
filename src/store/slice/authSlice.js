@@ -42,9 +42,13 @@ const authSlice = createSlice({
       state.userNickname = action.payload.userName;
       state.userEmail = action.payload.email;
     },
+    updateProfileImg: (state, action) => {
+      state.profile_img = action.payload;
+    },
   },
 });
 
-export const { login, logout, deactive, setUserInfo } = authSlice.actions;
+export const { login, logout, deactive, setUserInfo, updateProfileImg } =
+  authSlice.actions;
 
 export default authSlice;

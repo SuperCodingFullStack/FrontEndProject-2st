@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Dimmer = styled.div`
   max-width: 600px;
@@ -11,8 +11,8 @@ const Dimmer = styled.div`
   z-index: 40;
 `;
 
-const Dimmed = () => {
-  return <Dimmer />;
+const Dimmed = ({ setFunc }) => {
+  return <Dimmer onClick={() => setFunc(false)} />;
 };
 
 export default Dimmed;

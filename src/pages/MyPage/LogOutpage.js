@@ -4,7 +4,6 @@ import styled from "styled-components";
 import BottomMenu from "../../components/BottomMenu";
 import "./Mypage.css";
 import "../../index.css";
-import Login from "../../pages/Login/Login";
 import { Link } from "react-router-dom";
 
 const MyPageContainer = styled.div`

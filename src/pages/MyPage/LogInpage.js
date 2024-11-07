@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import styled from "styled-components";
 import BottomMenu from "../../components/BottomMenu";
 import SnapProfile from "./SnapProfile";
@@ -13,6 +14,7 @@ import useFetchUserInfo from "../hooks/useFetchUserInfo";
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Dimmed from "../../components/Header/Dimmed";
 
 const MyPageContainer = styled.div`
   max-width: 600px;
@@ -136,8 +138,11 @@ const ArrowImg = styled.img`
 const MyPage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [profileOpen, setProfileOpen] = useState(false);
 
   useFetchUserInfo();
+
+  const dispatch = useDispatch();
 
   const handleDeleteAccount = () => {
     const confirmDelete = window.confirm("탈퇴하시겠습니까?");
@@ -162,17 +167,10 @@ const MyPage = () => {
     (state) => state.auth
   );
 
-  const logoutbtn = () => {
+  const logoutBtn = () => {
     dispatch(logout());
   };
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    localStorage.setItem("profileBoolean", "0");
-  });
-
-  let pBoolean = localStorage.getItem("profileBoolean");
   return (
     <MyPageContainer className="Rapper">
       <Title>
@@ -205,12 +203,21 @@ const MyPage = () => {
         </div>
         <SnapProfileLapper
           onClick={() => {
-            localStorage.setItem("profileBoolean", "1");
+            setProfileOpen(true);
           }}
         >
           <SnapProfiles> 스냅 프로필</SnapProfiles>
         </SnapProfileLapper>
-        <SnapProfile />
+        {profileOpen &&
+          ReactDOM.createPortal(
+            <SnapProfile />,
+            document.querySelector("#root")
+          )}
+        {profileOpen &&
+          ReactDOM.createPortal(
+            <Dimmed setFunc={setProfileOpen} />,
+            document.querySelector("#root")
+          )}
       </Profile>
       <div className="Line" />
 
@@ -312,7 +319,7 @@ const MyPage = () => {
         <div className="Line" />
 
         <div className="세로정렬">
-          <button className="Logout" onClick={logoutbtn}>
+          <button className="Logout" onClick={logoutBtn}>
             <span>로그아웃</span>
           </button>
           <div className="Line" />
