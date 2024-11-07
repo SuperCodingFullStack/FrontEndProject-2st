@@ -29,7 +29,8 @@ function Cart() {
   const cartItems = useSelector((state) => state.cart.cartItems); // Redux 상태에서 장바구니 아이템 가져오기
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
-  const userId = useSelector((state) => state.auth.userId);
+  const userId = 1;
+  // const userId = useSelector((state) => state.auth.userId);
 
   //모달관련
   const [isModalOpen, setModalOpen] = useState(false);
