@@ -226,16 +226,6 @@ const MyPage = () => {
           <ArrowImg src="/image/icons8-arrow-50.png" />
         </Menuitem_MenuitemBtn2>
         <div className="Line" />
-
-        <div className="세로정렬">
-          <button className="Logout">
-            <sapn>로그아웃</sapn>
-          </button>
-          <div className="Line" />
-          <button className="탈퇴">
-            <sapn>탈퇴하기</sapn>
-          </button>
-        </div>
       </div>
 
       <BottomMenu />

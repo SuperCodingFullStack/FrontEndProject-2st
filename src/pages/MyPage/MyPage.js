@@ -32,9 +32,9 @@ const App = () => {
   return (
     <div>
       {isAuthenticated ? (
-        <LogOutpage /> // 로그인된 사용자에게 보여줄 페이지
-      ) : (
         <LoginPage /> // 비로그인 사용자에게 보여줄 로그인 페이지
+      ) : (
+        <LogOutpage /> // 로그인된 사용자에게 보여줄 페이지
       )}
     </div>
   );
