@@ -6,8 +6,16 @@ import ProductPart from "./ProductPart";
 const BrandRecom = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["products"],
-    queryFn: async () => await axios.get("http://52.78.168.169/main"),
+    queryFn: async () => {
+      try {
+        await axios.get("https://52.78.168.169/main");
+      } catch (error) {
+        console.error(error);
+      }
+    },
   });
+
+  console.log(isLoading);
 
   if (isLoading) return <div>isLoading...</div>;
 
@@ -24,7 +32,7 @@ const BrandRecom = () => {
       }}
     >
       <h2 className="font-medium">눈에 띄는 입점 브랜드</h2>
-      <ProductPart data={data.data} />
+      <ProductPart data={data} />
     </section>
   );
 };
