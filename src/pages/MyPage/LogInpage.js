@@ -9,19 +9,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../store/slice/authSlice"; // userInfo를 저장하는 액션
 
-async function fetchUserData() {
-  const token = localStorage.getItem("token");
+const [userId, isuserId] = useSelector((state) => state.auth.userId);
 
-  if (token) {
-    const response = await axios.get("/api/users", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    console.log(response.data);
-  }
-}
 const MyPageContainer = styled.div`
   max-width: 600px;
   margin: 0 auto;
@@ -147,7 +136,7 @@ const MyPage = () => {
     profile_img: "string",
   }; // 임시 데이터
   // 토큰
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -156,7 +145,7 @@ const MyPage = () => {
       try {
         // 토큰이 필요한 경우, Authorization 헤더에 토큰을 추가
         const response = await axios.get(
-          "http://52.78.168.169/api/myPageDetail/",
+          "http://52.78.168.169/api/myPageDetail/`${userId}`",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰을 localStorage에서 가져오는 예시
