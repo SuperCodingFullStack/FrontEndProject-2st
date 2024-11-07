@@ -6,6 +6,7 @@ import { fetchUserInfo } from "../../api/user"; // API 함수 가져오기
 const useFetchUserInfo = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -20,7 +21,7 @@ const useFetchUserInfo = () => {
     };
 
     getUserInfo();
-  }, [token, dispatch]);
+  }, [token, dispatch, auth]);
 };
 
 export default useFetchUserInfo;

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import BottomMenu from "../../components/BottomMenu";
 import "./Mypage.css";
 import "../../index.css";
-import Login from "../../pages/Login/Login";
 import { Link } from "react-router-dom";
 
 const MyPageContainer = styled.div`
@@ -39,8 +38,6 @@ const ExtraLabel = styled.p`
 `;
 const Option = styled.div`
   cursor: pointer;
-  cursor: po-size: contain;
-  border: nointer;
 `;
 const Bell = styled.div`
   background-position: center;
@@ -93,23 +90,11 @@ const ArrowImg = styled.img`
 `;
 
 const MyPage = () => {
-  const userInfo = {
-    name: "홍길동",
-    StackResponeCash: "0원",
-    CookieMoney: "원",
-    Coupon: "장",
-    AfterMent: "건",
-  }; // 임시 데이터.
-  const [active, setActive] = useState({
-    boolean: false,
-    idx: 0,
-  });
-
   return (
     <MyPageContainer className="Rapper">
       <Title>
         <div className="MyTitle">
-          <h2>마이</h2>
+          <h2>마이페이지</h2>
         </div>
         <div className="IconsBar">
           <Bell>
@@ -139,22 +124,22 @@ const MyPage = () => {
       <div className="StackResponeCash">
         <span> 가입 후 받은 혜택 </span>
         <span className="SpanStackResponeCash">
-          <u>{userInfo.StackResponeCash}</u>
+          <u></u>
         </span>
       </div>
       <div className="CookieLabel_세로정렬">
         <div className="CookieLabel">
           <CookieMoney>
             <p className="적립금">적립금</p>
-            <span className="적립금_금액">{userInfo.CookieMoney} </span>
+            <span className="적립금_금액"></span>
           </CookieMoney>
           <CookieMoney>
             <p>쿠폰</p>
-            <sapn> {userInfo.Coupon} </sapn>
+            <span></span>
           </CookieMoney>
           <CookieMoney>
             <p>후기작성</p>
-            <sapn> {userInfo.AfterMent} </sapn>
+            <span></span>
           </CookieMoney>
         </div>
         <a>

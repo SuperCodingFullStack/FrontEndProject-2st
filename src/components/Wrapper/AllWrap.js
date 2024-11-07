@@ -14,6 +14,7 @@ import MyPage from "../../pages/MyPage/MyPage";
 import ProductRegister from "../../pages/ProductRegister";
 import Order from "../../pages/Order/Order";
 import { useSelector } from "react-redux";
+import ModifyInfo from "../../pages/MyPage/ModifyInfo";
 
 const Wrapping = styled.div`
   max-width: 600px;
@@ -93,6 +94,15 @@ const AllWrap = () => {
           element={
             <Wrapping>
               <MyPage />
+              <FootNavi />
+            </Wrapping>
+          }
+        />
+        <Route
+          path="/modify/:id"
+          element={
+            <Wrapping>
+              <ModifyInfo />
               <FootNavi />
             </Wrapping>
           }
