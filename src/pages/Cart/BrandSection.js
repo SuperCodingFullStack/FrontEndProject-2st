@@ -13,6 +13,8 @@ const BrandSection = ({
   isModalOpen,
   setModalOpen, // 추가된 부분
   handleOpenModalForSingleDelete,
+  fetchCartItems,
+  userId,
 }) => {
   console.log(products);
 
@@ -41,6 +43,8 @@ const BrandSection = ({
           onConfirmDelete={onConfirmDelete} // 삭제 확인 함수 전달
           isModalOpen={isModalOpen}
           setModalOpen={setModalOpen} // 모달 상태 업데이트 함수 전달
+          fetchCartItems={fetchCartItems}
+          userId={userId}
         />
       ))}
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -7,18 +7,19 @@ import {
   toggleProduct,
   setCartItems,
   setSelectedProducts,
-  removeSelectedItems, // 추가
 } from "../../store/slice/cartSlice";
 import Cart_top from "./Cart_top";
 import Cart_bottom from "./Cart_bottom";
 import BrandSection from "./BrandSection";
 import DeleteModal from "./DeleteModal";
 import "./Cart.css";
+import { fetchUserInfo } from "../../api/user";
 
 function Cart() {
   // 로그인
 
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = true;
   //네비게이터
   const navigate = useNavigate();
   //리덕스
@@ -29,8 +30,29 @@ function Cart() {
   const cartItems = useSelector((state) => state.cart.cartItems); // Redux 상태에서 장바구니 아이템 가져오기
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+
   const userId = 1;
-  // const userId = useSelector((state) => state.auth.userId);
+
+  //   const [userId, setUserId] = useState(null);
+  //   const token = useSelector((state) => state.auth.token);
+
+  // useEffect(() => {
+  //     const getUserInfo = async () => {
+  //       try {
+  //         if (token) {
+  //           const userInfo = await fetchUserInfo(token);
+  //           console.log("user info:", userInfo);
+  //           setUserId(userInfo.userId); // userId 상태에 설정
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching user info:", error);
+  //       }
+  //     };
+
+  //     if (token) {
+  //       getUserInfo();
+  //     }
+  //   }, [token]);
 
   //모달관련
   const [isModalOpen, setModalOpen] = useState(false);
@@ -40,22 +62,7 @@ function Cart() {
     }
   };
   const handleCloseModal = () => setModalOpen(false);
-  const [deleteProductId, setDeleteProductId] = useState(null); // 삭제할 제품 ID 상태
-  //주문페이지로의 전송
-  const selectedItems = useSelector((state) => state.cart.selectedProducts); // 선택된 상품 목록
-  /*
-  useEffect(() => {
-    // 해당 페이지 최초 랜더링시 로그인 된 상태면? 바로 비동기적으로 제품정보들을 가져온다?
-    
-    const fetchData = async () => {
-      const response = await fetch("/api/products"); // 예시 API
-      const data = await response.json();
-      setProducts(data);
-    };
-    if(isAuthenticated){
-    fetchData();
-}}, [setProducts]);
-  */
+
   const fetchCartItems = async () => {
     try {
       const response = await fetch(`http://52.78.168.169/cart/${userId}`);
@@ -77,12 +84,14 @@ function Cart() {
     if (userId) {
       fetchCartItems();
     }
-  }, [dispatch, userId]);
+  }, [userId]);
 
-  const groupedCartItems = cartItems.reduce((acc, item) => {
-    (acc[item.username] = acc[item.username] || []).push(item);
-    return acc;
-  }, {});
+  const groupedCartItems = useMemo(() => {
+    return cartItems.reduce((acc, item) => {
+      (acc[item.username] = acc[item.username] || []).push(item);
+      return acc;
+    }, {});
+  }, [cartItems]); // cartItems가 변경될 때만 계산
 
   const moveHomePage = () => {
     console.log("홈페이지 이동");
@@ -106,15 +115,18 @@ function Cart() {
     dispatch(toggleProduct(productId));
   };
 
-  const handleConfirmDelete = async () => {
-    const productsToDelete = deleteProductId
-      ? [deleteProductId]
-      : selectedProducts;
+  const handleConfirmDelete = useCallback(async () => {
+    console.log("삭제함수 동작할 때 selectedProducts", selectedProducts);
+
+    const productsToDelete = selectedProducts.map(
+      // (product) => product.productId
+      (product) => product
+    );
+    console.log("담긴? 삭제정보", productsToDelete);
 
     if (productsToDelete.length === 0) return;
 
     try {
-      // 선택된 제품들의 cartId를 하나씩 삭제 요청
       for (const cartId of productsToDelete) {
         await fetch(`http://52.78.168.169/cart/item/${cartId}`, {
           method: "DELETE",
@@ -124,13 +136,12 @@ function Cart() {
         });
       }
       console.log("삭제 성공");
-      fetchCartItems(); // 장바구니 목록 갱신
-      handleCloseModal(); // 모달 닫기
-      setDeleteProductId(null); // 단일 제품 삭제 상태 초기화
+      fetchCartItems();
+      handleCloseModal();
     } catch (error) {
       console.error("삭제 요청 실패:", error);
     }
-  };
+  }, [selectedProducts, fetchCartItems, handleCloseModal]);
 
   // const handleConfirmDelete = () => {
   //   if (deleteProductId) {
@@ -142,8 +153,8 @@ function Cart() {
   //   }
   //   handleCloseModal(); // 모달 닫기
   // };
-  const handleOpenModalForSingleDelete = (productId) => {
-    setDeleteProductId(productId); // 삭제할 제품 ID 설정
+  const handleOpenModalForSingleDelete = (product) => {
+    handleProductSelect(product.productId); // 삭제할 제품 ID 설정
     setModalOpen(true); // 모달 열기
   };
 
@@ -164,6 +175,7 @@ function Cart() {
       alert("구매할 상품을 선택해주세요.");
     }
   };
+
   return (
     <div className="all">
       <Cart_top />
@@ -195,9 +207,7 @@ function Cart() {
             isOpen={isModalOpen}
             onClose={handleCloseModal}
             onConfirm={handleConfirmDelete}
-            selectedProducts={
-              deleteProductId ? [deleteProductId] : selectedProducts
-            }
+            selectedProducts={selectedProducts}
           />
           {Object.entries(groupedCartItems).map(([brand, products]) => (
             <BrandSection
@@ -213,6 +223,8 @@ function Cart() {
               isModalOpen={isModalOpen}
               setModalOpen={setModalOpen} // 모달 상태 업데이트 함수 전달
               handleOpenModalForSingleDelete={handleOpenModalForSingleDelete} // 특정 제품 삭제 모달 열기 함수 전달
+              fetchCartItems={fetchCartItems}
+              userId={userId}
             />
           ))}
         </div>

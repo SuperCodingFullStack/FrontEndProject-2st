@@ -1,5 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const calculateTotalPriceAndQuantity = (cartItems, selectedProducts) => {
+  const totalPrice = selectedProducts.reduce((total, productId) => {
+    const item = cartItems.find((item) => item.productId === productId);
+    return total + (item ? item.price * item.amount : 0);
+  }, 0);
+
+  const totalQuantity = selectedProducts.reduce((total, productId) => {
+    const item = cartItems.find((item) => item.productId === productId);
+    return total + (item ? item.amount : 0);
+  }, 0);
+
+  return { totalPrice, totalQuantity };
+};
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -25,16 +39,13 @@ const cartSlice = createSlice({
       state.selectedProducts = newSelectedProducts;
 
       // 총 가격과 총 수량 계산
-      state.totalPrice = newSelectedAll
-        ? state.cartItems.reduce(
-            (total, item) => total + (item.price * item.amount || 0),
-            0
-          )
-        : 0;
+      const { totalPrice, totalQuantity } = calculateTotalPriceAndQuantity(
+        state.cartItems,
+        state.selectedProducts
+      );
 
-      state.totalQuantity = newSelectedAll
-        ? state.cartItems.reduce((total, item) => total + (item.amount || 0), 0)
-        : 0;
+      state.totalPrice = totalPrice;
+      state.totalQuantity = totalQuantity;
     },
 
     toggleBrand: (state, action) => {
@@ -73,19 +84,13 @@ const cartSlice = createSlice({
         state.selectedProducts.length === state.cartItems.length;
 
       // 총 가격과 총 수량 계산
-      state.totalPrice = newSelectedProducts.reduce((total, productId) => {
-        const item = state.cartItems.find(
-          (item) => item.productId === productId
-        );
-        return total + (item ? item.price * item.amount : 0);
-      }, 0);
+      const { totalPrice, totalQuantity } = calculateTotalPriceAndQuantity(
+        state.cartItems,
+        state.selectedProducts
+      );
 
-      state.totalQuantity = newSelectedProducts.reduce((total, productId) => {
-        const item = state.cartItems.find(
-          (item) => item.productId === productId
-        );
-        return total + (item ? item.amount : 0);
-      }, 0);
+      state.totalPrice = totalPrice;
+      state.totalQuantity = totalQuantity;
     },
 
     toggleProduct: (state, action) => {
@@ -124,19 +129,13 @@ const cartSlice = createSlice({
       state.selectedBrands = newSelectedBrands;
 
       // 총 가격과 총 수량 계산
-      state.totalPrice = newSelectedProducts.reduce((total, productId) => {
-        const item = state.cartItems.find(
-          (item) => item.productId === productId
-        );
-        return total + (item ? item.price * item.amount : 0);
-      }, 0);
+      const { totalPrice, totalQuantity } = calculateTotalPriceAndQuantity(
+        state.cartItems,
+        state.selectedProducts
+      );
 
-      state.totalQuantity = newSelectedProducts.reduce((total, productId) => {
-        const item = state.cartItems.find(
-          (item) => item.productId === productId
-        );
-        return total + (item ? item.amount : 0);
-      }, 0);
+      state.totalPrice = totalPrice;
+      state.totalQuantity = totalQuantity;
     },
 
     setCartItems: (state, action) => {

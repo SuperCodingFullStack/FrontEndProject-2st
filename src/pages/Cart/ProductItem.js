@@ -1,16 +1,19 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setSelectedProducts } from "../../store/slice/cartSlice";
 
 const ProductItem = ({
   product,
   isSelected,
   onProductSelect,
   handleOpenModalForSingleDelete,
+  fetchCartItems, // 장바구니 항목을 다시 가져오는 함수
+  userId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newQuantity, setNewQuantity] = useState(product.amount);
   const [errorMessage, setErrorMessage] = useState("");
-  // const userId = useSelector((state) => state.user.id); // Redux 상태에서 userId 가져오기
-  const userId = 1;
+  const dispatch = useDispatch();
 
   // 모달 열기/닫기
   const openModal = () => setIsModalOpen(true);
@@ -48,8 +51,8 @@ const ProductItem = ({
         setErrorMessage("수량 업데이트에 실패했습니다. 다시 시도해 주세요.");
       } else {
         console.log("수량 업데이트 성공!");
+        fetchCartItems(); // 장바구니 항목을 새로 고침
         closeModal(); // 수량 변경 후 모달 닫기
-        window.location.reload(); //모달 닫으면서 리로딩
       }
     } catch (error) {
       console.error("요청 중 오류 발생:", error);
@@ -58,8 +61,9 @@ const ProductItem = ({
   };
 
   // 단일 삭제 모달 열기
-  const handleDeleteClick = () => {
-    handleOpenModalForSingleDelete(product.productId);
+  const handleDeleteClick = (product) => {
+    dispatch(setSelectedProducts([product])); // Redux 상태에 선택된 제품을 업데이트
+    handleOpenModalForSingleDelete(product);
   };
 
   return (
@@ -79,7 +83,7 @@ const ProductItem = ({
             <div>{product.name}</div>
             <div
               style={{ color: "rgb(190,191,190)", cursor: "pointer" }}
-              onClick={handleDeleteClick}
+              onClick={() => handleDeleteClick(product)} // 삭제 클릭 시 처리 함수 호출
             >
               ×
             </div>
