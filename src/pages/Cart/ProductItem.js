@@ -49,6 +49,7 @@ const ProductItem = ({
       } else {
         console.log("수량 업데이트 성공!");
         closeModal(); // 수량 변경 후 모달 닫기
+        window.location.reload(); //모달 닫으면서 리로딩
       }
     } catch (error) {
       console.error("요청 중 오류 발생:", error);
