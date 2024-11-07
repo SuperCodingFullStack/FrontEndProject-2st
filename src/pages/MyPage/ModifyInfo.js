@@ -65,11 +65,7 @@ const ModifyInfo = () => {
             <h2>아이디</h2>
           </Name>
           <Inputer>
-            <input
-              type="text"
-              value={userInfo.userNickname}
-              onChange={userChange}
-            ></input>
+            <input type="text" value={userInfo.userNickname}></input>
           </Inputer>
         </StyleWrapper>
       </FormTarget>
