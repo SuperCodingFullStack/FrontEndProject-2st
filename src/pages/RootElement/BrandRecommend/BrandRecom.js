@@ -8,7 +8,7 @@ const BrandRecom = () => {
     queryKey: ["products"],
     queryFn: async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}`);
+        const response = await axios.get("http://52.78.168.169/main");
         return response.data;
       } catch (error) {
         console.error(error.message);
