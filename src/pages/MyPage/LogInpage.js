@@ -105,13 +105,6 @@ const SnapProfileLapper = styled.a`
   }
 `;
 
-const CookieMoney = styled.div`
-  background: #ffffffff;
-  padding: 5px;
-  width: 200px;
-  height: 39px;
-  border: #f5f5f5f5 solid 1px;
-`;
 const Menuitem_MenuitemBtn = styled.button`
   margin: 0px 16px;
   padding: 12px 0px;
@@ -135,9 +128,17 @@ const ArrowImg = styled.img`
   justify-content: center;
 `;
 
+const MyProductList = styled.div`
+  padding: 0 15px;
+  a {
+    display: block;
+    padding: 15px 0;
+    text-decoration: underline;
+  }
+`;
+
 const MyPage = () => {
   const navigate = useNavigate();
-  const handleMyProductListPrevButton = () => navigate("/myproduct");
   const token = localStorage.getItem("token");
   const [profileOpen, setProfileOpen] = useState(false);
 
@@ -223,42 +224,9 @@ const MyPage = () => {
       </Profile>
       <div className="Line" />
 
-      <div className="StackResponeCash">
-        <span> 가입 후 받은 혜택 </span>
-        <span className="SpanStackResponeCash">
-          <u></u>
-        </span>
-      </div>
-      <div className="CookieLabel_세로정렬">
-        <div className="CookieLabel">
-          <CookieMoney>
-            <p className="적립금">홈페이지 money</p>
-            <span className="적립금_금액" value={caches}>
-              {" "}
-            </span>
-          </CookieMoney>
-          <CookieMoney>
-            <p>쿠폰</p>
-            <span></span>
-          </CookieMoney>
-          <CookieMoney>
-            <p>후기작성</p>
-            <span> </span>
-          </CookieMoney>
-        </div>
-        <a>
-          <div className="BrandLanking">내가 자주산 브랜드, 랭킹은?</div>
-        </a>
-      </div>
-
-      <div className="등록_상품_페이지">
-        <button
-          onClick={handleMyProductListPrevButton}
-          className="등록_상품_페이지_버튼"
-        >
-          나의 등록된 상품 리스트
-        </button>
-      </div>
+      <MyProductList>
+        <Link to={`/myProduct/${userId}`}>나의 상품 리스트 이동</Link>
+      </MyProductList>
 
       <div className="MenualList">
         <div className="OrderList">취소/반품/교환</div>

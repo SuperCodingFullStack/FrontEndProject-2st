@@ -61,7 +61,7 @@ const AllWrap = () => {
           path="/products/:id"
           element={
             <Wrapping>
-              <Details />
+              <DetailBeta />
               <FootNavi />
             </Wrapping>
           }
@@ -127,7 +127,7 @@ const AllWrap = () => {
           }
         />
         <Route
-          path="/myproduct"
+          path="/myProduct/:userId"
           element={
             <WrappingBasic>
               <MyProductList />
