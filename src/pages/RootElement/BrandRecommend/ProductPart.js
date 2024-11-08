@@ -62,7 +62,7 @@ const ProductPart = ({ data }) => {
     >
       <ul>
         {data
-          ?.sort((a, b) => {
+          .sort((a, b) => {
             if (sorted === 0) return b.price - a.price;
             if (sorted === 1) return a.name.localeCompare(b.name);
           })

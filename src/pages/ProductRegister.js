@@ -204,7 +204,7 @@ const ProductRegister = () => {
   };
 
   const addProduct = async (fd) => {
-    const res = await fetch("http://52.78.168.169/products/register", {
+    const res = await fetch("https://52.78.168.169/products/register", {
       method: "POST",
       body: fd,
     });
